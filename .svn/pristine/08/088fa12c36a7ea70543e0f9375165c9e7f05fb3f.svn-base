@@ -1,0 +1,375 @@
+//
+//  PHFenceMapController.m
+//  SimplifiedApp
+//
+//  Created by Kowloon on 15/5/8.
+//  Copyright (c) 2015年 Goome. All rights reserved.
+//
+#import <AdSupport/AdSupport.h>
+#import "PHFenceMapController.h"
+#import "PHDevFenceInfo.h"
+#import "PHFenceMapView.h"
+#import "PHFenceMapTitleView.h"
+#import "PHFenceMap.h"
+@interface PHFenceMapController ()<PHFenceMapViewDelegate,PHFenceMapTitleViewDelegate, MBProgressHUDDelegate>
+{
+    BOOL _fenceEnableValueIsChanged;//enableSwitch的值发生了改变
+    BOOL _fenceRadiusValueIsChanged;//半径值发生了改变
+    BOOL _fenceCoordValueIsChanged;//经纬度值发生了改变
+    MBProgressHUD *_myHud;
+    int _maxPolygon;
+    BOOL _isCircleFence;
+}
+@property(nonatomic, strong)id radiusKVO;
+@property(nonatomic, strong)id coordinateKVO;
+
+@property (weak, nonatomic) IBOutlet PHFenceMapView *fenceMapView;
+@property (weak, nonatomic) IBOutlet UISlider *mySlider;
+@property (weak, nonatomic) IBOutlet UIStepper *myStepper;
+
+@property(nonatomic, strong)PHFenceMap *fenceMap;
+@property (nonatomic, weak)PHFenceMapTitleView *fenceMapTitleView;
+@property(nonatomic, strong)MBProgressHUD *myHud;
+@property(nonatomic, weak)UIButton *titleBtn;
+@property(nonatomic, strong)NSString *myTitle;
+
+@property(nonatomic, strong)NSMutableArray *maxCoords;
+@end
+
+@implementation PHFenceMapController
+- (PHFenceMap *)fenceMap
+{
+    if (_fenceMap == nil) {
+        _fenceMap = [PHFenceMap fenceMap];
+    }
+    return _fenceMap;
+}
+- (NSMutableArray *)maxCoords
+{
+    if (!_maxCoords) {
+        _maxCoords = [NSMutableArray array];
+    }
+    return _maxCoords;
+}
+- (IBAction)sliderAction:(UISlider *)sender {
+    double value = sender.value;
+    self.fenceMap.radius = value;
+    PHLog(@"%.3f",value);
+    _fenceRadiusValueIsChanged = YES;
+}
+
+- (IBAction)stepperAction:(UIStepper *)sender {
+    if ((_maxPolygon - (int)sender.value) > 0 ) {
+        [self.maxCoords removeLastObject];
+        self.fenceMap.coords = [self.maxCoords copy];
+        self.fenceMapView.fenceMap = self.fenceMap;
+    }
+    _maxPolygon = (int)sender.value;
+    self.myTitle = [NSString stringWithFormat:@"%.f边形围栏",sender.value];
+    [self.titleBtn setTitle:self.myTitle forState:UIControlStateNormal];
+}
+
+- (void)viewDidLoad {
+    
+    [super viewDidLoad];
+    _fenceEnableValueIsChanged = NO;
+    _fenceCoordValueIsChanged = NO;
+    _fenceRadiusValueIsChanged = NO;
+    
+    _isCircleFence = YES;
+    _maxPolygon = 3;
+    self.myTitle = @"多边形围栏";
+    self.myStepper.hidden = YES;
+    self.myStepper.minimumValue = 2.f;
+    self.myStepper.maximumValue = 20.0f;
+    self.mySlider.maximumValue = 10000.f;
+    self.mySlider.minimumValue = 200.f;
+    [self titleViewImplementation];
+    [self barButtonItemImplementation];
+    self.fenceMapView.delegate = self;
+    self.radiusKVO = [PHKeyValueObserver observeObject:self.fenceMap keyPath:@"radius" target:self selector:@selector(radiusFromFenceMapKVO)];
+    self.coordinateKVO = [PHKeyValueObserver observeObject:self.fenceMap keyPath:@"coordinate" target:self selector:@selector(coordinateFromFenceMapKVO)];
+    
+    if (self.fenceInfo) {//如果有围栏信息，则展示围栏
+        [self fenceInformationDisplay];
+    }
+    else{
+        UIButton *titleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        titleBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+        titleBtn.frame = CGRectMake(0, 0, 100, 30);
+        titleBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [titleBtn setTitle:@"圆形围栏" forState:UIControlStateNormal];
+        [titleBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [titleBtn setBackgroundColor:[[UIColor greenColor] colorWithAlphaComponent:0.3f]];
+        [titleBtn addTarget:self action:@selector(titleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        self.titleBtn = titleBtn;
+        self.navigationItem.titleView = titleBtn;
+        self.fenceMap.enable = YES;
+        self.fenceMap.radius = 200;
+    }
+}
+- (void)titleBtnClick:(UIButton *)sender
+{
+    sender.selected = !sender.isSelected;
+    if (sender.selected) {
+        [sender setTitle:@"圆形围栏" forState:UIControlStateNormal];
+        self.mySlider.hidden = NO;
+        self.myStepper.hidden = YES;
+        _isCircleFence = YES;
+    }
+    else {
+        [sender setTitle:self.myTitle forState:UIControlStateNormal];
+        self.mySlider.hidden = YES;
+        self.myStepper.hidden = NO;
+        _isCircleFence = NO;
+    }
+}
+- (void)radiusFromFenceMapKVO
+{
+    self.fenceMapView.fenceMap = self.fenceMap;
+    self.fenceMapTitleView.fenceMap = self.fenceMap;
+}
+- (void)coordinateFromFenceMapKVO
+{
+    self.fenceMapView.fenceMap = self.fenceMap;
+    self.fenceMapTitleView.fenceMap = self.fenceMap;
+}
+- (void)fenceInformationDisplay
+{
+    if ([self.fenceInfo.shape isEqualToString:@"1"]) {//圆形
+        self.mySlider.hidden = NO;
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([self.fenceInfo.lat doubleValue], [self.fenceInfo.lng doubleValue]);
+        double radius = [self.fenceInfo.radius doubleValue];
+        self.fenceMap.enable = [self.fenceInfo.enable boolValue];
+        self.fenceMap.radius = radius;
+        self.fenceMap.coordinate = coordinate;
+        self.mySlider.value = radius;
+        _isCircleFence = YES;
+        PHLog(@"radius->%.3f",self.fenceMap.radius);
+    }
+    else if ([self.fenceInfo.shape isEqualToString:@"2"]){//多边形
+        if (self.fenceInfo.coords.count < 2) return;
+        self.mySlider.hidden = YES;
+        self.myStepper.hidden = NO;
+        self.maxCoords = [self.fenceInfo.coords mutableCopy];
+        self.fenceMap.coords = self.fenceInfo.coords;
+        self.fenceMapView.fenceMap = self.fenceMap;
+        _isCircleFence = NO;
+    }
+}
+
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.fenceMapView baiduMapViewWillAppear];
+    [self.fenceMapTitleView fenceMapTitleViewWillAppear];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.fenceMapView baiduMapViewWillDisappear];
+    [self.fenceMapTitleView fenceMapTitleViewWillDisappear];
+}
+
+
+//当前信息的展示
+- (void)titleViewImplementation
+{
+    PHFenceMapTitleView *mapTitleV =[[PHFenceMapTitleView alloc] initWithFrame:CGRectMake(0, PH_HeightOfNavigationBar, PH_WidthOfScreen, 60)];
+    mapTitleV.delegate = self;
+    [self.view addSubview:mapTitleV];
+    self.fenceMapTitleView = mapTitleV;
+}
+/**
+ *  导航栏UIBarButtonItem的放置
+ */
+- (void)barButtonItemImplementation
+{
+    UIBarButtonItem *modifyItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+    self.navigationItem.rightBarButtonItem = modifyItem;
+}
+/**
+ *  点击导航栏右侧的按钮执行
+ */
+- (void)done
+{
+    if (self.fenceInfo) {//如果self.fenceInfo，则表示修改，否则，则是创建
+        if (_fenceCoordValueIsChanged || _fenceRadiusValueIsChanged || _fenceEnableValueIsChanged) {
+            [self lanuchSelfDelegate];
+            [self modifyFenceFunc];
+        }
+    }
+    else{
+        if (_fenceCoordValueIsChanged) {//只需要确定经纬度和半径有值，就可以进行创建
+            [self lanuchSelfDelegate];
+            [self createFenceFunc];
+        }
+    }
+}
+
+/**
+ *  修改围栏
+ */
+- (void)modifyFenceFunc
+{
+    _fenceEnableValueIsChanged = NO;
+    _fenceCoordValueIsChanged = NO;
+    _fenceRadiusValueIsChanged = NO;
+    [self hudShowOnTheFenceMapView:@"修改中..."];
+    PH_WS(ws);
+    GMFenceManager *fence = [GMFenceManager manager];
+    fence.mapType = GMMapTypeOfBAIDU;
+    fence.enable = self.fenceMapTitleView.mySwitch.isOn;
+    fence.threshold = [self.fenceInfo.threshold intValue];
+    fence.getIn = [self.fenceInfo.dev_In boolValue];
+    fence.getOut = [self.fenceInfo.dev_Out boolValue];
+    fence.fenceName = self.fenceInfo.name;
+    if (_isCircleFence) {//判断是否是圆形
+        fence.shape = GMFenceShapeOfCircle;
+        fence.coord = self.fenceMap.coordinate;
+        fence.radius = self.fenceMap.radius;
+    }
+    else {
+        fence.shape = GMFenceShapeOfPolygon;
+        fence.coords = [PHTool transitToCoords:[self.maxCoords copy]];
+        fence.coordsCount = (int)self.maxCoords.count;
+    }
+#if 1
+    [fence modifyFenceWithFenceId:self.fenceInfo.fenceid completionBlock:^(BOOL success) {
+        if (success) {
+            ws.myHud.labelText = @"修改成功";
+            [ws.myHud hide:YES afterDelay:0.3f];
+        }
+    } failureBlock:^(NSError *error) {
+        [ws.myHud hide:YES afterDelay:0.3f];
+    }];
+#endif
+#if 0
+    [fence modifyFenceWithFenceId:self.fenceInfo.fenceid successBlock:^(NSDictionary *dict) {
+        NSString *msg = dict[@"msg"];
+        if (msg.length == 0) {
+            ws.myHud.labelText = @"修改成功";
+            [ws.myHud hide:YES afterDelay:0.3f];
+        }
+    } failureBlock:^(NSError *error) {
+        [ws.myHud hide:YES afterDelay:0.3f];
+    }];
+#endif
+}
+/**
+ *  创建围栏
+ */
+- (void)createFenceFunc
+{
+    [self hudShowOnTheFenceMapView:@"创建中..."];
+    PH_WS(ws);
+    GMFenceManager *fence = [GMFenceManager manager];
+//    fence.mapType = GMMapTypeOfBAIDU;
+    fence.threshold = 1;
+    
+    fence.enable = self.fenceMapTitleView.mySwitch.isOn;
+    if (_isCircleFence) {
+        fence.coord = self.fenceMap.coordinate;
+        fence.radius = self.fenceMap.radius;
+        fence.shape = GMFenceShapeOfCircle;//默认是圆形，可不写
+    }
+    else {
+        fence.coords = [PHTool transitToCoords:[self.maxCoords copy]];
+        fence.coordsCount = (int)self.maxCoords.count;
+        fence.shape = GMFenceShapeOfPolygon;
+    }
+    NSString *devid = [PHTool getDeviceIdFromUserDefault];
+#if 1
+    [fence addFenceWithDeviceId:devid completionBlock:^(BOOL success) {
+        if (success) {
+            ws.myHud.labelText = @"创建成功";
+            [ws.myHud hide:YES afterDelay:0.3f];
+        }
+    } failureBlock:^(NSError *error) {
+        [ws.myHud hide:YES afterDelay:0.3f];
+    }];
+#endif
+#if 0
+    [fence addFenceWithDeviceId:devid successBlock:^(NSDictionary *dict) {
+        NSString *msg = dict[@"msg"];
+        if (msg.length == 0) {
+            ws.myHud.labelText = @"创建成功";
+            [ws.myHud hide:YES afterDelay:0.3f];
+        }
+    } failureBlock:^(NSError *error) {
+        [ws.myHud hide:YES afterDelay:0.3f];
+    }];
+#endif
+    free(fence.coords);
+}
+- (void)hudShowOnTheFenceMapView:(NSString *)text
+{
+    self.myHud = [MBProgressHUD showHUDAddedTo:self.fenceMapView animated:YES];
+    self.myHud.delegate = self;
+    self.myHud.labelText = text;
+}
+//启动自己的代理方法
+- (void)lanuchSelfDelegate
+{
+    if ([self.delegate respondsToSelector:@selector(fenceMapController:)]) {
+        [self.delegate fenceMapController:self];
+    }
+}
+
+
+#pragma mark - PHFenceMapViewDelegate
+- (void)fenceMapViewRegionDidChanged:(PHFenceMapView *)fenceMapView
+{
+    PHLog(@"fenceMapViewRegionDidChanged");
+}
+
+- (void)fenceMapView:(PHFenceMapView *)fenceMapView onLongClick:(CLLocationCoordinate2D)coordinate
+{
+    if (_isCircleFence) {
+        self.fenceMap.coordinate = coordinate;
+    }
+    else {
+        if (self.maxCoords.count < _maxPolygon) {
+            [self.maxCoords addObject:[NSString stringWithFormat:@"%.6f,%.6f",coordinate.latitude,coordinate.longitude]];
+            self.fenceMap.coords = [self.maxCoords copy];
+            self.fenceMapView.fenceMap = self.fenceMap;
+        }
+    }
+    _fenceCoordValueIsChanged = YES;
+}
+
+#pragma mark - PHFenceMapTitleViewDelegate
+- (void)fenceMapTitleView:(PHFenceMapTitleView *)fenceMapTitleView switchValueChanged:(BOOL)isOn
+{
+    _fenceEnableValueIsChanged = YES;
+}
+
+#pragma mark - MBProgressHUDDelegate
+- (void)hudWasHidden:(MBProgressHUD *)hud
+{
+    [self.myHud removeFromSuperview];
+    self.myHud = nil;
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    PHLog(@"++++++++++++++++++++++++++++++");
+}
+- (void)dealloc
+{
+    PHLog(@"%@ ---> dealloc",NSStringFromClass([self class]));
+}
+@end
+
+
+
+
+
+
+
+
+
+

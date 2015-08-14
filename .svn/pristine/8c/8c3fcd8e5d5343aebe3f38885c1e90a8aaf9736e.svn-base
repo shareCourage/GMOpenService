@@ -1,0 +1,28 @@
+//
+//  GMDevice.h
+//  GMOpenSDK
+//
+//  Created by Kowloon on 15/6/17.
+//  Copyright (c) 2015年 Goome. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+typedef enum {
+    GMOrderByDefault = 100,
+    GMOrderByASC,
+    GMOrderByDESC
+}GMOrderBy;
+
+@protocol GMDevice <NSObject>
+
+@required
+@property (nonatomic, copy) NSString *lat;//经度
+@property (nonatomic, copy) NSString *lng;//纬度
+@property (nonatomic, copy) NSString *gps_time;//时间
+@property (nonatomic, copy) NSString *devid;//设备号
+
+@property (nonatomic, copy) NSString *course;//方向
+@property (nonatomic, copy) NSString *speed;//速度
+
+@end

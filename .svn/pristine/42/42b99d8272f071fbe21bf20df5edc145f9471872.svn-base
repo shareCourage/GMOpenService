@@ -1,0 +1,40 @@
+//
+//  PHPushViewController.m
+//  SimplifiedApp
+//
+//  Created by Kowloon on 15/6/29.
+//  Copyright (c) 2015年 Goome. All rights reserved.
+//
+
+#import "PHPushViewController.h"
+#import "PHSettingGroup.h"
+#import "PHSettingItem.h"
+@interface PHPushViewController ()
+
+@end
+
+@implementation PHPushViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    PHSettingItem *two = [PHSettingItem itemWithTitle:PH_CountOfRemotePush_Active];
+    two.subtitle = [NSString stringWithFormat:@"%ld",[PH_UserDefaults integerForKey:PH_CountOfRemotePush_Active]];
+    
+    PHSettingItem *three = [PHSettingItem itemWithTitle:PH_CountOfRemotePush_InActive];
+    three.subtitle = [NSString stringWithFormat:@"%ld",[PH_UserDefaults integerForKey:PH_CountOfRemotePush_InActive]];
+    
+    PHSettingGroup *group = [[PHSettingGroup alloc] init];
+    group.items = @[two,three];
+    [self.dataSource addObject:group];
+    
+}
+
+@end
+
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+//
+//  GMFenceInfo.m
+//  New_Simplify
+//
+//  Created by Kowloon on 15/7/20.
+//  Copyright (c) 2015年 Goome. All rights reserved.
+//
+
+#import "GMFenceInfo.h"
+#import "GMDevInOut.h"
+@implementation GMFenceInfo
+
+- (GMDevInOut *)devInOut
+{
+    if (!_devInOut) {
+        _devInOut = [[GMDevInOut alloc] init];
+    }
+    return _devInOut;
+}
+- (void)dealloc
+{
+    NSLog(@"%@->dealloc",NSStringFromClass([self class]));
+}
+@end

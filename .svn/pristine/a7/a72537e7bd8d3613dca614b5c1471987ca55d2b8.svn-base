@@ -1,0 +1,23 @@
+//
+//  GMOpenKit.h
+//  GMOpenSDK
+//
+//  Created by Kowloon on 15/6/16.
+//  Copyright (c) 2015年 Goome. All rights reserved.
+//
+/**
+ *  需要添加的框架有 
+ SystemConfiguration.framework
+ MobileCoreServics.framework
+ libsqlite3.dylib
+ */
+#import "GMManager.h"
+#import "GMOpenManager.h"
+#import "GMNearbyManager.h"
+#import "GMFenceManager.h"
+#import "GMHistoryManager.h"
+#import "GMPushManager.h"
+#import "GMLoginManager.h"
+#import "GMDevice.h"
+#import "GMDeviceInfo.h"
+#import "GMFenceInfo.h"

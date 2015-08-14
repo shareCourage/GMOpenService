@@ -1,0 +1,27 @@
+//
+//  GMTool.h
+//  GMOpenSDK
+//
+//  Created by Kowloon on 15/6/18.
+//  Copyright (c) 2015年 Goome. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
+#import "GMManager.h"
+
+@interface GMTool : NSObject
+
++ (NSString *)mapType:(GMMapType)mapType;
+
++ (NSString *)polygonArea:(CLLocationCoordinate2D *)coords count:(int)count;
+
++ (NSString *)getSystemLangague;//带zh的都转化成zh-CN，其它均为en
+
+/**
+ *  判断myClass类是否包含name属性
+ *
+ */
++ (BOOL)getVariableWithClass:(Class)myClass varName:(NSString *)name;
+
+@end

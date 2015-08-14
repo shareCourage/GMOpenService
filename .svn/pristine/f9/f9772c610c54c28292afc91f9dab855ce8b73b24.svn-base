@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PHFenceMapController">
+            <connections>
+                <outlet property="fenceMapView" destination="cLW-g5-pKg" id="STd-Md-5ns"/>
+                <outlet property="mySlider" destination="kHF-dc-cpz" id="BQV-uI-gNn"/>
+                <outlet property="myStepper" destination="MMe-AZ-j45" id="LGR-7L-1v7"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cLW-g5-pKg" customClass="PHFenceMapView">
+                    <rect key="frame" x="0.0" y="124" width="320" height="444"/>
+                    <color key="backgroundColor" red="0.54509806630000002" green="0.72156864399999998" blue="0.1960784495" alpha="1" colorSpace="deviceRGB"/>
+                </view>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="200" minValue="0.0" maxValue="10000" translatesAutoresizingMaskIntoConstraints="NO" id="kHF-dc-cpz">
+                    <rect key="frame" x="8" y="533" width="304" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="VDe-rO-VZg"/>
+                    </constraints>
+                    <connections>
+                        <action selector="sliderAction:" destination="-1" eventType="valueChanged" id="xdW-Ha-xRV"/>
+                    </connections>
+                </slider>
+                <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minimumValue="3" maximumValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="MMe-AZ-j45">
+                    <rect key="frame" x="10" y="529" width="94" height="29"/>
+                    <color key="backgroundColor" red="0.84349387884140015" green="0.46029397858484172" blue="0.70248723003545765" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="29" id="STR-NU-0jt"/>
+                        <constraint firstAttribute="width" constant="94" id="Yos-6d-uAK"/>
+                    </constraints>
+                    <connections>
+                        <action selector="stepperAction:" destination="-1" eventType="valueChanged" id="AEY-Ci-dFv"/>
+                    </connections>
+                </stepper>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="MMe-AZ-j45" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="1lZ-sj-y97"/>
+                <constraint firstAttribute="bottom" secondItem="MMe-AZ-j45" secondAttribute="bottom" constant="10" id="3KB-xK-fiC"/>
+                <constraint firstAttribute="bottom" secondItem="cLW-g5-pKg" secondAttribute="bottom" id="3Tm-y5-T9c"/>
+                <constraint firstItem="cLW-g5-pKg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="AHW-YA-NyN"/>
+                <constraint firstItem="cLW-g5-pKg" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="124" id="ibG-GC-SvT"/>
+                <constraint firstAttribute="bottom" secondItem="kHF-dc-cpz" secondAttribute="bottom" constant="5" id="icS-1H-OPa"/>
+                <constraint firstAttribute="trailing" secondItem="kHF-dc-cpz" secondAttribute="trailing" constant="10" id="j92-Ya-sXl"/>
+                <constraint firstAttribute="trailing" secondItem="cLW-g5-pKg" secondAttribute="trailing" id="mbp-Ph-8Po"/>
+                <constraint firstItem="kHF-dc-cpz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="tyO-vD-gS9"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+</document>

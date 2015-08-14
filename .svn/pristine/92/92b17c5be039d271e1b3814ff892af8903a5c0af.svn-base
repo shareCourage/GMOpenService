@@ -1,0 +1,67 @@
+//
+//  GMAlarmManager.m
+//  New_Simplify
+//
+//  Created by Kowloon on 15/8/13.
+//  Copyright (c) 2015年 Goome. All rights reserved.
+//
+
+#import "GMAlarmManager.h"
+#import "GMNetworkManager.h"
+#import "GMTool.h"
+#import "GMConstant.h"
+#import "GMAlarmInfo.h"
+
+@implementation GMAlarmManager
+
+- (void)setUp
+{
+    self.typeId = @"1,2";
+    self.pageNum = 0;
+    self.pageSize = 20;
+    self.mapType = GMMapTypeOfNone;//地图类型不定
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self setUp];
+    }
+    return self;
+}
+- (BOOL)getAlarmInformationWithDevid:(NSString *)devid completionBlock:(GMOptionArray)success failureBlock:(GMOptionError)failure
+{
+    if (devid.length == 0) return NO;
+    NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
+    if (appid.length == 0) return NO;
+    NSString *mapType = [GMTool mapType:self.mapType];
+    GMNetworkManager *manager = [GMNetworkManager manager];
+    [manager acquireAlarmInfoWithAppID:appid
+                              deviceID:devid
+                                typeId:self.typeId
+                                pageNo:@(self.pageNum)
+                              pageSize:@(self.pageSize)
+                               mapType:mapType
+                             withBlock:^(NSDictionary *dict) {
+//                             NSLog(@"alarm -> %@",dict);
+                             NSArray *data = dict[GM_Argument_data];
+                             if (data.count == 0) return;
+                             NSMutableArray *mArray = [NSMutableArray array];
+                             for (NSArray *array in data) {
+                                 GMAlarmInfo *alarm = [[GMAlarmInfo alloc] initWithArray:array];
+                                 [mArray addObject:alarm];
+                             }
+                                 if (success) success([mArray copy]);
+    } withFailureBlock:failure];
+    return YES;
+}
+
+@end
+
+
+
+
+
+
+

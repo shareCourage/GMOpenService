@@ -1,0 +1,81 @@
+//
+//  Simplify.pch
+//  New_Simplify
+//
+//  Created by Kowloon on 15/7/7.
+//  Copyright (c) 2015年 Goome. All rights reserved.
+//
+
+#ifndef New_Simplify_Simplify_pch
+#define New_Simplify_Simplify_pch
+#define PH_ConnectedArgument_appid      @"appid"
+#define PH_ConnectedArgument_devid      @"devid"
+#define PH_ConnectedArgument_map_type   @"map_type"
+#define PH_ConnectedArgument_fenceid    @"fenceid"
+#define PH_ConnectedArgument_shape      @"shape"
+#define PH_ConnectedArgument_threshold  @"threshold"
+#define PH_ConnectedArgument_area       @"area"
+#define PH_ConnectedArgument_enable     @"enable"
+#define PH_ConnectedArgument_devinfo    @"devinfo"
+#define PH_ConnectedArgument_gps_time   @"gps_time"
+#define PH_ConnectedArgument_course     @"course"
+#define PH_ConnectedArgument_speed      @"speed"
+#define PH_ConnectedArgument_lng        @"lng"
+#define PH_ConnectedArgument_lat        @"lat"
+#define PH_ConnectedArgument_begin_time @"begin_time"
+#define PH_ConnectedArgument_end_time   @"end_time"
+#define PH_ConnectedArgument_data       @"data"
+#define PH_ConnectedArgument_distance   @"distance"
+
+#define PH_ConnectedArgument_account    @"account"
+#define PH_ConnectedArgument_time       @"time"
+#define PH_ConnectedArgument_signature  @"signature"
+#define PH_ConnectedArgument_access_type @"access_type"
+#define GOOME_APPID_NUM_23 @"23"
+#define PH_Fence_Title @"设备列表"
+#define PH_Route_Title @"历史位置"
+
+#define PH_HeightOfNavigationBar 64
+#define PH_HeightOfTabBar        49
+#define PH_WidthOfScreen         [UIScreen mainScreen].bounds.size.width
+#define PH_HeightOfScreen        [UIScreen mainScreen].bounds.size.height
+#define PHSystemFontSize         [UIFont systemFontSize]         /* 14px */
+
+#define PH_BaiduMap_AppKey_New   @"BTmMXHX6IIa7klGRv0999hwb"
+#define PH_BaiduMap_AppKey       @"jLhg7xu72pCYX97o5AQZUNIY"
+#define PH_UniqueDeviceId        @"存储登录设备的devid号"
+#define PH_UniqueAppid           @"存储登录设备的appid号"
+#define PH_UniqueAccess_token    @"存储登录设备的access_token号"
+#define PH_LoginSuccess          @"登录成功"
+#define PH_ValueForKey(Key)      [PH_UserDefaults valueForKey:Key]
+#define PH_CountOfRemotePush_Active   @"前台推送总计"
+#define PH_CountOfRemotePush_InActive @"后台推送总计"
+#define PH_PushNotification           @"PushNotification"
+
+#define PH_RGBColor(r,g,b)  [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
+#define PH_RGBAColor(r,g,b,a)  [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
+#define PH_iOS(version) ([[[UIDevice currentDevice] systemVersion] floatValue] >= version)
+#define PH_iOS5 PH_iOS(5.0f)
+#define PH_iOS6 PH_iOS(6.0f)
+#define PH_iOS7 PH_iOS(7.0f)
+
+#define PH_CurrentTime [NSString stringWithFormat:@"%.f",[NSDate date].timeIntervalSince1970]
+#define PH_WS(weakSelf) __weak __typeof(&*self)weakSelf = self;
+#define PH_UserDefaults [NSUserDefaults standardUserDefaults]
+#define PH_BoolForKey(LocationModelKey) [[NSUserDefaults standardUserDefaults] boolForKey:LocationModelKey]
+
+#ifdef DEBUG
+#define PHLog(...) NSLog(__VA_ARGS__)
+#else
+#define PHLog(...)
+#endif
+
+#ifdef __OBJC__
+#import "PHTool.h"
+#import "MBProgressHUD.h"
+#import "GMOpenKit.h"
+#endif
+
+
+
+#endif

@@ -1,0 +1,13 @@
+//
+//  GMDevInOut.m
+//  New_Simplify
+//
+//  Created by Kowloon on 15/7/20.
+//  Copyright (c) 2015年 Goome. All rights reserved.
+//
+
+#import "GMDevInOut.h"
+
+@implementation GMDevInOut
+
+@end
