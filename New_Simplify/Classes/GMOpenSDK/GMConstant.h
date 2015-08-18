@@ -91,21 +91,10 @@
 #define GM_UserDefaults         [NSUserDefaults standardUserDefaults]
 #define GM_CurrentTime          [NSString stringWithFormat:@"%.f",[NSDate date].timeIntervalSince1970]
 
-/**
- 归档的实现
- */
-#define GMCodingImplementation \
-- (id)initWithCoder:(NSCoder *)decoder \
-{ \
-if (self = [super init]) { \
-[self decode:decoder]; \
-} \
-return self; \
-} \
-\
-- (void)encodeWithCoder:(NSCoder *)encoder \
-{ \
-[self encode:encoder]; \
-}
+#ifdef DEBUG
+#define GMLog(...) NSLog(__VA_ARGS__)
+#else
+#define GMLog(...)
+#endif
 
 

@@ -460,9 +460,8 @@
                                              fenceName:(NSString *)fenceName
                                                  coord:(CLLocationCoordinate2D)coord
                                                 radius:(CGFloat)radius
-                                               devinfo:(NSString *)devinfo
-                                             withBlock:(GMOptionDict)optionDict
-                                      withFailureBlock:(GMOptionError)optionError
+                                             withBLock:(GMOptionDict)optionDict
+                                      withFailureBLock:(GMOptionError)optionError
 {
     if (appID.length == 0 || fenceID.length == 0 || coord.latitude == 0 || radius == 0) return nil;
     NSString *area = [NSString stringWithFormat:@"%.6f,%.6f,%.f",coord.latitude,coord.longitude,radius];
@@ -474,7 +473,7 @@
                                            enable:@(enable)
                                           mapType:mapType
                                         fenceName:fenceName
-                                          devInfo:devinfo];
+                                          devInfo:nil];
     GMHTTPRequestOperation *operation = [self POST:GM_Modify_Fence_URL parameters:parameters dictBlock:optionDict errorBlock:optionError];
     return operation;
 }
@@ -486,9 +485,8 @@
                                                 mapType:(NSString *)mapType
                                               fenceName:(NSString *)fenceName
                                             polygonArea:(NSString *)area
-                                                devinfo:(NSString *)devinfo
-                                              withBlock:(GMOptionDict)optionDict
-                                       withFailureBlock:(GMOptionError)optionError
+                                              withBLock:(GMOptionDict)optionDict
+                                       withFailureBLock:(GMOptionError)optionError
 {
     if (appID.length == 0 || fenceID.length == 0 || area.length == 0) return nil;
     NSDictionary *parameters = [GMTool parameters:appID
@@ -499,7 +497,7 @@
                                            enable:@(enable)
                                           mapType:mapType
                                         fenceName:fenceName
-                                          devInfo:devinfo];
+                                          devInfo:nil];
     GMHTTPRequestOperation *operation = [self POST:GM_Modify_Fence_URL parameters:parameters dictBlock:optionDict errorBlock:optionError];
     return operation;
 

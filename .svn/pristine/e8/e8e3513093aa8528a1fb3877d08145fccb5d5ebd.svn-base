@@ -45,10 +45,7 @@
                                mapType:mapType
                              withBlock:^(NSDictionary *dict) {
          NSArray *data = dict[GM_Argument_data];
-        if (data.count == 0){
-            success(nil);
-            return;
-        }
+         if (data.count == 0) return;
          NSMutableArray *mArray = [NSMutableArray array];
          for (NSArray *array in data) {
              GMAlarmInfo *alarm = [[GMAlarmInfo alloc] initWithArray:array];

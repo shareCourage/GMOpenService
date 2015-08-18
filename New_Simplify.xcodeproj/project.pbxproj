@@ -155,6 +155,7 @@
 		A9C05DB41B5CECD900FB34B8 /* GMDevInOut.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C05DB31B5CECD900FB34B8 /* GMDevInOut.m */; };
 		A9F362C51B7C2D1B004DED58 /* GMAlarmManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362C41B7C2D1B004DED58 /* GMAlarmManager.m */; };
 		A9F362C81B7C8120004DED58 /* GMAlarmInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362C71B7C8120004DED58 /* GMAlarmInfo.m */; };
+		A9F362E91B83159B004DED58 /* PHAlarmInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362E81B83159B004DED58 /* PHAlarmInfoController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -424,6 +425,8 @@
 		A9F362C41B7C2D1B004DED58 /* GMAlarmManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMAlarmManager.m; sourceTree = "<group>"; };
 		A9F362C61B7C8120004DED58 /* GMAlarmInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMAlarmInfo.h; sourceTree = "<group>"; };
 		A9F362C71B7C8120004DED58 /* GMAlarmInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMAlarmInfo.m; sourceTree = "<group>"; };
+		A9F362E71B83159B004DED58 /* PHAlarmInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAlarmInfoController.h; sourceTree = "<group>"; };
+		A9F362E81B83159B004DED58 /* PHAlarmInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAlarmInfoController.m; sourceTree = "<group>"; };
 		B33409234F7CF2A5B43539EE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1040,6 +1043,7 @@
 		A91B55211B4B85C10042024A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A9F362E61B831570004DED58 /* AlarmInfo */,
 				A91B55221B4B85C10042024A /* About */,
 				A91B55251B4B85C10042024A /* AccountLink */,
 				A91B55291B4B85C10042024A /* BaseSetting */,
@@ -1423,6 +1427,15 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
+		A9F362E61B831570004DED58 /* AlarmInfo */ = {
+			isa = PBXGroup;
+			children = (
+				A9F362E71B83159B004DED58 /* PHAlarmInfoController.h */,
+				A9F362E81B83159B004DED58 /* PHAlarmInfoController.m */,
+			);
+			path = AlarmInfo;
+			sourceTree = "<group>";
+		};
 		F2546C9A8ED190F866BA5CB9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1632,6 +1645,7 @@
 				A986AC2D1B538B78006403D3 /* GMTool.m in Sources */,
 				A986AC271B538B78006403D3 /* GMURLRequestSerialization.m in Sources */,
 				A986AC2C1B538B78006403D3 /* GMPushManager.m in Sources */,
+				A9F362E91B83159B004DED58 /* PHAlarmInfoController.m in Sources */,
 				A91B55B11B4B85C10042024A /* PHHistoryLoc.m in Sources */,
 				A91B55B01B4B85C10042024A /* PHEndAnnotation.m in Sources */,
 				A91B55D21B4B85C10042024A /* PHOfflineHeaderView.m in Sources */,

@@ -23,16 +23,16 @@
  "type_id" = 1;
  */
 
-@property(nonatomic, copy)NSString *alartTime;
-@property(nonatomic, copy)NSString *course;
-@property(nonatomic, copy)NSString *fenceId;
-@property(nonatomic, copy)NSString *gpsTime;
-@property(nonatomic, copy)NSString *alarmId;
-@property(nonatomic, copy)NSString *lat;
-@property(nonatomic, copy)NSString *lng;
-@property(nonatomic, copy)NSString *speed;
-@property(nonatomic, copy)NSString *status;
-@property(nonatomic, copy)NSString *typeId;
+@property(nonatomic, copy, readonly)NSString *alartTime;
+@property(nonatomic, copy, readonly)NSString *course;
+@property(nonatomic, copy, readonly)NSString *fenceId;
+@property(nonatomic, copy, readonly)NSString *gpsTime;
+@property(nonatomic, copy, readonly)NSString *alarmId;
+@property(nonatomic, copy, readonly)NSString *lat;
+@property(nonatomic, copy, readonly)NSString *lng;
+@property(nonatomic, copy, readonly)NSString *speed;
+@property(nonatomic, copy, readonly)NSString *status;
+@property(nonatomic, copy, readonly)NSString *typeId;
 
 - (instancetype)initWithArray:(NSArray *)array;
 

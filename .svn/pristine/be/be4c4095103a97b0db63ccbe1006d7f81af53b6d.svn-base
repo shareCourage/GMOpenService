@@ -35,27 +35,26 @@
     return [tagDic copy];
 }
 
-- (BOOL)nearbyDeviceInformation:(NSString *)devid successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure
+- (void)nearbyDeviceInformation:(NSString *)devid successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure
 {
-    if (devid.length == 0) return NO;
+    if (devid.length == 0) return;
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
-    if (appid.length == 0) return NO;
+    if (appid.length == 0) return;
     NSString *mapType = [GMTool mapType:self.mapType];
     GMNetworkManager *manager = [GMNetworkManager manager];
-    id operation = [manager getNearbyDeviceInformationWithAppID:appid
-                                                          devID:devid
-                                                       distance:self.distance
-                                                        mapType:mapType
-                                                           tags:[self tagDictionary]
-                                                      withBlock:success
-                                               withFailureBlock:failure];
-    return operation == nil ? NO : YES;
+    [manager getNearbyDeviceInformationWithAppID:appid
+                                           devID:devid
+                                        distance:self.distance
+                                         mapType:mapType
+                                            tags:[self tagDictionary]
+                                       withBlock:success
+                                withFailureBlock:failure];
 }
 
 
-- (BOOL)nearbyDeviceInformation:(NSString *)devid successBlockArray:(GMOptionArray)success failureBlock:(GMOptionError)failure
+- (void)nearbyDeviceInformation:(NSString *)devid successBlockArray:(GMOptionArray)success failureBlock:(GMOptionError)failure
 {
-    return [self nearbyDeviceInformation:devid successBlock:^(NSDictionary *dict) {
+    [self nearbyDeviceInformation:devid successBlock:^(NSDictionary *dict) {
         NSArray *datas = dict[GM_Argument_data];
         if (datas.count == 0) {
             if (success) success(nil);
@@ -63,9 +62,7 @@
         }
         NSMutableArray *mArray = [NSMutableArray array];
         for (NSDictionary *objD in datas) {
-            GMDeviceInfo *deviceInfo = [[GMDeviceInfo alloc] initWithDict:objD];
-#if 0
-            {
+            GMDeviceInfo *deviceInfo = [[GMDeviceInfo alloc] init];
             deviceInfo.course       = [NSString stringWithFormat:@"%@",objD[GM_Argument_course]];
             deviceInfo.speed        = [NSString stringWithFormat:@"%@",objD[GM_Argument_speed]];
             deviceInfo.devid        = [NSString stringWithFormat:@"%@",objD[GM_Argument_devid]];
@@ -75,33 +72,31 @@
             deviceInfo.server_time  = [NSString stringWithFormat:@"%@",objD[@"server_time"]];
             deviceInfo.sys_time     = [NSString stringWithFormat:@"%@",objD[@"sys_time"]];
             deviceInfo.heart_time   = [NSString stringWithFormat:@"%@",objD[@"heart_time"]];
-            }
-#endif
             [mArray addObject:deviceInfo];
         }
         if (success) success([mArray copy]);
     } failureBlock:failure];
+    
 }
 
 
-- (BOOL)uploadDeviceInfo:(id<GMDevice>)device successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure
+- (void)uploadDeviceInfo:(id<GMDevice>)device successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure
 {
-    if (device == nil) return NO;
+    if (device == nil) return;
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
-    if (appid.length == 0) return NO;
+    if (appid.length == 0) return;
     NSString *mapType = [GMTool mapType:self.mapType];
     GMNetworkManager *manager = [GMNetworkManager manager];
-    id operation = [manager uploadMyOwnDeviceLocationWithAppID:appid
-                                                        device:device
-                                                       mapType:mapType
-                                                     withBlock:success
-                                              withFailureBlock:failure];
-    return operation == nil ? NO : YES;
+    [manager uploadMyOwnDeviceLocationWithAppID:appid
+                                         device:device
+                                        mapType:mapType
+                                      withBlock:success
+                               withFailureBlock:failure];
 }
 //TODO: 7.28
-- (BOOL)uploadDeviceInfo:(id<GMDevice>)device completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure
+- (void)uploadDeviceInfo:(id<GMDevice>)device completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure
 {
-    return [self uploadDeviceInfo:device successBlock:^(NSDictionary *dict) {
+    [self uploadDeviceInfo:device successBlock:^(NSDictionary *dict) {
         NSString *msg = dict[GM_Argument_msg];
         BOOL value = NO;
         msg.length == 0 ? (value = YES) : (value = NO);
@@ -109,23 +104,22 @@
     } failureBlock:failure];
 }
 
-- (BOOL)uploadMuchOfDeviceInfos:(NSArray *)devices successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure
+- (void)uploadMuchOfDeviceInfos:(NSArray *)devices successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure
 {
-    if (devices.count == 0) return NO;
+    if (devices.count == 0) return;
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
-    if (appid.length == 0) return NO;
+    if (appid.length == 0) return;
     NSString *mapType = [GMTool mapType:self.mapType];
     GMNetworkManager *manager = [GMNetworkManager manager];
-    id operation = [manager uploadMuchOfDeviceLocationWithAppID:appid
-                                                         devIDs:devices
-                                                        mapType:mapType
-                                                      withBlock:success
-                                               withFailureBlock:failure];
-    return operation == nil ? NO : YES;
+    [manager uploadMuchOfDeviceLocationWithAppID:appid
+                                          devIDs:devices
+                                         mapType:mapType
+                                       withBlock:success
+                                withFailureBlock:failure];
 }
-- (BOOL)uploadMuchOfDeviceInfos:(NSArray *)devices completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure
+- (void)uploadMuchOfDeviceInfos:(NSArray *)devices completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure
 {
-    return [self uploadMuchOfDeviceInfos:devices successBlock:^(NSDictionary *dict) {
+    [self uploadMuchOfDeviceInfos:devices successBlock:^(NSDictionary *dict) {
         NSString *msg = dict[GM_Argument_msg];
         BOOL value = NO;
         msg.length == 0 ? (value = YES) : (value = NO);

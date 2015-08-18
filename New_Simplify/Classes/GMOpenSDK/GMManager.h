@@ -25,7 +25,7 @@ typedef void (^GMOptionSuccess)(BOOL success);
 /**
  *  地图类型，默认不使用任何地图 GMMapTypeOfNone 返回原始经纬度
  */
-@property(nonatomic, assign)GMMapType mapType;
+@property(nonatomic, assign, readwrite)GMMapType mapType;
 
 + (instancetype)manager;
 

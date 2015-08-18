@@ -28,31 +28,24 @@
 /**
  *  success字典当中最多返回100个设备
  */
-- (void)nearbyDeviceInformation:(NSString *)devid successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure;
+- (BOOL)nearbyDeviceInformation:(NSString *)devid successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure;
 /**
  *  success字典当中最多返回100个设备,回调block指定GMDeviceInfo模型
  */
-- (void)nearbyDeviceInformation:(NSString *)devid successBlockArray:(GMOptionArray)success failureBlock:(GMOptionError)failure;
+- (BOOL)nearbyDeviceInformation:(NSString *)devid successBlockArray:(GMOptionArray)success failureBlock:(GMOptionError)failure;
+
 
 
 /**
  *  单个设备信息的位置上传
  */
-- (void)uploadDeviceInfo:(id<GMDevice>)device successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure;
-/**
- *  单个设备信息的位置上传
- */
-- (void)uploadDeviceInfo:(id<GMDevice>)device completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
+- (BOOL)uploadDeviceInfo:(id<GMDevice>)device completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
 
 
 /**
  *  批量位置信息的上传，同时devices中的模型必须遵行GMDevice协议
  */
-- (void)uploadMuchOfDeviceInfos:(NSArray *)devices successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure;
-/**
- *  批量位置信息的上传，同时devices中的模型必须遵行GMDevice协议
- */
-- (void)uploadMuchOfDeviceInfos:(NSArray *)devices completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
+- (BOOL)uploadMuchOfDeviceInfos:(NSArray *)devices completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
 
 @end
 

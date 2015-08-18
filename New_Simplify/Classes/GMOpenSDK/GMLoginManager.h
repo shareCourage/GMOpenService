@@ -14,15 +14,15 @@
  *  login登录
  *
  */
-- (void)loginWithDevid:(NSString *)devid completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
+- (BOOL)loginWithDevid:(NSString *)devid completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
 
-- (void)loginWithDevid:(NSString *)devid signature:(NSString *)signature completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
+- (BOOL)loginWithDevid:(NSString *)devid signature:(NSString *)signature completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
 
 /**
  *  logout注销
  *
  */
-- (void)logoutWithDevid:(NSString *)devid completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
+- (BOOL)logoutWithDevid:(NSString *)devid completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
 
 
 

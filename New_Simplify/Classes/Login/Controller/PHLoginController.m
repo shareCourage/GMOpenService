@@ -143,6 +143,7 @@
     self.deviceIDTipsL.text = @"只能包含数字,字母(区分大小写),下划线";
     
     self.appidTextF.keyboardType = UIKeyboardTypeNumberPad;
+    self.devidTextF.keyboardType = UIKeyboardTypeNumberPad;
     self.appidTextF.delegate = self;
     self.devidTextF.delegate = self;
     self.passwordTextF.delegate = self;

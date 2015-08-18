@@ -23,7 +23,7 @@ typedef void (^GMOptionFenceInfo)(GMFenceInfo *fenceInfo);
 /**
  *  围栏为圆形时，圆形中心点，必选参数
  */
-@property(nonatomic, assign, readwrite)CLLocationCoordinate2D coord;
+@property(nonatomic, assign)CLLocationCoordinate2D coord;
 
 /**
  *  如果围栏为多边形，围栏的各个点，必选参数
@@ -32,61 +32,58 @@ typedef void (^GMOptionFenceInfo)(GMFenceInfo *fenceInfo);
  *  coords[0] = CLLocationCoordinate2DMake(22.000000, 131.000000);
  *  coords[1] = CLLocationCoordinate2DMake(23.000000, 132.000000);
  */
-@property(nonatomic, assign, readwrite)CLLocationCoordinate2D *coords;
+@property(nonatomic, assign)CLLocationCoordinate2D *coords;
 
 /**
  *  如果围栏为多边形，表示点的个数，必选参数
  */
-@property(nonatomic, assign, readwrite)NSUInteger coordsCount;
+@property(nonatomic, assign)NSUInteger coordsCount;
 
 /**
  *  是否开启围栏，默认YES，开启
  */
-@property(nonatomic, assign, readwrite)BOOL enable;
+@property(nonatomic, assign)BOOL enable;
 
 /**
  *  圆形，多边形，默认圆形
  */
-@property(nonatomic, assign, readwrite)GMFenceShape shape;
+@property(nonatomic, assign)GMFenceShape shape;
 
 /**
  *  报警阈值。即设备连续N次出/入围栏时才发出报警，默认3次
  */
-@property(nonatomic, assign, readwrite)NSUInteger threshold;
+@property(nonatomic, assign)NSUInteger threshold;
 
 /**
  *  围栏为圆形时，圆形半径，默认100米
  */
-@property(nonatomic, assign, readwrite)CGFloat radius;
+@property(nonatomic, assign)CGFloat radius;
+
 
 /**
  *  YES代表进入围栏报警，NO不报警，默认YES
  */
-@property(nonatomic, assign, readwrite)BOOL getIn;
+@property(nonatomic, assign)BOOL getIn;
 
 /**
  *  YES代表离开围栏报警，NO不报警，默认YES
  */
-@property(nonatomic, assign, readwrite)BOOL getOut;
+@property(nonatomic, assign)BOOL getOut;
 
 /**
  *  围栏名称，默认为nil
  */
-@property(nonatomic, copy, readwrite)NSString *fenceName;
-
-
-/**
- *  限修改围栏使用,格式：devid1,in_flag,out_flag;devid2,in_flag,out_flag;…
- *  例如：123,1,0;234,1,1;
- */
-@property(nonatomic, copy, readwrite)NSString *devinfo;
+@property(nonatomic, copy)NSString *fenceName;
 
 /**
- *  给多个设备添加围栏
- *  devids设备围栏数组
+ *  添加围栏
  */
 - (void)addFenceWithDeviceIds:(NSArray *)devids completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
 
+/**
+ *  删除围栏
+ */
+- (void)deleteFenceWithFenceId:(NSString *)fenceId successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure;
 /**
  *  删除围栏
  */
@@ -94,7 +91,10 @@ typedef void (^GMOptionFenceInfo)(GMFenceInfo *fenceInfo);
 
 /**
  *  修改围栏
- *  1、修改围栏图形形状时，shape和coord(shape 和 coords、coordsCount)必须一一对应
+ */
+- (void)modifyFenceWithFenceId:(NSString *)fenceId successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure;
+/**
+ *  修改围栏
  */
 - (void)modifyFenceWithFenceId:(NSString *)fenceId completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
 

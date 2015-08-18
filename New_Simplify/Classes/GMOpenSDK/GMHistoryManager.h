@@ -18,22 +18,22 @@ typedef void (^GMOptionDeviceInfo)(GMDeviceInfo *deviceInfo);
 /**
  *  开始时间,获取历史位置信息时,必选参数
  */
-@property(nonatomic, copy)NSString *startTime;
+@property(nonatomic, copy, readwrite)NSString *startTime;
 
 /**
  *  结束时间,获取历史位置信息时,必选参数
  */
-@property(nonatomic, copy)NSString *endTime;
+@property(nonatomic, copy, readwrite)NSString *endTime;
 
 /**
  *  每次请求数据数量,默认1000条
  */
-@property(nonatomic, copy)NSString *numberLimit;
+@property(nonatomic, copy, readwrite)NSString *numberLimit;
 
 /**
  *  结束时间,获取历史位置信息时,必选参数
  */
-@property(nonatomic, copy)NSString *deviceId;
+@property(nonatomic, copy, readwrite)NSString *deviceId;
 
 
 //TODO: 获取最新的位置信息：下面两个方法实现功能相同，但回调的block不一样;第一个返回原生的字典，用户可根据具体情况自己解析;第二个返回一个GMDeviceInfo模型，已解析完成，可直接使用

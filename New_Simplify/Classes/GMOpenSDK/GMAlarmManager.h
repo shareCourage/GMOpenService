@@ -15,20 +15,20 @@
  *  typeId 默认 @"1,2"，1代表进围栏报警，2代表出围栏报警
  *  可自定义成@"1"、@"2"
  */
-@property(nonatomic, copy)NSString *typeId;
+@property(nonatomic, copy, readwrite)NSString *typeId;
 
 /**
  *  控制第几页的数据，默认为0
  */
-@property(nonatomic, assign)NSUInteger pageNum;
+@property(nonatomic, assign, readwrite)NSUInteger pageNum;
 
 /**
  *  控制每页显示的数量、默认为20条
  */
-@property(nonatomic, assign)NSUInteger pageSize;
+@property(nonatomic, assign, readwrite)NSUInteger pageSize;
 
 /**
- *  获取报警围栏信息
+ *  获取报警围栏信息,GMOptionArray存放GMAlarmInfo对象
  *
  */
 - (BOOL)getAlarmInformationWithDevid:(NSString *)devid completionBlock:(GMOptionArray)success failureBlock:(GMOptionError)failure;

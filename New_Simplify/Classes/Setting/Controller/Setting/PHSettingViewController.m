@@ -21,6 +21,7 @@
 #import "PHOfflineMapController.h"
 #import "PHDeviceInfoController.h"
 #import "PHPushViewController.h"
+#import "PHAlarmInfoController.h"
 #import "PHSettingGroup.h"
 #import "PHSettingItem.h"
 #import "PHSettingArrowItem.h"
@@ -88,7 +89,7 @@
  */
 - (void)logOutAccount
 {
-    PHSettingItem *logout = [PHSettingItem itemWithTitle:PH_Setting_LogOut];
+    PHSettingItem *logout = [PHSettingArrowItem itemWithTitle:PH_Setting_LogOut];
     self.alertView = [[UIAlertView alloc] initWithTitle:@"注销当前账户" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     PH_WS(ws);
     logout.option = ^{
@@ -116,11 +117,17 @@
 - (void)currentDeviceID
 {
     PHSettingItem *deviceId = [PHSettingArrowItem itemWithTitle:@"当前设备信息" destVcClass:[PHDeviceInfoController class]];
+    PHSettingItem *alarm = [PHSettingArrowItem itemWithTitle:@"历史报警消息" destVcClass:[PHAlarmInfoController class]];
     PHSettingGroup *group = [[PHSettingGroup alloc] init];
-    group.items = @[deviceId];
+    group.items = @[alarm, deviceId];
     [self.dataSource addObject:group];
 }
 
+
+- (void)alarmInformation
+{
+    
+}
 
 /**
  *  计算消息的推送总数
@@ -160,13 +167,14 @@
     self.title = @"设置";
     // 2.添加数据
     [self telephoneLinkAccount];
-    [self messageTips];
-    [self aboutGoome];
-    [self uploadMylocation];
+//    [self messageTips];
+//    [self uploadMylocation];
     [self setupOffLineMap];
     [self currentDeviceID];
     [self logOutAccount];
-    [self calculateThePushNumber];
+    [self alarmInformation];
+//    [self calculateThePushNumber];
+    [self aboutGoome];
 
 }
 

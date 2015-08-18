@@ -40,7 +40,55 @@
         _shape = GMFenceShapeOfPolygon;
     }
 }
-
+#if 0
+- (void)addFenceWithDeviceId:(NSString *)devid successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure
+{
+    if (devid.length == 0) return;
+    
+    NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
+    if (appid.length == 0) return;
+    NSString *mapType = [GMTool mapType:self.mapType];
+    GMNetworkManager *manager = [GMNetworkManager manager];
+    if (self.shape == GMFenceShapeOfCircle) {
+        [manager createCircleFenceWithDevIDs:@[devid]
+                                    andAppID:appid
+                                      enable:self.enable
+                                   threshold:self.threshold
+                                   getInFlag:self.getIn
+                                  getOutFlag:self.getOut
+                                     mapType:mapType
+                                   fenceName:self.fenceName
+                                       coord:self.coord
+                                      radius:self.radius
+                             withOptionBlock:success
+                             andFailureBlock:failure];
+    }
+    else if (self.shape == GMFenceShapeOfPolygon) {
+        NSString *polygonArea = [GMTool polygonArea:self.coords count:self.coordsCount];
+        [manager createPolygonFenceWithDevIDs:@[devid]
+                                     andAppID:appid
+                                       enable:self.enable
+                                    threshold:self.threshold
+                                    getInFlag:self.getIn
+                                   getOutFlag:self.getOut
+                                      mapType:mapType
+                                    fenceName:self.fenceName
+                                  polygonArea:polygonArea
+                              withOptionBlock:success
+                              andFailureBlock:failure];
+    }
+}
+// TODO: 7.28
+- (void)addFenceWithDeviceId:(NSString *)devid completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure
+{
+    [self addFenceWithDeviceId:devid successBlock:^(NSDictionary *dict) {
+        NSString *msg = dict[GM_Argument_msg];
+        BOOL value = NO;
+        msg.length == 0 ? (value = YES) : (value = NO);
+        if (success) success(value);
+    } failureBlock:failure];
+}
+#endif
 
 - (void)addFenceWithDeviceIds:(NSArray *)devids completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure
 {
@@ -125,9 +173,8 @@
                                   fenceName:self.fenceName
                                       coord:self.coord
                                      radius:self.radius
-                                    devinfo:self.devinfo
-                                  withBlock:success
-                           withFailureBlock:failure];
+                                  withBLock:success
+                           withFailureBLock:failure];
     }
     else if (self.shape == GMFenceShapeOfPolygon) {
         NSString *polygonArea = [GMTool polygonArea:self.coords count:self.coordsCount];
@@ -138,9 +185,8 @@
                                      mapType:mapType
                                    fenceName:self.fenceName
                                  polygonArea:polygonArea
-                                     devinfo:self.devinfo
-                                   withBlock:success
-                            withFailureBlock:failure];
+                                   withBLock:success
+                            withFailureBLock:failure];
     }
     
 }

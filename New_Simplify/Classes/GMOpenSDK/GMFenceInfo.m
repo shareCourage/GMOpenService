@@ -12,6 +12,8 @@
 #import "GMConstant.h"
 @implementation GMFenceInfo
 
+@synthesize devInOut = _devInOut;
+
 - (GMDevInOut *)devInOut
 {
     if (!_devInOut) {
@@ -97,6 +99,6 @@
 }
 - (void)dealloc
 {
-    NSLog(@"%@->dealloc",NSStringFromClass([self class]));
+    GMLog(@"%@->dealloc",NSStringFromClass([self class]));
 }
 @end

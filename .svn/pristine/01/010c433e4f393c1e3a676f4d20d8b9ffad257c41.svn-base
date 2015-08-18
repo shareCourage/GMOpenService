@@ -330,9 +330,8 @@
                                              fenceName:(NSString *)fenceName
                                                  coord:(CLLocationCoordinate2D)coord
                                                 radius:(CGFloat)radius
-                                               devinfo:(NSString *)devinfo
-                                             withBlock:(GMOptionDict)optionDict
-                                      withFailureBlock:(GMOptionError)optionError;
+                                             withBLock:(GMOptionDict)optionDict
+                                      withFailureBLock:(GMOptionError)optionError;
 
 - (GMHTTPRequestOperation *)modifyPolygonFenceWithAppID:(NSString *)appID
                                                 fenceID:(NSString *)fenceID
@@ -341,9 +340,8 @@
                                                 mapType:(NSString *)mapType
                                               fenceName:(NSString *)fenceName
                                             polygonArea:(NSString *)area
-                                                devinfo:(NSString *)devinfo
-                                              withBlock:(GMOptionDict)optionDict
-                                       withFailureBlock:(GMOptionError)optionError;
+                                              withBLock:(GMOptionDict)optionDict
+                                       withFailureBLock:(GMOptionError)optionError;
 @end
 
 #pragma mark - GMNetworkManagerForLogin
