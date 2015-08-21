@@ -8,9 +8,8 @@
 //#define GM_iOS(version) ([[[UIDevice currentDevice] systemVersion] floatValue] >= version)
 #import "GMPushManager.h"
 #import "GMNetworkManager.h"
-#import "GMOpenUDID.h"
 #import "GMConstant.h"
-
+#import "GMTool.h"
 @implementation GMPushManager
 
 
@@ -38,7 +37,7 @@
 {
     GMNetworkManager *manager = [GMNetworkManager manager];
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
-    NSString *openUDIDStr = [GMOpenUDID value];
+    NSString *openUDIDStr = [GMTool getUniqueIdentifier];
     if (appid.length == 0 || openUDIDStr.length == 0 || deviceToken == nil) return;
     [manager registerWithAppID:appid
                           udid:openUDIDStr
@@ -58,7 +57,38 @@
 
 + (void)handleRemoteNotification:(NSDictionary *)remoteInfo
 {
+    if (remoteInfo) {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    }
+
+}
+
+- (BOOL)updatePushTypeWithDevid:(NSString *)devid completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure
+{
+    NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
+    NSString *channelid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfChannelid];
+    if (appid.length == 0 || devid.length == 0 || channelid.length == 0) return NO;
+    NSString *mapType   = [GMTool mapType:self.mapType];
+    GMNetworkManager *manager = [GMNetworkManager manager];
+    id operation = [manager updatePushTypeWithAppID:appid
+                                           deviceID:devid
+                                          channelid:channelid
+                                               lang:self.lang
+                                          alarmType:self.alarmType
+                                           timeZone:self.timeZone
+                                              sound:self.sound
+                                              shake:self.shake
+                                          startTime:self.startTime
+                                            endTime:self.endTime
+                                            mapType:mapType
+                                       successBlock:^(NSDictionary *dict) {
+                                           NSString *msg = dict[GM_Argument_msg];
+                                           BOOL value = NO;
+                                           msg.length == 0 ? (value = YES) : (value = NO);
+                                           if (success) success(value);
+                                       } failureBlock:failure];
     
+    return operation == nil ? NO : YES;
 }
 
 

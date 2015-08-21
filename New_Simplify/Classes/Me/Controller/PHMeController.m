@@ -100,7 +100,7 @@
     }];
     
     [self test];
-    [self alarmTest];
+//    [self alarmTest];
 
 }
 

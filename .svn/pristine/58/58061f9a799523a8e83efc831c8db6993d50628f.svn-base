@@ -153,11 +153,9 @@
 		A986AC2D1B538B78006403D3 /* GMTool.m in Sources */ = {isa = PBXBuildFile; fileRef = A986AC141B538B78006403D3 /* GMTool.m */; };
 		A9C05DB11B5CD4C600FB34B8 /* GMFenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C05DB01B5CD4C600FB34B8 /* GMFenceInfo.m */; };
 		A9C05DB41B5CECD900FB34B8 /* GMDevInOut.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C05DB31B5CECD900FB34B8 /* GMDevInOut.m */; };
-		A9DFA4B41B84845200F695BD /* PHAlarmDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DFA4B31B84845200F695BD /* PHAlarmDetailController.m */; };
 		A9F362C51B7C2D1B004DED58 /* GMAlarmManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362C41B7C2D1B004DED58 /* GMAlarmManager.m */; };
 		A9F362C81B7C8120004DED58 /* GMAlarmInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362C71B7C8120004DED58 /* GMAlarmInfo.m */; };
 		A9F362E91B83159B004DED58 /* PHAlarmInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362E81B83159B004DED58 /* PHAlarmInfoController.m */; };
-		A9F362F71B842B3F004DED58 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362F61B842B3F004DED58 /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -423,16 +421,12 @@
 		A9C05DB01B5CD4C600FB34B8 /* GMFenceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMFenceInfo.m; sourceTree = "<group>"; };
 		A9C05DB21B5CECD900FB34B8 /* GMDevInOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMDevInOut.h; sourceTree = "<group>"; };
 		A9C05DB31B5CECD900FB34B8 /* GMDevInOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMDevInOut.m; sourceTree = "<group>"; };
-		A9DFA4B21B84845200F695BD /* PHAlarmDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAlarmDetailController.h; sourceTree = "<group>"; };
-		A9DFA4B31B84845200F695BD /* PHAlarmDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAlarmDetailController.m; sourceTree = "<group>"; };
 		A9F362C31B7C2D1B004DED58 /* GMAlarmManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMAlarmManager.h; sourceTree = "<group>"; };
 		A9F362C41B7C2D1B004DED58 /* GMAlarmManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMAlarmManager.m; sourceTree = "<group>"; };
 		A9F362C61B7C8120004DED58 /* GMAlarmInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMAlarmInfo.h; sourceTree = "<group>"; };
 		A9F362C71B7C8120004DED58 /* GMAlarmInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMAlarmInfo.m; sourceTree = "<group>"; };
 		A9F362E71B83159B004DED58 /* PHAlarmInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAlarmInfoController.h; sourceTree = "<group>"; };
 		A9F362E81B83159B004DED58 /* PHAlarmInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAlarmInfoController.m; sourceTree = "<group>"; };
-		A9F362F51B842B3F004DED58 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
-		A9F362F61B842B3F004DED58 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		B33409234F7CF2A5B43539EE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1365,8 +1359,6 @@
 				A986AC121B538B78006403D3 /* GMPushManager.m */,
 				A986AC131B538B78006403D3 /* GMTool.h */,
 				A986AC141B538B78006403D3 /* GMTool.m */,
-				A9F362F51B842B3F004DED58 /* SFHFKeychainUtils.h */,
-				A9F362F61B842B3F004DED58 /* SFHFKeychainUtils.m */,
 			);
 			path = GMOpenSDK;
 			sourceTree = "<group>";
@@ -1440,8 +1432,6 @@
 			children = (
 				A9F362E71B83159B004DED58 /* PHAlarmInfoController.h */,
 				A9F362E81B83159B004DED58 /* PHAlarmInfoController.m */,
-				A9DFA4B21B84845200F695BD /* PHAlarmDetailController.h */,
-				A9DFA4B31B84845200F695BD /* PHAlarmDetailController.m */,
 			);
 			path = AlarmInfo;
 			sourceTree = "<group>";
@@ -1513,7 +1503,6 @@
 					};
 					A91B54691B4B81EE0042024A = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = D2JB8K885C;
 						TestTargetID = A91B54501B4B81EE0042024A;
 					};
 				};
@@ -1696,7 +1685,6 @@
 				A91B55A91B4B85C10042024A /* PHBaiduMapView.m in Sources */,
 				A91B55AE1B4B85C10042024A /* PHPlayBackController.m in Sources */,
 				A91B55BE1B4B85C10042024A /* PHStartAnnotationView.m in Sources */,
-				A9F362F71B842B3F004DED58 /* SFHFKeychainUtils.m in Sources */,
 				A91B559C1B4B85C10042024A /* PHFenceMap.m in Sources */,
 				A91B55931B4B85C10042024A /* UILabel+PHCategory.m in Sources */,
 				A91B545A1B4B81EE0042024A /* AppDelegate.mm in Sources */,
@@ -1733,7 +1721,6 @@
 				A9F362C51B7C2D1B004DED58 /* GMAlarmManager.m in Sources */,
 				A986AC191B538B78006403D3 /* GFMResultSet.m in Sources */,
 				A91B55CA1B4B85C10042024A /* PHSettingGroup.m in Sources */,
-				A9DFA4B41B84845200F695BD /* PHAlarmDetailController.m in Sources */,
 				A91B55981B4B85C10042024A /* PHFenceMapController.m in Sources */,
 				A986AC2B1B538B78006403D3 /* GMOpenManager.m in Sources */,
 				A91B55D41B4B85C10042024A /* PHKeyValueObserver.m in Sources */,
@@ -1797,7 +1784,6 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: lee liming (L7B539E6VC)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1817,10 +1803,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "086d10f7-2a1e-477e-811d-b19b304927c9";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1842,7 +1827,6 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: lee liming (L7B539E6VC)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1856,9 +1840,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "086d10f7-2a1e-477e-811d-b19b304927c9";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1869,7 +1852,6 @@
 			baseConfigurationReference = 0C90E702680256A7F24C2F38 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: lee liming (L7B539E6VC)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/New_Simplify",
@@ -1880,7 +1862,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = New_Simplify;
-				PROVISIONING_PROFILE = "d475c083-3cd2-462a-8155-7c3f511df050";
+				PROVISIONING_PROFILE = "086d10f7-2a1e-477e-811d-b19b304927c9";
 			};
 			name = Debug;
 		};
@@ -1889,7 +1871,6 @@
 			baseConfigurationReference = B33409234F7CF2A5B43539EE /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: lee liming (L7B539E6VC)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/New_Simplify",
@@ -1900,7 +1881,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = New_Simplify;
-				PROVISIONING_PROFILE = "d475c083-3cd2-462a-8155-7c3f511df050";
+				PROVISIONING_PROFILE = "086d10f7-2a1e-477e-811d-b19b304927c9";
 			};
 			name = Release;
 		};
@@ -1908,8 +1889,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1921,7 +1900,6 @@
 				INFOPLIST_FILE = New_SimplifyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/New_Simplify.app/New_Simplify";
 			};
 			name = Debug;
@@ -1930,8 +1908,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1939,7 +1915,6 @@
 				INFOPLIST_FILE = New_SimplifyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/New_Simplify.app/New_Simplify";
 			};
 			name = Release;

@@ -26,7 +26,6 @@
                       dictBlock:(GMOptionDict)optionDict
                      errorBlock:(GMOptionError)optionError
 {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     GMHTTPRequestOperationManager *manager = [GMHTTPRequestOperationManager manager];
     manager.responseSerializer = [GMHTTPResponseSerializer serializer];//将数据转化为NSData
     GMHTTPRequestOperation *operation = [manager GET:url parameters:parameters success:^(GMHTTPRequestOperation *operation, id responseObject) {
@@ -34,14 +33,10 @@
         if (optionDict) {
             optionDict(dict);
         }
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-
     } failure:^(GMHTTPRequestOperation *operation, NSError *error) {
         if (optionError) {
             optionError(error);
         }
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-
     }];
     return operation;
 }
@@ -593,36 +588,6 @@
     GMHTTPRequestOperation *operation = [self POST:GM_APNS_Provider_URL parameters:mParameters dictBlock:optionDict errorBlock:optionError];
     return operation;
 
-}
-
-- (GMHTTPRequestOperation *)updatePushTypeWithAppID:(NSString *)appID
-                                           deviceID:(NSString *)deviceID
-                                          channelid:(NSString *)channelid
-                                               lang:(NSString *)lang
-                                          alarmType:(NSString *)alarmType
-                                           timeZone:(NSNumber *)timeZone
-                                              sound:(NSNumber *)sound
-                                              shake:(NSNumber *)shake
-                                          startTime:(NSNumber *)startTime
-                                            endTime:(NSNumber *)endTime
-                                            mapType:(NSString *)mapType
-                                       successBlock:(GMOptionDict)optionDict
-                                       failureBlock:(GMOptionError)optionError
-{
-    if (appID.length == 0 || deviceID.length == 0 || channelid.length == 0) return nil;
-    NSDictionary *parameters = [GMTool parametersWithAppid:appID
-                                                     devid:deviceID
-                                                 channelid:channelid
-                                                      lang:lang
-                                                 alarmType:alarmType
-                                                  timeZone:timeZone
-                                                     sound:sound
-                                                     shake:shake
-                                                 startTime:startTime
-                                                   endTime:endTime
-                                                   mapType:mapType];
-    GMHTTPRequestOperation *operation = [self POST:GM_UpdatePushType_URL parameters:parameters dictBlock:optionDict errorBlock:optionError];
-    return operation;
 }
 
 

@@ -37,26 +37,26 @@
     if (appid.length == 0) return NO;
     NSString *mapType = [GMTool mapType:self.mapType];
     GMNetworkManager *manager = [GMNetworkManager manager];
-    [manager acquireAlarmInfoWithAppID:appid
-                              deviceID:devid
-                                typeId:self.typeId
-                                pageNo:@(self.pageNum)
-                              pageSize:@(self.pageSize)
-                               mapType:mapType
-                             withBlock:^(NSDictionary *dict) {
-         NSArray *data = dict[GM_Argument_data];
-        if (data.count == 0){
-            success(nil);
-            return;
-        }
-         NSMutableArray *mArray = [NSMutableArray array];
-         for (NSArray *array in data) {
-             GMAlarmInfo *alarm = [[GMAlarmInfo alloc] initWithArray:array];
-             [mArray addObject:alarm];
-         }
-         if (success) success([mArray copy]);
-    } withFailureBlock:failure];
-    return YES;
+    id operation = [manager acquireAlarmInfoWithAppID:appid
+                                             deviceID:devid
+                                               typeId:self.typeId
+                                               pageNo:@(self.pageNum)
+                                             pageSize:@(self.pageSize)
+                                              mapType:mapType
+                                            withBlock:^(NSDictionary *dict) {
+                                                NSArray *data = dict[GM_Argument_data];
+                                                if (data.count == 0){
+                                                    success(nil);
+                                                    return;
+                                                }
+                                                NSMutableArray *mArray = [NSMutableArray array];
+                                                for (NSArray *array in data) {
+                                                    GMAlarmInfo *alarm = [[GMAlarmInfo alloc] initWithArray:array];
+                                                    [mArray addObject:alarm];
+                                                }
+                                                if (success) success([mArray copy]);
+                                            } withFailureBlock:failure];
+    return operation == nil ? NO : YES;
 }
 
 @end

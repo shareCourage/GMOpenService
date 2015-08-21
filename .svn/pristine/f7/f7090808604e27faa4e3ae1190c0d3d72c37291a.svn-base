@@ -105,8 +105,8 @@
 - (void)setupOffLineMap
 {
     PHSettingItem *account = [PHSettingArrowItem itemWithTitle:PH_Setting_OffLineMap destVcClass:[PHOfflineMapController class]];
-//    NSString *muString = @"下载后,没网也能用";
-//    account.subtitle = muString;
+    NSString *muString = @"下载后，没网也能用";
+    account.subtitle = muString;
     PHSettingGroup *group = [[PHSettingGroup alloc] init];
     group.items = @[account];
     [self.dataSource addObject:group];
@@ -118,10 +118,8 @@
 {
     PHSettingItem *deviceId = [PHSettingArrowItem itemWithTitle:@"当前设备信息" destVcClass:[PHDeviceInfoController class]];
     PHSettingItem *alarm = [PHSettingArrowItem itemWithTitle:@"历史报警消息" destVcClass:[PHAlarmInfoController class]];
-    PHSettingItem *push = [PHSettingArrowItem itemWithTitle:@"消息推送" destVcClass:[PHPushViewController class]];
-
     PHSettingGroup *group = [[PHSettingGroup alloc] init];
-    group.items = @[alarm, deviceId, push];
+    group.items = @[alarm, deviceId];
     [self.dataSource addObject:group];
 }
 
@@ -190,10 +188,8 @@
                 [MBProgressHUD showMessage:@"logout..." toView:self.view];
                 [login logoutWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(BOOL success) {
                     if (success) {
-                        
                         [MBProgressHUD hideHUDForView:self.view];
                         [PH_UserDefaults setBool:NO forKey:PH_LoginSuccess];
-                        [PH_UserDefaults setBool:NO forKey:@"是否开启消息推送"];
                         [PH_UserDefaults setObject:nil forKey:PH_UniqueAccess_token];
                         [PH_UserDefaults setObject:nil forKey:PH_UniqueAppid];
                         [PH_UserDefaults setObject:nil forKey:PH_UniqueDeviceId];

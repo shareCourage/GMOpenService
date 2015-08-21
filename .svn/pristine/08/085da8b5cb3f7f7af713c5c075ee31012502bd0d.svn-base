@@ -78,7 +78,34 @@
             [ws.myHud hide:YES];
             [MBProgressHUD showError:@"登录超时"];
         }];
-
+#if 0
+        [GMLoginManager loginWithDevid:devidString signature:signature successBlock:^(NSDictionary *dict) {
+            [ws.myHud hide:YES];
+            NSString *msg = dict[@"msg"];
+            if (msg.length != 0) {
+                if ([ws deviceIdInValidate:msg]) {
+                    [MBProgressHUD showError:@"不可用的deviceID"];
+                }
+                else if ([ws appidDidnotRegisted:msg]) {
+                    [MBProgressHUD showError:msg];
+                }
+                else if ([ws passwordInValidate:msg]) {
+                    [MBProgressHUD showError:@"密码错误"];
+                }
+            }
+            NSNumber *success = dict[@"success"];
+            if (msg.length == 0 && [success boolValue] == 1) {
+                PHLog(@"登录成功");
+                [PHTool loginSuccessWithAppid:appidString devid:devidString accessToken:signature];
+                UIStoryboard *storyA = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                UIViewController *vc = [storyA instantiateViewControllerWithIdentifier:@"PHTabBarControllerIdentity"];
+                ws.view.window.rootViewController = vc;
+            }
+        } failureBlock:^(NSError *error) {
+            [ws.myHud hide:YES];
+            [MBProgressHUD showError:@"登录超时"];
+        }];
+#endif
     }
 #endif
 }
@@ -188,6 +215,7 @@
         if (textField.text.length == 0) isMatch = NO;
         if (isMatch) {
             [self setupViewStatus:YES textField:textField];
+#warning 验证成功
             GMOpenManager *open = [GMOpenManager manager];
             [open validateWithKey:textField.text completionBlock:^(GMOpenPermissionStatus status) {
                 if (status == GMOpenPermissionStatusOfSuccess) {

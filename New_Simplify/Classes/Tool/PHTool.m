@@ -38,6 +38,7 @@
                         devid:(NSString *)devidString
                   accessToken:(NSString *)accessToken
 {
+    [PH_UserDefaults setBool:YES forKey:@"是否开启消息推送"];
     [PH_UserDefaults setObject:devidString forKey:PH_UniqueDeviceId];
     [PH_UserDefaults setObject:appidString forKey:PH_UniqueAppid];
     [PH_UserDefaults setObject:accessToken forKey:PH_UniqueAccess_token];

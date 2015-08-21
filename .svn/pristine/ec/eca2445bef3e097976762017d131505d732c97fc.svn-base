@@ -19,7 +19,6 @@
 #define GM_Logout_URL        @"http://open-dev.gpsoo.net/1/device/logout"
 #define GM_APNS_Provider_URL @"http://open-dev.gpsoo.net/1/push/getchannelid"
 #define GM_GetAlarm_URL      @"http://open-dev.gpsoo.net/1/alarm/gethis"
-#define GM_UpdatePushType_URL @"http://open-dev.gpsoo.net/1/device/updatepushinfo"
 
 
 //#define GM_UniqueId_URL      @"http://open.goome.net/1/uniqueid/get?appid="
@@ -38,7 +37,6 @@
 //#define GM_GetAlarm_URL      @"http://open.goome.net/1/alarm/gethis"
 
 //#define GM_APNS_Provider_URL @"http://wx-test.gpsoo.net/1/push/getchannelid"
-//#define GM_UpdatePushType_URL @"http://open.goome.net/1/device/updatepushinfo"
 
 #define GM_Argument_appid       @"appid"
 #define GM_Argument_devid       @"devid"
@@ -88,18 +86,10 @@
 #define GM_Argument_pageno      @"pageno"
 #define GM_Argument_pagesize    @"pagesize"
 
-#define GM_Argument_alarmtype   @"alarmtype"
-#define GM_Argument_sound       @"sound"
-#define GM_Argument_shake       @"shake"
-#define GM_Argument_start_time  @"start_time"
-
-
 #define GM_KeyOfAppid           @"keyOfGoomeAppid"
 #define GM_KeyOfChannelid       @"keyOfChannelid"
 #define GM_UserDefaults         [NSUserDefaults standardUserDefaults]
 #define GM_CurrentTime          [NSString stringWithFormat:@"%.f",[NSDate date].timeIntervalSince1970]
-
-#define GM_UniqueUDID           @"UniqueUDIDForGMOpenSDKAndAddSomeSpecialWordLike~~~"
 
 #ifdef DEBUG
 #define GMLog(...) NSLog(__VA_ARGS__)

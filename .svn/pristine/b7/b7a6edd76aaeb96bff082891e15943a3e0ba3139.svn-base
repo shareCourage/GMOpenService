@@ -1,0 +1,33 @@
+//
+//  GMManager.h
+//  GMOpenSDK
+//
+//  Created by Kowloon on 15/6/17.
+//  Copyright (c) 2015年 Goome. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+typedef  NS_ENUM(NSInteger, GMMapType) {
+    GMMapTypeOfNone = 100,
+    GMMapTypeOfBAIDU,
+    GMMapTypeOfGOOGLE,
+    GMMapTypeOfGAODE
+};
+
+typedef void (^GMOptionDict)(NSDictionary *dict);
+typedef void (^GMOptionError)(NSError *error);
+typedef void (^GMOptionArray)(NSArray *array);
+typedef void (^GMOptionSuccess)(BOOL success);
+
+@interface GMManager : NSObject
+
+/**
+ *  地图类型，默认不使用任何地图 GMMapTypeOfNone 返回原始经纬度
+ */
+@property(nonatomic, assign, readwrite)GMMapType mapType;
+
++ (instancetype)manager;
+
+
+@end

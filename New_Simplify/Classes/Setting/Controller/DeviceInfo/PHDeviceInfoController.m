@@ -9,6 +9,8 @@
 #import "PHDeviceInfoController.h"
 #import "PHSettingItem.h"
 #import "PHSettingGroup.h"
+#import "PHSettingSwitchItem.h"
+
 @implementation PHDeviceInfoController
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,8 +28,18 @@
     PHSettingItem *appid = [PHSettingItem itemWithTitle:@"Appid号"];
     appid.subtitle = [PHTool getAppidFromUserDefault];
     
+    
     PHSettingGroup *group = [[PHSettingGroup alloc] init];
     group.items = @[appid,device];
     [self.dataSource addObject:group];
 }
+
+
+
 @end
+
+
+
+
+
+

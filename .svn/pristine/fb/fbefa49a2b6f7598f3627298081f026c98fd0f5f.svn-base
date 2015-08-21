@@ -9,12 +9,14 @@
 #import "PHAlarmInfoController.h"
 #import "MJRefresh.h"
 #import "GMAlarmInfo.h"
-#import "PHAlarmDetailController.h"
+
 @interface PHAlarmInfoController ()
 {
     GMAlarmManager *_alarmM;
 }
 @property (nonatomic, assign)NSUInteger pageNum;
+
+@property (nonatomic, copy)NSString *alarmFilePath;
 
 @property (nonatomic, strong)NSMutableArray *dataSource;
 
@@ -53,7 +55,7 @@
     _alarmM.pageNum = ws.pageNum;
 //    _alarmM.pageSize = 50;
 //    _alarmM.typeId = @"1";
-    BOOL value = [_alarmM getAlarmInformationWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(NSArray *array) {
+    [_alarmM getAlarmInformationWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(NSArray *array) {
         if (array.count != 0) {
             [self.dataSource addObjectsFromArray:array];
             [ws.tableView reloadData];
@@ -62,12 +64,6 @@
     } failureBlock:^(NSError *error) {
         [ws.tableView.footer endRefreshing];
     }];
-    if (value) {
-        NSLog(@"right");
-    }
-    else {
-        NSLog(@"wrong");
-    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -96,10 +92,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    GMAlarmInfo *alarmInfo = self.dataSource[indexPath.row];
-    PHAlarmDetailController *alarmDetail = [[PHAlarmDetailController alloc] init];
-    alarmDetail.alarmInfo = alarmInfo;
-    [self.navigationController pushViewController:alarmDetail animated:YES];
 }
 
 

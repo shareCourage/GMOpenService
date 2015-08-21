@@ -9,6 +9,8 @@
 #import "GMTool.h"
 #import <objc/runtime.h>
 #import "GMConstant.h"
+#import "SFHFKeychainUtils.h"
+#import "GMOpenUDID.h"
 
 @implementation GMTool
 
@@ -84,7 +86,7 @@
     NSArray *languages      = [NSLocale preferredLanguages];
     NSString *curLanguage   = [languages firstObject];//zh+Hans简体中文 en英文 繁体 zh+Hant 香港 zh+HK
     NSRange range = [curLanguage rangeOfString:@"zh"];
-    if (range.length != NSNotFound) return @"zh+CN";
+    if (range.length != NSNotFound) return @"zh_CN";
     return @"en";
 }
 + (BOOL)getVariableWithClass:(Class)myClass varName:(NSString *)name
@@ -94,8 +96,7 @@
     for (i = 0; i < outCount; i++) {
         Ivar property = ivars[i];
         NSString *keyName = [NSString stringWithCString:ivar_getName(property) encoding:NSUTF8StringEncoding];
-        NSRange range = NSMakeRange(1, keyName.length + 1);
-//        keyName = [keyName stringByReplacingOccurrencesOfString:@"_" withString:@""];
+        NSRange range = NSMakeRange(1, keyName.length - 1);
         keyName = [keyName substringWithRange:range];
         if ([keyName isEqualToString:name]) {
             return YES;
@@ -329,6 +330,78 @@
     
     return mpara;
 }
+
++ (NSString *)getUniqueIdentifier
+{
+    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    NSString *uniqueIdentifier = [SFHFKeychainUtils getPasswordForUsername:GM_UniqueUDID andServiceName:bundleIdentifier error:nil];
+    if (!uniqueIdentifier) {
+        NSString *udid = [GMOpenUDID value];
+        BOOL end = [SFHFKeychainUtils storeUsername:GM_UniqueUDID
+                                        andPassword:udid
+                                     forServiceName:bundleIdentifier
+                                     updateExisting:YES
+                                              error:NULL];
+        if (end) {
+            NSString *tmpStr = [SFHFKeychainUtils getPasswordForUsername:GM_UniqueUDID andServiceName:bundleIdentifier error:nil];
+            return tmpStr;
+        }
+        else{
+            return udid;
+        }
+    }
+    return uniqueIdentifier;
+}
+
++ (NSDictionary *)parametersWithAppid:(NSString *)appid
+                                devid:(NSString *)devid
+                            channelid:(NSString *)channelid
+                                 lang:(NSString *)lang
+                            alarmType:(NSString *)alarmType
+                             timeZone:(NSNumber *)timeZone
+                                sound:(NSNumber *)sound
+                                shake:(NSNumber *)shake
+                            startTime:(NSNumber *)startTime
+                              endTime:(NSNumber *)endTime
+                              mapType:(NSString *)mapType
+{
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    if (appid.length != 0) {
+        [parameters setObject:appid forKey:GM_Argument_appid];
+    }
+    if (devid.length != 0) {
+        [parameters setObject:devid forKey:GM_Argument_account];
+    }
+    if (channelid.length != 0) {
+        [parameters setObject:channelid forKey:GM_Argument_cid];
+    }
+    if (lang.length != 0) {
+        [parameters setObject:lang forKey:GM_Argument_lang];
+    }
+    if (alarmType.length != 0) {
+        [parameters setObject:alarmType forKey:GM_Argument_alarmtype];
+    }
+    if (mapType.length != 0) {
+        [parameters setObject:mapType forKey:GM_Argument_map_type];
+    }
+    if (timeZone) {
+        [parameters setObject:timeZone forKey:GM_Argument_timezone];
+    }
+    if (sound) {
+        [parameters setObject:sound forKey:GM_Argument_sound];
+    }
+    if (shake) {
+        [parameters setObject:shake forKey:GM_Argument_shake];
+    }
+    if (startTime) {
+        [parameters setObject:startTime forKey:GM_Argument_start_time];
+    }
+    if (endTime) {
+        [parameters setObject:endTime forKey:GM_Argument_end_time];
+    }
+    return parameters;
+}
+
 @end
 
 

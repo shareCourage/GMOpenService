@@ -95,12 +95,14 @@
     }
     else{
         UIButton *titleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        titleBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+        titleBtn.layer.cornerRadius = 5;
+        titleBtn.layer.masksToBounds = YES;
+        titleBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
         titleBtn.frame = CGRectMake(0, 0, 100, 30);
         titleBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
         [titleBtn setTitle:@"圆形围栏" forState:UIControlStateNormal];
-        [titleBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [titleBtn setBackgroundColor:[[UIColor greenColor] colorWithAlphaComponent:0.3f]];
+        [titleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [titleBtn setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:0.3f]];
         [titleBtn addTarget:self action:@selector(titleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         self.titleBtn = titleBtn;
         self.navigationItem.titleView = titleBtn;
@@ -110,7 +112,6 @@
 }
 - (void)titleBtnClick:(UIButton *)sender
 {
-    sender.selected = !sender.isSelected;
     if (sender.selected) {
         [sender setTitle:@"圆形围栏" forState:UIControlStateNormal];
         self.mySlider.hidden = NO;
@@ -123,6 +124,7 @@
         self.myStepper.hidden = NO;
         _isCircleFence = NO;
     }
+    sender.selected = !sender.isSelected;
 }
 - (void)radiusFromFenceMapKVO
 {
@@ -267,10 +269,11 @@
     [self hudShowOnTheFenceMapView:@"创建中..."];
     PH_WS(ws);
     GMFenceManager *fence = [GMFenceManager manager];
-//    fence.mapType = GMMapTypeOfBAIDU;
+    fence.mapType = GMMapTypeOfBAIDU;
     fence.threshold = 1;
 //    fence.getIn = YES;
 //    fence.getOut = NO;
+    fence.fenceName = [NSString stringWithFormat:@"哈%d哈",arc4random_uniform(1000)];
     fence.enable = self.fenceMapTitleView.mySwitch.isOn;
     if (_isCircleFence) {
         fence.coord = self.fenceMap.coordinate;
@@ -330,6 +333,7 @@
 - (void)fenceMapView:(PHFenceMapView *)fenceMapView onLongClick:(CLLocationCoordinate2D)coordinate
 {
     PHLog(@"coordinate:lat->%.6f, lng->%.6f, time->%@",coordinate.latitude, coordinate.longitude,PH_CurrentTime);
+    [self uploadCoordinate:coordinate];
     if (_isCircleFence) {
         self.fenceMap.coordinate = coordinate;
     }
@@ -364,6 +368,29 @@
 {
     PHLog(@"%@ ---> dealloc",NSStringFromClass([self class]));
 }
+
+
+
+
+- (void)uploadCoordinate:(CLLocationCoordinate2D)coord
+{
+    GMNearbyManager *upload = [GMNearbyManager manager];
+    upload.mapType = GMMapTypeOfBAIDU;
+    GMDeviceInfo *device = [[GMDeviceInfo alloc] init];
+    device.lat = [NSString stringWithFormat:@"%.6f",coord.latitude];
+    device.lng = [NSString stringWithFormat:@"%.6f",coord.longitude];
+    device.devid = [PHTool getDeviceIdFromUserDefault];
+    device.gps_time = PH_CurrentTime;
+    
+    [upload uploadDeviceInfo:device completionBlock:^(BOOL success) {
+        NSString *value = nil;
+        success ? (value = @"upload success") : (value = @"upload failure");
+        PHLog(@"%@",value);
+    } failureBlock:nil];
+}
+
+
+
 @end
 
 

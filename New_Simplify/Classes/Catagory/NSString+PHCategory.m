@@ -148,6 +148,23 @@ static NSString *token = @"Itisgoomesimplifiedappprivatekeyandcouldnotbegetbysom
     return [NSString stringWithFormat:@"%.f",interval];
 }
 
+
+#pragma mark 十进制转换为十六进制
+- (NSString *)toHexString
+{
+    NSString *hexString = [NSString stringWithFormat:@"%@",[[NSString alloc] initWithFormat:@"%02lx", (long)[self integerValue]]];
+    return hexString;
+}
+
+#pragma mark 十六进制转换为十进制
+- (NSString *)hexToDecimal
+{
+    long decimalNum = strtoul([self UTF8String], 0, 16);
+    
+    NSString *str = [NSString stringWithFormat:@"%ld", decimalNum];
+    
+    return str;
+}
 @end
 
 

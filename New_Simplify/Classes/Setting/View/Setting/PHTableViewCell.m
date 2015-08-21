@@ -27,6 +27,9 @@
 @end
 
 @implementation PHTableViewCell
+
+//@synthesize switchView = _switchView;
+
 - (UIImageView *)arrowView
 {
     if (_arrowView == nil) {
@@ -54,10 +57,30 @@
  */
 - (void)switchStateChange
 {
+   
+    if ([self.phItem.title isEqualToString:@"是否开启消息推送"]) {
+        if (self.switchView.isOn) {
+            [self login];
+        }
+        else {
+            [self logout];
+        }
+    }
     [PH_UserDefaults setBool:self.switchView.isOn forKey:self.phItem.title];
     [PH_UserDefaults synchronize];
 }
-
+- (void)login{
+    GMLoginManager *login = [GMLoginManager manager];
+    [login loginWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(BOOL success) {
+        success ? PHLog(@"登录成功") : nil;
+    } failureBlock:nil];
+}
+- (void)logout{
+    GMLoginManager *login = [GMLoginManager manager];
+    [login logoutWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(BOOL success) {
+        success ? PHLog(@"注销成功") : nil;
+    } failureBlock:nil];
+}
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
     static NSString *ID = @"setting";

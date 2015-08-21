@@ -379,21 +379,6 @@
                                  successBlock:(GMOptionDict)optionDict
                                  failureBlock:(GMOptionError)optionError;
 
-- (GMHTTPRequestOperation *)updatePushTypeWithAppID:(NSString *)appID
-                                           deviceID:(NSString *)deviceID
-                                          channelid:(NSString *)channelid
-                                               lang:(NSString *)lang
-                                          alarmType:(NSString *)alarmType
-                                           timeZone:(NSNumber *)timeZone
-                                              sound:(NSNumber *)sound
-                                              shake:(NSNumber *)shake
-                                          startTime:(NSNumber *)startTime
-                                            endTime:(NSNumber *)endTime
-                                            mapType:(NSString *)mapType
-                                       successBlock:(GMOptionDict)optionDict
-                                       failureBlock:(GMOptionError)optionError;
-
-
 /**
  *  注销该设备，比如：注销之后，就不再收到围栏报警消息
  *

@@ -75,7 +75,47 @@
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
+    [GMPushManager handleRemoteNotification:userInfo];
+
     PHLog(@"~~~~~~~~~~~~~~~~~~~~~~~~~~didReceiveRemoteNotification~~~~~~~~~~~~~~~~~~~~~~~~~->\n%@",userInfo);
+    if (userInfo) {
+        NSString *alarm = userInfo[@"alarm"];
+        NSArray *arraySep = [NSArray seprateString:alarm characterSet:@","];
+        NSString *deviceId = [arraySep firstObject];
+        NSString *status = arraySep[1];
+        NSString *fenceId = [[arraySep lastObject] stringByAppendingString:@" 围栏"];
+        NSString *fenceName = [self getFenceNameFromUserInfo:userInfo];
+        NSString *information = [NSString stringWithFormat:@"设备%@%@ %@",deviceId, [status isEqualToString:@"1"] ? @"进入" : @"离开", fenceName == nil ? fenceId : [fenceName stringByAppendingString:@" 围栏"]];
+        [MBProgressHUD showSuccess:information];
+
+    }
+}
+- (NSString *)getFenceNameFromUserInfo:(NSDictionary *)userInfo
+{
+    NSDictionary *aps = userInfo[@"aps"];
+    NSString *alert = aps[@"alert"];
+    NSString *fenceName = nil;
+    NSArray *languages      = [NSLocale preferredLanguages];
+    NSString *curLanguage   = [languages firstObject];//zh+Hans简体中文 en英文 繁体 zh+Hant 香港 zh+HK
+    NSRange range = [curLanguage rangeOfString:@"zh"];
+    if (range.length != NSNotFound){
+        NSRange range = [alert rangeOfString:@"开"];
+        if (range.length == 0) {
+            range = [alert rangeOfString:@"入"];
+        }
+        NSRange subRange = NSMakeRange(range.location + 1, alert.length - range.location - 1);
+        fenceName = [alert substringWithRange:subRange];
+    }
+    else {
+        alert = [alert stringByReplacingOccurrencesOfString:@" " withString:@","];
+        NSArray *alerts = [alert componentsSeparatedByString:@","];
+        fenceName = alerts[2];
+        if ([fenceName isEqualToString:@"Fence"]) {
+            return nil;
+        }
+    }
+    
+    return fenceName;
 }
 #pragma mark - BMKGeneralDelegate
 /**

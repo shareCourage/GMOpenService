@@ -15,8 +15,6 @@
     NSString *stringTransforToUTF = [string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSCharacterSet *cSet = [NSCharacterSet characterSetWithCharactersInString:set];
     NSArray *arr = [stringTransforToUTF componentsSeparatedByCharactersInSet:cSet];
-//    NSString *resultString = [arr firstObject];
-//    NSLog(@"resultString  --->>>  %@",resultString);
     return arr;
 }
 @end

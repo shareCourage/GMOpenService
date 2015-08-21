@@ -108,7 +108,7 @@
 {
     PH_WS(ws);//相当于 __weak ws = self;防止block导致的循环引用
     GMFenceManager *fence = [GMFenceManager manager];
-//    fence.mapType = GMMapTypeOfBAIDU;
+    fence.mapType = GMMapTypeOfBAIDU;
     [fence inquireFenceWithDeviceId:[PHTool getDeviceIdFromUserDefault] successBlock:^(NSDictionary *dict){
         if (dict) {
             [ws.dataSource removeAllObjects];
@@ -154,7 +154,14 @@
     cell.detailTextLabel.text = fenceInfo.area;
     return cell;
 }
-
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"我来删除你了";
+}
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PHDevFenceInfo *fenceInfo = self.dataSource[indexPath.row];
@@ -165,12 +172,13 @@
          *3、删除服务器上的数据
          *4、如果做了本地数据库保存，同样需要删除
          */
+        PHLog(@"delete ...");
+#if 1
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
         hud.delegate = self;
         hud.labelText = PH_MBProgress_Deleting;
         PH_WS(ws);
         GMFenceManager *fence = [GMFenceManager manager];
-#if 1
         [fence deleteFenceWithFenceId:fenceInfo.fenceid completionBlock:^(BOOL success) {
             if (success) {
                 [ws.dataSource removeObjectAtIndex:indexPath.row];//1 删除数据源
@@ -190,31 +198,6 @@
         }];
 #endif
         
-#if 0
-        [fence deleteFenceWithFenceId:fenceInfo.fenceid successBlock:^(NSDictionary *dict) {
-            if (dict) {
-                NSString *msg = dict[@"msg"];
-                if (msg.length == 0) {
-                    [ws.dataSource removeObjectAtIndex:indexPath.row];//1 删除数据源
-                    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];//2 tableView的删除
-                    [PHTool encoderObjectArray:ws.dataSource path:ws.fenceFilePath];//4、对数据的重新归档，就相当于删除
-                    [ws mbProgressHudDeleteFail:hud lableText:PH_MBProgress_SuccessOfDelete];
-                    PHLog(@"delete success");
-                }
-                else{
-                    [ws mbProgressHudDeleteFail:hud lableText:PH_MBProgress_FailureOfDelete];
-                }
-            }
-            else{
-                [ws mbProgressHudDeleteFail:hud lableText:PH_MBProgress_FailureOfDelete];
-            }
-        } failureBlock:^(NSError *error) {
-            if (error) {
-                [ws mbProgressHudDeleteFail:hud lableText:PH_MBProgress_FailureOfDelete];
-                PHLog(@"delete failure");
-            }
-        }];
-#endif
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

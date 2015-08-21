@@ -66,10 +66,30 @@
                      mapType:(NSString *)mapType
                  numberLimit:(NSString *)limit;
 
++ (NSDictionary *)parametersWithAppid:(NSString *)appid
+                                devid:(NSString *)devid
+                            channelid:(NSString *)channelid
+                                 lang:(NSString *)lang
+                            alarmType:(NSString *)alarmType
+                             timeZone:(NSNumber *)timeZone
+                                sound:(NSNumber *)sound
+                                shake:(NSNumber *)shake
+                            startTime:(NSNumber *)startTime
+                              endTime:(NSNumber *)endTime
+                              mapType:(NSString *)mapType;
+
 + (NSMutableDictionary *)deviceParameters:(id<GMDevice>)device;
 
 
 + (NSDictionary *)iPhoneDeviceInfo;
+
+/**
+ *  获取设备唯一标识方法
+ *  1、通过GMOpenUDID获取设备的唯一标识
+ *  2、将这个标识添加到iOS的keyChain中
+ *  3、
+ */
++ (NSString *)getUniqueIdentifier;
 @end
 
 
