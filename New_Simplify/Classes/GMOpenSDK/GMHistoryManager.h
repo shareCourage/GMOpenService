@@ -31,7 +31,7 @@ typedef void (^GMOptionDeviceInfo)(GMDeviceInfo *deviceInfo);
 @property(nonatomic, copy, readwrite)NSString *numberLimit;
 
 /**
- *  结束时间,获取历史位置信息时,必选参数
+ *  设备id号,必选参数
  */
 @property(nonatomic, copy, readwrite)NSString *deviceId;
 

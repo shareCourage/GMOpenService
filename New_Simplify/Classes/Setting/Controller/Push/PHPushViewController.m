@@ -6,6 +6,14 @@
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
 
+#define PH_Chinese  @"中文"
+#define PH_English  @"English"
+#define PH_None     @"无"
+#define PH_Have     @"有"
+#define PH_In       @"进入"
+#define PH_Out      @"出去"
+#define PH_InOut    @"进出"
+
 #import "PHPushViewController.h"
 #import "PHSettingGroup.h"
 #import "PHSettingItem.h"
@@ -25,37 +33,70 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    PHSettingItem *alarm  = [PHSettingSwitchItem itemWithTitle:@"是否开启消息推送"];
-
-#if 0
-    PHSettingItem *two = [PHSettingItem itemWithTitle:PH_CountOfRemotePush_Active];
-    two.subtitle = [NSString stringWithFormat:@"%ld",(long)[PH_UserDefaults integerForKey:PH_CountOfRemotePush_Active]];
     
-    PHSettingItem *three = [PHSettingItem itemWithTitle:PH_CountOfRemotePush_InActive];
-    three.subtitle = [NSString stringWithFormat:@"%ld",(long)[PH_UserDefaults integerForKey:PH_CountOfRemotePush_InActive]];
+
+    GMPushManager *push = [GMPushManager manager];
+    [push getPushInfoWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(GMPushInfo *pushInfo) {
+        [self loadTableViewData:pushInfo];
+    } failureBlock:nil];
+    
+#if 0
+    push.lang = @"en";//@"zh_CN";
+    [push updatePushTypeWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(BOOL success) {
+        success ? PHLog(@"update success") : PHLog(@"update failure");
+    } failureBlock:nil];
 #endif
+}
+
+- (void)loadTableViewData:(GMPushInfo *)push
+{
+    PHSettingItem *alarm  = [PHSettingSwitchItem itemWithTitle:@"是否开启消息推送"];
+    
     PHSettingItem *lang = [PHSettingArrowItem itemWithTitle:@"推送语言"];
+    lang.subtitle = push.lang;
     PH_WS(ws);
     lang.option = ^{
-        [ws alertViewShow:nil actionOne:@"中文" actionTwo:@"En" actionThree:nil];
+        [ws alertViewShow:nil actionOne:PH_Chinese actionTwo:PH_English actionThree:nil];
     };
     PHSettingItem *alarmType = [PHSettingArrowItem itemWithTitle:@"报警类型"];
+    if ([push.alarmType isEqualToString:@"1"]) {
+        alarmType.subtitle = @"进入";
+    }
+    else if ([push.alarmType isEqualToString:@"2"]) {
+        alarmType.subtitle = @"离开";
+    }
+    else if ([push.alarmType isEqualToString:@"1,2"]) {
+        alarmType.subtitle = @"进出";
+    }
     alarmType.option = ^{
-        [ws alertViewShow:nil actionOne:@"进入" actionTwo:@"出去" actionThree:@"进出"];
+        [ws alertViewShow:nil actionOne:PH_In actionTwo:PH_Out actionThree:PH_InOut];
     };
     PHSettingItem *timeZone = [PHSettingArrowItem itemWithTitle:@"报警时区"];
-    
+    timeZone.subtitle = push.timeZone;
     PHSettingItem *sound = [PHSettingArrowItem itemWithTitle:@"报警声音"];
+    if ([push.sound isEqualToString:@"1"]) {
+        sound.subtitle = @"开启";
+    }
+    else if ([push.sound isEqualToString:@"0"]) {
+        sound.subtitle = @"关闭";
+    }
     sound.option = ^{
-        [ws alertViewShow:nil actionOne:@"无" actionTwo:@"有" actionThree:nil];
+        [ws alertViewShow:nil actionOne:PH_None actionTwo:PH_Have actionThree:nil];
     };
     PHSettingItem *shake = [PHSettingArrowItem itemWithTitle:@"报警振动"];
+    if ([push.shake isEqualToString:@"1"]) {
+        shake.subtitle = @"开启";
+    }
+    else if ([push.shake isEqualToString:@"0"]) {
+        shake.subtitle = @"关闭";
+    }
     shake.option = ^{
-        [ws alertViewShow:nil actionOne:@"无" actionTwo:@"有" actionThree:nil];
+        [ws alertViewShow:nil actionOne:PH_None actionTwo:PH_Have actionThree:nil];
     };
     PHSettingItem *start = [PHSettingArrowItem itemWithTitle:@"报警起始时间"];
+    start.subtitle = push.startTime;
     PHSettingItem *end = [PHSettingArrowItem itemWithTitle:@"报警结束时间"];
-
+    end.subtitle = push.endTime;
     PHSettingGroup *groupOne = [[PHSettingGroup alloc] init];
     groupOne.items = @[alarm];
     
@@ -63,14 +104,8 @@
     groupTwo.items = @[lang, alarmType, timeZone, sound, shake, start, end];
     [self.dataSource addObject:groupOne];
     [self.dataSource addObject:groupTwo];
-
-    GMPushManager *push = [GMPushManager manager];
-    push.lang = @"en";//@"zh_CN";
-    [push updatePushTypeWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(BOOL success) {
-        success ? PHLog(@"update success") : PHLog(@"update failure");
-    } failureBlock:nil];
+    [self.tableView reloadData];
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
@@ -119,7 +154,14 @@
 
 
 
+#if 0
+PHSettingItem *two = [PHSettingItem itemWithTitle:PH_CountOfRemotePush_Active];
+two.subtitle = [NSString stringWithFormat:@"%ld",(long)[PH_UserDefaults integerForKey:PH_CountOfRemotePush_Active]];
 
+
+PHSettingItem *three = [PHSettingItem itemWithTitle:PH_CountOfRemotePush_InActive];
+three.subtitle = [NSString stringWithFormat:@"%ld",(long)[PH_UserDefaults integerForKey:PH_CountOfRemotePush_InActive]];
+#endif
 
 
 

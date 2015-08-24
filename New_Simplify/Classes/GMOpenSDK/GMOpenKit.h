@@ -23,3 +23,4 @@
 #import "GMDeviceInfo.h"
 #import "GMFenceInfo.h"
 #import "GMAlarmInfo.h"
+#import "GMPushInfo.h"

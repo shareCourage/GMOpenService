@@ -7,6 +7,10 @@
 //
 #import <UIKit/UIKit.h>
 #import "GMManager.h"
+@class GMPushInfo;
+
+typedef void (^GMOptionPushInfo)(GMPushInfo *pushInfo);
+
 
 @interface GMPushManager : GMManager
 
@@ -64,6 +68,11 @@
  *
  */
 - (BOOL)updatePushTypeWithDevid:(NSString *)devid completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
+
+/**
+ *  获取推送当前的设置
+ */
+- (BOOL)getPushInfoWithDevid:(NSString *)devid completionBlock:(GMOptionPushInfo)pushInfo failureBlock:(GMOptionError)failure;
 
 @end
 

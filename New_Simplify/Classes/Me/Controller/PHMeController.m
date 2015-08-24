@@ -86,7 +86,7 @@
 
     PH_WS(ws);
     GMHistoryManager *history = [GMHistoryManager manager];
-//    history.mapType = GMMapTypeOfBAIDU;
+    history.mapType = GMMapTypeOfBAIDU;
     history.deviceId = [PHTool getDeviceIdFromUserDefault];
     [history getNewestInformationSuccessBlock:^(NSDictionary *dict) {
         PHLog(@"%@",dict);
@@ -101,7 +101,8 @@
     
     [self test];
 //    [self alarmTest];
-
+    double powValue = pow(2, 5.4);//2的5次方
+    PHLog(@"%.6f",powValue);
 }
 
 

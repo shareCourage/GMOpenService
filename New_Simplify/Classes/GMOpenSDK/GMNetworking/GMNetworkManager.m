@@ -625,6 +625,20 @@
     return operation;
 }
 
+- (GMHTTPRequestOperation *)acquirePushInfoWithAppID:(NSString *)appID
+                                               devid:(NSString *)deviceID
+                                           channelid:(NSString *)channelid
+                                        successBlock:(GMOptionDict)optionDict
+                                        failureBlock:(GMOptionError)optionError
+{
+    if (appID.length == 0 || deviceID.length == 0 || channelid.length == 0) return nil;
+    NSDictionary *parameters = @{GM_Argument_appid :    appID,
+                                 GM_Argument_account :  deviceID,
+                                 GM_Argument_cid :      channelid};
+    GMHTTPRequestOperation *operation = [self POST:GM_GetPushInfo_URL parameters:parameters dictBlock:optionDict errorBlock:optionError];
+    return operation;
+}
+
 
 - (GMHTTPRequestOperation *)acquireAlarmInfoWithAppID:(NSString *)appID
                                              deviceID:(NSString *)deviceID

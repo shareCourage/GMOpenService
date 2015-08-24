@@ -19,6 +19,7 @@
 #define GM_Logout_URL        @"http://open-dev.gpsoo.net/1/device/logout"
 #define GM_APNS_Provider_URL @"http://open-dev.gpsoo.net/1/push/getchannelid"
 #define GM_GetAlarm_URL      @"http://open-dev.gpsoo.net/1/alarm/gethis"
+#define GM_GetPushInfo_URL   @"http://open-dev.gpsoo.net/1/device/getpushinfo"
 #define GM_UpdatePushType_URL @"http://open-dev.gpsoo.net/1/device/updatepushinfo"
 
 
@@ -38,6 +39,7 @@
 //#define GM_GetAlarm_URL      @"http://open.goome.net/1/alarm/gethis"
 
 //#define GM_APNS_Provider_URL @"http://wx-test.gpsoo.net/1/push/getchannelid"
+//#define GM_GetPushInfo_URL   @"http://open.goome.net/1/device/getpushinfo"
 //#define GM_UpdatePushType_URL @"http://open.goome.net/1/device/updatepushinfo"
 
 #define GM_Argument_appid       @"appid"
@@ -92,7 +94,7 @@
 #define GM_Argument_sound       @"sound"
 #define GM_Argument_shake       @"shake"
 #define GM_Argument_start_time  @"start_time"
-
+#define GM_Argument_version     @"version"
 
 #define GM_KeyOfAppid           @"keyOfGoomeAppid"
 #define GM_KeyOfChannelid       @"keyOfChannelid"

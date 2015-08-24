@@ -10,6 +10,8 @@
 #import "GMNetworkManager.h"
 #import "GMConstant.h"
 #import "GMTool.h"
+#import "GMPushInfo.h"
+
 @implementation GMPushManager
 
 
@@ -92,6 +94,29 @@
 }
 
 
+
+- (BOOL)getPushInfoWithDevid:(NSString *)devid completionBlock:(GMOptionPushInfo)pushInfo failureBlock:(GMOptionError)failure
+{
+    NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
+    NSString *channelid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfChannelid];
+    if (appid.length == 0 || devid.length == 0 || channelid.length == 0) return NO;
+    GMNetworkManager *manager = [GMNetworkManager manager];
+    id operation = [manager acquirePushInfoWithAppID:appid
+                                               devid:devid
+                                           channelid:channelid
+                                        successBlock:^(NSDictionary *dict) {
+                                            NSDictionary *data = dict[GM_Argument_data];
+                                            if (data.count == 0) {
+                                                pushInfo(nil);
+                                            }
+                                            else {
+                                                GMPushInfo *push = [[GMPushInfo alloc] initWithDict:data];
+                                                pushInfo(push);
+                                            }
+                                        }
+                                        failureBlock:failure];
+    return operation == nil ? NO : YES;
+}
 @end
 
 

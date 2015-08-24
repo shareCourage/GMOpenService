@@ -379,6 +379,10 @@
                                  successBlock:(GMOptionDict)optionDict
                                  failureBlock:(GMOptionError)optionError;
 
+/**
+ *  设置推送的格式
+ *
+ */
 - (GMHTTPRequestOperation *)updatePushTypeWithAppID:(NSString *)appID
                                            deviceID:(NSString *)deviceID
                                           channelid:(NSString *)channelid
@@ -393,6 +397,15 @@
                                        successBlock:(GMOptionDict)optionDict
                                        failureBlock:(GMOptionError)optionError;
 
+/**
+ *  设置当前推送的格式信息
+ *
+ */
+- (GMHTTPRequestOperation *)acquirePushInfoWithAppID:(NSString *)appID
+                                               devid:(NSString *)deviceID
+                                           channelid:(NSString *)channelid
+                                        successBlock:(GMOptionDict)optionDict
+                                        failureBlock:(GMOptionError)optionError;
 
 /**
  *  注销该设备，比如：注销之后，就不再收到围栏报警消息

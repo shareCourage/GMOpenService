@@ -153,6 +153,7 @@
 		A986AC2D1B538B78006403D3 /* GMTool.m in Sources */ = {isa = PBXBuildFile; fileRef = A986AC141B538B78006403D3 /* GMTool.m */; };
 		A9C05DB11B5CD4C600FB34B8 /* GMFenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C05DB01B5CD4C600FB34B8 /* GMFenceInfo.m */; };
 		A9C05DB41B5CECD900FB34B8 /* GMDevInOut.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C05DB31B5CECD900FB34B8 /* GMDevInOut.m */; };
+		A9D39CB71B8B2B5900F998D8 /* GMPushInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D39CB61B8B2B5900F998D8 /* GMPushInfo.m */; };
 		A9DFA4B41B84845200F695BD /* PHAlarmDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DFA4B31B84845200F695BD /* PHAlarmDetailController.m */; };
 		A9F362C51B7C2D1B004DED58 /* GMAlarmManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362C41B7C2D1B004DED58 /* GMAlarmManager.m */; };
 		A9F362C81B7C8120004DED58 /* GMAlarmInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362C71B7C8120004DED58 /* GMAlarmInfo.m */; };
@@ -423,6 +424,8 @@
 		A9C05DB01B5CD4C600FB34B8 /* GMFenceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMFenceInfo.m; sourceTree = "<group>"; };
 		A9C05DB21B5CECD900FB34B8 /* GMDevInOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMDevInOut.h; sourceTree = "<group>"; };
 		A9C05DB31B5CECD900FB34B8 /* GMDevInOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMDevInOut.m; sourceTree = "<group>"; };
+		A9D39CB51B8B2B5900F998D8 /* GMPushInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMPushInfo.h; sourceTree = "<group>"; };
+		A9D39CB61B8B2B5900F998D8 /* GMPushInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMPushInfo.m; sourceTree = "<group>"; };
 		A9DFA4B21B84845200F695BD /* PHAlarmDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAlarmDetailController.h; sourceTree = "<group>"; };
 		A9DFA4B31B84845200F695BD /* PHAlarmDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAlarmDetailController.m; sourceTree = "<group>"; };
 		A9F362C31B7C2D1B004DED58 /* GMAlarmManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMAlarmManager.h; sourceTree = "<group>"; };
@@ -1345,6 +1348,8 @@
 				A986ABEC1B538B78006403D3 /* GMDeviceInfo.m */,
 				A9F362C61B7C8120004DED58 /* GMAlarmInfo.h */,
 				A9F362C71B7C8120004DED58 /* GMAlarmInfo.m */,
+				A9D39CB51B8B2B5900F998D8 /* GMPushInfo.h */,
+				A9D39CB61B8B2B5900F998D8 /* GMPushInfo.m */,
 				A986ABED1B538B78006403D3 /* GMFenceManager.h */,
 				A986ABEE1B538B78006403D3 /* GMFenceManager.m */,
 				A986ABEF1B538B78006403D3 /* GMHistoryManager.h */,
@@ -1641,6 +1646,7 @@
 				A986AC261B538B78006403D3 /* GMURLConnectionOperation.m in Sources */,
 				A91B558A1B4B85C10042024A /* MBProgressHUD+MJ.m in Sources */,
 				A986AC1D1B538B78006403D3 /* GMHistoryManager.m in Sources */,
+				A9D39CB71B8B2B5900F998D8 /* GMPushInfo.m in Sources */,
 				A91B559F1B4B85C10042024A /* PHFenceMapView.m in Sources */,
 				A91B558D1B4B85C10042024A /* NSDate+PHCategory.m in Sources */,
 				A986AC2A1B538B78006403D3 /* GMNetworkManager.m in Sources */,
