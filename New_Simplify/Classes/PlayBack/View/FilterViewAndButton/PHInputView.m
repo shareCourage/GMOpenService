@@ -37,7 +37,6 @@
         [datePicker addTarget:self action:@selector(datePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
         [self addSubview:datePicker];
         self.myDatePicker = datePicker;
-//        UIPickerView
     }
     return self;
 }

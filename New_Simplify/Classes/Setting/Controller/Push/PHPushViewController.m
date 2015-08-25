@@ -5,6 +5,7 @@
 //  Created by Kowloon on 15/6/29.
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
+#define PH_Input_Height 300
 
 #define PH_Chinese  @"中文"
 #define PH_English  @"English"
@@ -36,6 +37,8 @@
 @property (nonatomic, strong)NSIndexPath *selectedIndexPath;
 @property (nonatomic, strong)PHSettingItem *selectedItem;
 
+@property (nonatomic, weak)UIDatePicker *datePicker;
+
 @end
 
 @implementation PHPushViewController
@@ -53,9 +56,29 @@
     [_pushM getPushInfoWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(GMPushInfo *pushInfo) {
         [self loadTableViewData:pushInfo];
     } failureBlock:nil];
+    UIView *inputView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame), PH_Input_Height)];
+    UIToolbar *tool = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.inputView.frame), 30)];
     
+    UIDatePicker *picker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 30, CGRectGetWidth(self.inputView.frame), 260)];
+    [picker addTarget:self action:@selector(datePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
+    picker.datePickerMode = UIDatePickerModeTime;
+    [inputView addSubview:tool];
+    [inputView addSubview:picker];
+    [self.view addSubview:inputView];
+    
+    self.datePicker = picker;
+    
+//    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick)]];
 }
-
+- (void)tapClick
+{
+    PHLog(@"tapClick");
+    [self pickViewAnimation:self.datePicker willHidden:YES];
+}
+- (void)datePickerValueChanged:(UIDatePicker *)sender
+{
+    PHLog(@"%@",sender.date);
+}
 - (void)loadTableViewData:(GMPushInfo *)push
 {
     [self.dataSource removeAllObjects];
@@ -82,7 +105,7 @@
         alarmType.subtitle = PH_InOut;
     }
     else {
-        alarmType.subtitle = push.alarmType;
+        alarmType.subtitle = PH_InOut;
     }
     alarmType.option = ^{
         [ws alertViewShow:nil actionOne:PH_In actionTwo:PH_Out actionThree:PH_InOut];
@@ -126,13 +149,15 @@
     PHSettingItem *start = [PHSettingArrowItem itemWithTitle:PH_Push_startTime];
     start.subtitle = push.startTime;
     start.option = ^{
-        [ws alertViewShow:nil actionOne:@"0" actionTwo:@"720" actionThree:@"1200"];
+//        [ws alertViewShow:nil actionOne:@"0" actionTwo:@"720" actionThree:@"1200"];
+        [self pickViewAnimation:self.datePicker willHidden:NO];
     };
     
     PHSettingItem *end = [PHSettingArrowItem itemWithTitle:PH_Push_endTime];
     end.subtitle = push.endTime;
     end.option = ^{
-        [ws alertViewShow:nil actionOne:@"0" actionTwo:@"720" actionThree:@"1200"];
+//        [ws alertViewShow:nil actionOne:@"0" actionTwo:@"720" actionThree:@"1200"];
+        [self pickViewAnimation:self.datePicker willHidden:NO];
     };
     
     PHSettingGroup *groupOne = [[PHSettingGroup alloc] init];
@@ -156,39 +181,32 @@
 - (void)alertViewShow:(NSString *)alertTitle actionOne:(NSString *)one actionTwo:(NSString *)two actionThree:(NSString *)three
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:cancelAction];
+    [alertController addAction:[self actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel]];
     if (one) {
-        UIAlertAction *oneAc = [UIAlertAction actionWithTitle:one style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            PHLog(@"%@",one);
-            _actionRow = 0;
-            [self reloadMyTableViewWithSubtitle:one];
-        }];
-        [alertController addAction:oneAc];
+        _actionRow = 0;
+        [alertController addAction:[self actionWithTitle:one actionStyle:UIAlertActionStyleDefault]];
     }
-    
     if (two) {
-        UIAlertAction *twoAc = [UIAlertAction actionWithTitle:two style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            PHLog(@"%@",two);
-            _actionRow = 1;
-            [self reloadMyTableViewWithSubtitle:two];
-        }];
-        [alertController addAction:twoAc];
+        _actionRow = 1;
+        [alertController addAction:[self actionWithTitle:two actionStyle:UIAlertActionStyleDefault]];
     }
-    
     if (three) {
-        UIAlertAction *threeAc = [UIAlertAction actionWithTitle:three style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            PHLog(@"%@",three);
-            _actionRow = 2;
-            [self reloadMyTableViewWithSubtitle:three];
-        }];
-        [alertController addAction:threeAc];
+        _actionRow = 2;
+        [alertController addAction:[self actionWithTitle:three actionStyle:UIAlertActionStyleDefault]];
     }
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-
+- (UIAlertAction *)actionWithTitle:(NSString *)title actionStyle:(UIAlertActionStyle)style
+{
+    if (style == UIAlertActionStyleCancel) {
+        return [UIAlertAction actionWithTitle:title style:style handler:nil];
+    }
+    return [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
+        [self reloadMyTableViewWithSubtitle:title];
+    }];
+    
+}
 - (void)reloadMyTableViewWithSubtitle:(NSString *)subtitle
 {
     self.selectedItem.subtitle = subtitle;
@@ -237,7 +255,19 @@
 }
 
 
-
+- (void)pickViewAnimation:(UIView*)view willHidden:(BOOL)hidden {
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        if (hidden) {
+            view.frame = CGRectMake(0, CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame), 260);
+        } else {
+            [view setHidden:hidden];
+            view.frame = CGRectMake(0, CGRectGetHeight(self.view.frame) - 245, CGRectGetWidth(self.view.frame), 260);
+        }
+    } completion:^(BOOL finished) {
+        [view setHidden:hidden];
+    }];
+}
 
 @end
 
