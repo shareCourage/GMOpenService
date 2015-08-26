@@ -9,7 +9,6 @@
 #import "GMManager.h"
 #import "GMDevice.h"
 
-
 @interface GMNearbyManager : GMManager
 
 /**
@@ -46,6 +45,9 @@
  *  批量位置信息的上传，同时devices中的模型必须遵行GMDevice协议
  */
 - (BOOL)uploadMuchOfDeviceInfos:(NSArray *)devices completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
+
+
+- (BOOL)reverseGeocode:(CLLocationCoordinate2D *)coords count:(NSUInteger)count completionBlock:(GMOptionArray)success failureBlock:(GMOptionError)failure;
 
 @end
 
