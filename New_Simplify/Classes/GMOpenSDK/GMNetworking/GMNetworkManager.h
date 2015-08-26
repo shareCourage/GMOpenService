@@ -368,6 +368,22 @@
                           withFailureBlock:(GMOptionError)optionError;
 
 /**
+ *  注销该设备，比如：注销之后，就不再收到围栏报警消息
+ *
+ */
+- (GMHTTPRequestOperation *)logoutWithAppID:(NSString *)appID
+                                   deviceID:(NSString *)deviceID
+                                  channelid:(NSString *)channelid
+                                  withBlock:(GMOptionDict)optionDict
+                           withFailureBlock:(GMOptionError)optionError;
+
+@end
+
+
+#pragma mark - GMNetworkManagerForRegister
+@interface GMNetworkManager (GMNetworkManagerForRegister)
+
+/**
  *  设备唯一标识注册，获取唯一通道id
  *
  *  @param udid        设备唯一表示，比如openUDID
@@ -378,6 +394,28 @@
                                   deviceToken:(NSData *)deviceToken
                                  successBlock:(GMOptionDict)optionDict
                                  failureBlock:(GMOptionError)optionError;
+@end
+
+
+#pragma mark - GMNetworkManagerForAlarm
+@interface GMNetworkManager (GMNetworkManagerForAlarm)
+
+/**
+ *  获取报警围栏信息
+ *
+ */
+- (GMHTTPRequestOperation *)acquireAlarmInfoWithAppID:(NSString *)appID
+                                             deviceID:(NSString *)deviceID
+                                               typeId:(NSString *)typeId
+                                               pageNo:(NSNumber *)pageno
+                                             pageSize:(NSNumber *)pageSize
+                                              mapType:(NSString *)mapType
+                                            withBlock:(GMOptionDict)optionDict
+                                     withFailureBlock:(GMOptionError)optionError;
+@end
+
+#pragma mark - GMNetworkManagerForPush
+@interface GMNetworkManager (GMNetworkManagerForPush)
 
 /**
  *  设置推送的格式
@@ -398,7 +436,7 @@
                                        failureBlock:(GMOptionError)optionError;
 
 /**
- *  设置当前推送的格式信息
+ *  获取当前推送的格式信息
  *
  */
 - (GMHTTPRequestOperation *)acquirePushInfoWithAppID:(NSString *)appID
@@ -406,36 +444,21 @@
                                            channelid:(NSString *)channelid
                                         successBlock:(GMOptionDict)optionDict
                                         failureBlock:(GMOptionError)optionError;
-
-/**
- *  注销该设备，比如：注销之后，就不再收到围栏报警消息
- *
- */
-- (GMHTTPRequestOperation *)logoutWithAppID:(NSString *)appID
-                                   deviceID:(NSString *)deviceID
-                                  channelid:(NSString *)channelid
-                                  withBlock:(GMOptionDict)optionDict
-                           withFailureBlock:(GMOptionError)optionError;
-
-
-/**
- *  获取报警围栏信息
- *
- */
-- (GMHTTPRequestOperation *)acquireAlarmInfoWithAppID:(NSString *)appID
-                                             deviceID:(NSString *)deviceID
-                                               typeId:(NSString *)typeId
-                                               pageNo:(NSNumber *)pageno
-                                             pageSize:(NSNumber *)pageSize
-                                              mapType:(NSString *)mapType
-                                            withBlock:(GMOptionDict)optionDict
-                                     withFailureBlock:(GMOptionError)optionError;
-
 @end
 
+#pragma mark - GMNetworkManagerForReverseGecode
+@interface GMNetworkManager (GMNetworkManagerForReverseGecode)
 
+/**
+ *  地理位置反编码
+ *
+ */
+- (GMHTTPRequestOperation *)reverseGecodeWithAppID:(NSString *)appID
+                                      reverseArray:(NSArray *)array
+                                           mapType:(NSString *)mapType
+                                      successBlock:(GMOptionDict)optionDict
+                                      failureBlock:(GMOptionError)optionError;
 
-
-
+@end
 
 
