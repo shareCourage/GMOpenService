@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 #import "GMDevice.h"
 @interface GMDeviceInfo : NSObject <GMDevice, NSCoding>
 
@@ -24,3 +25,13 @@
 - (instancetype)initWithDict:(NSDictionary *)dict;
 
 @end
+
+@interface GMGeocodeResult : NSObject <NSCoding>
+
+@property (nonatomic, assign)CLLocationCoordinate2D location;
+@property (nonatomic, copy)NSString *address;
+
+- (instancetype)initWithDict:(NSDictionary *)dict;
+
+@end
+
