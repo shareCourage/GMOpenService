@@ -10,10 +10,10 @@
 #import "GMManager.h"
 @class GMOpenManager;
 
-typedef enum{
+typedef NS_ENUM(NSInteger, GMOpenPermissionStatus) {
     GMOpenPermissionStatusOfFailure,
     GMOpenPermissionStatusOfSuccess
-} GMOpenPermissionStatus;
+};
 
 typedef void (^GMOpenManagerBlock)(GMOpenPermissionStatus status);
 
