@@ -661,7 +661,24 @@
     return operation;
 }
 
-
+- (GMHTTPRequestOperation *)reverseGecodeWithAppID:(NSString *)appID
+                                      reverseArray:(NSArray *)array
+                                           mapType:(NSString *)mapType
+                                      successBlock:(GMOptionDict)optionDict
+                                      failureBlock:(GMOptionError)optionError
+{
+    if (appID.length == 0 || array.count == 0 ) return nil;
+    NSDictionary *parameters = @{GM_Argument_appid : appID,
+                                 GM_Argument_data  : array};
+    NSMutableDictionary *mParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
+    if (mapType.length != 0) [mParameters setValue:mapType forKey:GM_Argument_map_type];
+    __autoreleasing NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:mParameters options:NSJSONWritingPrettyPrinted error:&error];
+    if (error) return nil;
+    NSString *dict = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    GMHTTPRequestOperation *operation = [self POST:GM_ReverseGecode_URL parameters:dict dictBlock:optionDict errorBlock:optionError];
+    return operation;
+}
 
 @end
 

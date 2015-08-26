@@ -8,25 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GMPushInfo : NSObject
-/**
- *  {
- "data": {
- "alarmtype": "1,2",
- "cid": "12001",
- "end_time": "1439",
- "lang": "en",
- "map_type": "GOOGLE",
- "shake": "1",
- "sound": "1",
- "start_time": "0",
- "timezone": "28800",
- "version": "1.0"
- },
- "msg": "",
- "ret": 0
- }
- */
+@interface GMPushInfo : NSObject <NSCoding>
 
 @property (nonatomic, copy)NSString *alarmType;
 @property (nonatomic, copy)NSString *lang;
@@ -46,4 +28,21 @@
 
 
 
-
+/**
+ *  {
+ "data": {
+ "alarmtype": "1,2",
+ "cid": "12001",
+ "end_time": "1439",
+ "lang": "en",
+ "map_type": "GOOGLE",
+ "shake": "1",
+ "sound": "1",
+ "start_time": "0",
+ "timezone": "28800",
+ "version": "1.0"
+ },
+ "msg": "",
+ "ret": 0
+ }
+ */

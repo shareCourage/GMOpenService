@@ -11,6 +11,7 @@
 #import "GMConstant.h"
 #import "SFHFKeychainUtils.h"
 #import "GMOpenUDID.h"
+#import "GMManager.h"
 
 @implementation GMTool
 
@@ -79,6 +80,19 @@
     NSString *polygon = [GMTool stringConnected:array connectString:@";"];
     
     return polygon;
+}
+
++ (NSArray *)coordinates:(CLLocationCoordinate2D *)coords count:(NSUInteger)count
+{
+    NSMutableArray *mArray = [NSMutableArray array];
+    for (int i = 0; i < count; i ++) {
+        NSMutableDictionary *mDict = [NSMutableDictionary dictionary];
+        CLLocationCoordinate2D coord = coords[i];
+        [mDict setValue:@(coord.longitude) forKey:GM_Argument_lng];
+        [mDict setValue:@(coord.latitude) forKey:GM_Argument_lat];
+        [mArray addObject:mDict];
+    }
+    return [mArray copy];
 }
 
 + (NSString *)getSystemLangague

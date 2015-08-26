@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 @class GMDevInOut;
-@interface GMFenceInfo : NSObject<NSCoding>
 
+@interface GMFenceInfo : NSObject<NSCoding>
 
 /**
  通过设备号获取的围栏信息
@@ -74,6 +74,14 @@
 @end
 
 
+
+@interface GMDevInOut : NSObject <NSCoding>
+
+@property(nonatomic, copy)NSString *devid;
+@property(nonatomic, copy)NSString *dev_in;
+@property(nonatomic, copy)NSString *dev_out;
+
+@end
 
 
 

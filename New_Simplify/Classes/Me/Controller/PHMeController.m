@@ -9,7 +9,6 @@
 #import "PHMeController.h"
 #import "PHDeviceInfo.h"
 #import "PHBaiduMapView.h"
-#import "GMDevInOut.h"
 #import "GMOpenUDID.h"
 #import <AdSupport/AdSupport.h>
 
@@ -60,7 +59,7 @@
     _number = [number intValue];
     
     ASIdentifierManager *as = [ASIdentifierManager sharedManager];
-    PHLog(@"\n vendor -> %@\n openudid -> %@ \n identifier -> %@",[NSString currentDeviceNSUUID], [GMOpenUDID value],as.advertisingIdentifier.UUIDString);
+    PHLog(@"\n vendor -> %@\n openudid -> %@ \n identifier -> %@, %@",[NSString currentDeviceNSUUID], [GMOpenUDID value],as.advertisingIdentifier.UUIDString, [NSString digitUppercaseWithMoney:@"100001"]);
     //paul
     //vendor    :6F467665-FD78-4311-BC64-E6E5541B7720
     //openudid  :ebd34d0085fb40719f5b292a4e8752971cce0e69
@@ -101,8 +100,7 @@
     
     [self test];
 //    [self alarmTest];
-    double powValue = pow(2, 5.4);//2的5次方
-    PHLog(@"%.6f",powValue);
+    [self reverseTest];
 }
 
 
@@ -185,6 +183,23 @@
         PHLog(@"alarmArray - > %@",array);
     } failureBlock:nil];
 }
+- (void)reverseTest
+{
+    GMNearbyManager *nearby = [GMNearbyManager manager];
+    nearby.mapType = GMMapTypeOfGAODE;
+    CLLocationCoordinate2D *coords = malloc(sizeof(CLLocationCoordinate2D) * 4);
+    coords[0] = CLLocationCoordinate2DMake(40.028830, 116.405911);
+    coords[1] = CLLocationCoordinate2DMake(40.128830, 116.505911);
+    coords[2] = CLLocationCoordinate2DMake(22.599726, 114.055489); //广东省.深圳市.宝安区.梅坂大道.离南粤港酒楼约41米
+    coords[3] = CLLocationCoordinate2DMake(21.589726, 114.155489);
+    [nearby reverseGeocode:coords count:4 completionBlock:^(NSArray *array) {
+        for (GMGeocodeResult *result in array) {
+            PHLog(@"%@, %.6f, %.6f",result.address, result.location.latitude, result.location.longitude);
+        }
+    } failureBlock:nil];
+    free(coords);
+}
+
 @end
 
 

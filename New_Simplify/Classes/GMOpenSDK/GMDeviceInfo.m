@@ -12,6 +12,13 @@
 
 @implementation GMDeviceInfo
 
+GMCodingImplementation
+
+- (void)dealloc
+{
+    GMLog(@"%@->dealloc",NSStringFromClass([self class]));
+}
+
 - (instancetype)initWithDict:(NSDictionary *)dict
 {
     self = [super init];
@@ -31,33 +38,29 @@
     return self;
 }
 
+@end
 
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+@implementation GMGeocodeResult
+
+GMCodingImplementation
+
+- (void)dealloc
+{
+    GMLog(@"%@->dealloc",NSStringFromClass([self class]));
+}
+
+- (instancetype)initWithDict:(NSDictionary *)dict
 {
     self = [super init];
     if (self) {
-        unsigned int outCount, i;
-        Ivar *ivars = class_copyIvarList([self class], &outCount);
-        for (i = 0; i < outCount; i++) {
-            Ivar property = ivars[i];
-            NSString *keyName = [NSString stringWithCString:ivar_getName(property) encoding:NSUTF8StringEncoding];
-            id value = [aDecoder decodeObjectForKey:keyName];
-            [self setValue:value forKey:keyName];
-        }
+        _address = [NSString stringWithFormat:@"%@",dict[GM_Argument_address]];
+        NSString *lat = [NSString stringWithFormat:@"%@",dict[GM_Argument_lat]];
+        NSString *lng = [NSString stringWithFormat:@"%@",dict[GM_Argument_lng]];
+        _location = CLLocationCoordinate2DMake([lat doubleValue], [lng doubleValue]);
     }
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-    unsigned int outCount, i;
-    Ivar *ivars = class_copyIvarList([self class], &outCount);
-    for (i = 0; i < outCount; i++) {
-        Ivar property = ivars[i];
-        NSString *keyName = [NSString stringWithCString:ivar_getName(property) encoding:NSUTF8StringEncoding];
-        id value = [self valueForKey:keyName];
-        [aCoder encodeObject:value forKey:keyName];
-    }
-}
 @end
+

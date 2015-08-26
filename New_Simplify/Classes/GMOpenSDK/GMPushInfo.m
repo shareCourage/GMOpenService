@@ -8,10 +8,16 @@
 
 #import "GMPushInfo.h"
 #import "GMConstant.h"
+#import <objc/runtime.h>
 
 @implementation GMPushInfo
 
+GMCodingImplementation
 
+- (void)dealloc
+{
+    GMLog(@"%@->dealloc",NSStringFromClass([self class]));
+}
 
 - (instancetype)initWithDict:(NSDictionary *)dict
 {

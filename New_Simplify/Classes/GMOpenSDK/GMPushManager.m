@@ -45,7 +45,7 @@
                           udid:openUDIDStr
                    deviceToken:deviceToken
                   successBlock:^(NSDictionary *dict) {
-                      NSLog(@"registerCid->%@",dict);
+                      GMLog(@"registerCid->%@",dict);
         NSString *msg = dict[GM_Argument_msg];
         if (msg.length == 0) {
             NSDictionary *channelD = dict[GM_Argument_data];

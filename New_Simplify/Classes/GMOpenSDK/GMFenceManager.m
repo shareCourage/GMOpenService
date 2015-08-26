@@ -11,7 +11,6 @@
 #import "GMNetworkManager.h"
 #import "GMTool.h"
 #import "GMFenceInfo.h"
-#import "GMDevInOut.h"
 #import "GMConstant.h"
 @implementation GMFenceManager
 - (void)setUp

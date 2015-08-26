@@ -7,19 +7,15 @@
 //
 
 #import "GMFenceInfo.h"
-#import "GMDevInOut.h"
 #import <objc/runtime.h>
 #import "GMConstant.h"
 @implementation GMFenceInfo
 
-@synthesize devInOut = _devInOut;
+GMCodingImplementation
 
-- (GMDevInOut *)devInOut
+- (void)dealloc
 {
-    if (!_devInOut) {
-        _devInOut = [[GMDevInOut alloc] init];
-    }
-    return _devInOut;
+    GMLog(@"%@->dealloc",NSStringFromClass([self class]));
 }
 
 - (instancetype)initWithDeviceDict:(NSDictionary *)dict
@@ -55,21 +51,24 @@
             _shape         = [NSString stringWithFormat:@"%@",dict[GM_Argument_shape]];
             _threshold     = [NSString stringWithFormat:@"%@",dict[GM_Argument_threshold]];
             _update_time   = [NSString stringWithFormat:@"%@",dict[GM_Argument_update_time]];
-            NSArray *devinfos       = dict[GM_Argument_devinfo];
-            NSMutableArray *mArray  = [NSMutableArray array];
-            for (NSDictionary *obj in devinfos) {
-                GMDevInOut *devInOut    = [[GMDevInOut alloc] init];
-                devInOut.devid          = [NSString stringWithFormat:@"%@",obj[GM_Argument_devid]];
-                devInOut.dev_in         = [NSString stringWithFormat:@"%@",obj[GM_Argument_in]];
-                devInOut.dev_out        = [NSString stringWithFormat:@"%@",obj[GM_Argument_out]];
-                [mArray addObject:devInOut];
+            NSArray *devinfos = dict[GM_Argument_devinfo];
+            if (devinfos.count != 0) {
+                NSMutableArray *mArray  = [NSMutableArray array];
+                for (NSDictionary *obj in devinfos) {
+                    GMDevInOut *devInOut    = [[GMDevInOut alloc] init];
+                    devInOut.devid          = [NSString stringWithFormat:@"%@",obj[GM_Argument_devid]];
+                    devInOut.dev_in         = [NSString stringWithFormat:@"%@",obj[GM_Argument_in]];
+                    devInOut.dev_out        = [NSString stringWithFormat:@"%@",obj[GM_Argument_out]];
+                    [mArray addObject:devInOut];
+                }
+                _devinfos = [mArray copy];
             }
-            _devinfos = [mArray copy];
         }
     }
     return self;
 }
 
+#if 0
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
@@ -97,8 +96,21 @@
         [aCoder encodeObject:value forKey:keyName];
     }
 }
+#endif
+
+@end
+
+
+@implementation GMDevInOut
+
+GMCodingImplementation
+
 - (void)dealloc
 {
     GMLog(@"%@->dealloc",NSStringFromClass([self class]));
 }
+
 @end
+
+
+

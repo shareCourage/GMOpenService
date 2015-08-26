@@ -29,4 +29,18 @@
  */
 + (NSString *)getNowDateTimezone;
 
+/**
+ *  金额转大写
+ *
+ */
++ (NSString *)digitUppercaseWithMoney:(NSString *)money;
+
 @end
+
+
+
+
+
+
+
+

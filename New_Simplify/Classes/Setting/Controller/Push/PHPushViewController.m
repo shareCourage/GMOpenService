@@ -5,7 +5,6 @@
 //  Created by Kowloon on 15/6/29.
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
-#define PH_Input_Height 300
 
 #define PH_Chinese  @"中文"
 #define PH_English  @"English"
@@ -37,8 +36,6 @@
 @property (nonatomic, strong)NSIndexPath *selectedIndexPath;
 @property (nonatomic, strong)PHSettingItem *selectedItem;
 
-@property (nonatomic, weak)UIDatePicker *datePicker;
-
 @end
 
 @implementation PHPushViewController
@@ -56,29 +53,9 @@
     [_pushM getPushInfoWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(GMPushInfo *pushInfo) {
         [self loadTableViewData:pushInfo];
     } failureBlock:nil];
-    UIView *inputView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame), PH_Input_Height)];
-    UIToolbar *tool = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.inputView.frame), 30)];
     
-    UIDatePicker *picker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 30, CGRectGetWidth(self.inputView.frame), 260)];
-    [picker addTarget:self action:@selector(datePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
-    picker.datePickerMode = UIDatePickerModeTime;
-    [inputView addSubview:tool];
-    [inputView addSubview:picker];
-    [self.view addSubview:inputView];
-    
-    self.datePicker = picker;
-    
-//    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick)]];
 }
-- (void)tapClick
-{
-    PHLog(@"tapClick");
-    [self pickViewAnimation:self.datePicker willHidden:YES];
-}
-- (void)datePickerValueChanged:(UIDatePicker *)sender
-{
-    PHLog(@"%@",sender.date);
-}
+
 - (void)loadTableViewData:(GMPushInfo *)push
 {
     [self.dataSource removeAllObjects];
@@ -105,7 +82,7 @@
         alarmType.subtitle = PH_InOut;
     }
     else {
-        alarmType.subtitle = PH_InOut;
+        alarmType.subtitle = push.alarmType;
     }
     alarmType.option = ^{
         [ws alertViewShow:nil actionOne:PH_In actionTwo:PH_Out actionThree:PH_InOut];
@@ -143,21 +120,19 @@
     PHSettingItem *timeZone = [PHSettingArrowItem itemWithTitle:PH_Push_timeZone];
     timeZone.subtitle = push.timeZone;
     timeZone.option = ^{
-        [ws alertViewShow:nil actionOne:@"28800" actionTwo:@"29600" actionThree:nil];
+        [ws alertViewShow:nil actionOne:@"28800" actionTwo:@"29600" actionThree:@"30400"];
     };
     
     PHSettingItem *start = [PHSettingArrowItem itemWithTitle:PH_Push_startTime];
     start.subtitle = push.startTime;
     start.option = ^{
-//        [ws alertViewShow:nil actionOne:@"0" actionTwo:@"720" actionThree:@"1200"];
-        [self pickViewAnimation:self.datePicker willHidden:NO];
+        [ws alertViewShow:nil actionOne:@"0" actionTwo:@"720" actionThree:@"1200"];
     };
     
     PHSettingItem *end = [PHSettingArrowItem itemWithTitle:PH_Push_endTime];
     end.subtitle = push.endTime;
     end.option = ^{
-//        [ws alertViewShow:nil actionOne:@"0" actionTwo:@"720" actionThree:@"1200"];
-        [self pickViewAnimation:self.datePicker willHidden:NO];
+        [ws alertViewShow:nil actionOne:@"0" actionTwo:@"720" actionThree:@"1200"];
     };
     
     PHSettingGroup *groupOne = [[PHSettingGroup alloc] init];
@@ -255,19 +230,7 @@
 }
 
 
-- (void)pickViewAnimation:(UIView*)view willHidden:(BOOL)hidden {
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        if (hidden) {
-            view.frame = CGRectMake(0, CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame), 260);
-        } else {
-            [view setHidden:hidden];
-            view.frame = CGRectMake(0, CGRectGetHeight(self.view.frame) - 245, CGRectGetWidth(self.view.frame), 260);
-        }
-    } completion:^(BOOL finished) {
-        [view setHidden:hidden];
-    }];
-}
+
 
 @end
 

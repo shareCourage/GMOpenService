@@ -9,19 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface GMAlarmInfo : NSObject <NSCoding>
-/**
- *  
- "alarm_time" = 8;
- course = 6;
- des = 9;
- "gps_time" = 2;
- id = 0;
- lat = 4;
- lng = 3;
- speed = 5;
- status = 7;
- "type_id" = 1;
- */
 
 @property(nonatomic, copy, readonly)NSString *alartTime;
 @property(nonatomic, copy, readonly)NSString *course;
@@ -38,7 +25,19 @@
 
 @end
 
-
+/**
+ *
+ "alarm_time" = 8;
+ course = 6;
+ des = 9;
+ "gps_time" = 2;
+ id = 0;
+ lat = 4;
+ lng = 3;
+ speed = 5;
+ status = 7;
+ "type_id" = 1;
+ */
 
 
 

@@ -10,6 +10,7 @@
 #import "GMNetworkManager.h"
 #import "GMTool.h"
 #import "GMConstant.h"
+#import "GMDeviceInfo.h"
 @interface GMNearbyManager ()
 
 @end
@@ -131,6 +132,31 @@
         msg.length == 0 ? (value = YES) : (value = NO);
         if (success) success(value);
     } failureBlock:failure];
+}
+
+
+- (BOOL)reverseGeocode:(CLLocationCoordinate2D *)coords count:(NSUInteger)count completionBlock:(GMOptionArray)success failureBlock:(GMOptionError)failure
+{
+    NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
+    if (appid.length == 0 || count <= 0) return NO;
+    NSString *mapType = [GMTool mapType:self.mapType];
+    NSArray *array = [GMTool coordinates:coords count:count];
+    GMNetworkManager *manager = [GMNetworkManager manager];
+    id operation = [manager reverseGecodeWithAppID:appid
+                                      reverseArray:array
+                                           mapType:mapType
+                                      successBlock:^(NSDictionary *dict) {
+//                                          GMLog(@"%@",dict);
+                                          NSArray *data = dict[GM_Argument_data];
+                                          NSMutableArray *mArray = [NSMutableArray array];
+                                          for (NSDictionary *obj in data) {
+                                              GMGeocodeResult *result = [[GMGeocodeResult alloc] initWithDict:obj];
+                                              [mArray addObject:result];
+                                          }
+                                          success([mArray copy]);
+                                      }
+                                      failureBlock:failure];
+    return operation == nil ? NO : YES;
 }
 
 @end

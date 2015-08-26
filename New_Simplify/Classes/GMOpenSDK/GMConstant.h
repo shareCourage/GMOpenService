@@ -21,7 +21,7 @@
 #define GM_GetAlarm_URL      @"http://open-dev.gpsoo.net/1/alarm/gethis"
 #define GM_GetPushInfo_URL   @"http://open-dev.gpsoo.net/1/device/getpushinfo"
 #define GM_UpdatePushType_URL @"http://open-dev.gpsoo.net/1/device/updatepushinfo"
-
+#define GM_ReverseGecode_URL  @"http://open-dev.gpsoo.net/1/address/trans"
 
 //#define GM_UniqueId_URL      @"http://open.goome.net/1/uniqueid/get?appid="
 //#define GM_Open_URL          @"http://open.goome.net/1/device/"
@@ -41,6 +41,7 @@
 //#define GM_APNS_Provider_URL @"http://wx-test.gpsoo.net/1/push/getchannelid"
 //#define GM_GetPushInfo_URL   @"http://open.goome.net/1/device/getpushinfo"
 //#define GM_UpdatePushType_URL @"http://open.goome.net/1/device/updatepushinfo"
+//#define GM_ReverseGecode_URL  @"http://open.goome.net/1/address/trans"
 
 #define GM_Argument_appid       @"appid"
 #define GM_Argument_devid       @"devid"
@@ -96,6 +97,8 @@
 #define GM_Argument_start_time  @"start_time"
 #define GM_Argument_version     @"version"
 
+#define GM_Argument_address     @"address"
+
 #define GM_KeyOfAppid           @"keyOfGoomeAppid"
 #define GM_KeyOfChannelid       @"keyOfChannelid"
 #define GM_UserDefaults         [NSUserDefaults standardUserDefaults]
@@ -109,4 +112,32 @@
 #define GMLog(...)
 #endif
 
+
+#define GMCodingImplementation \
+- (id)initWithCoder:(NSCoder *)aDecoder \
+{ \
+    self = [super init]; \
+    if (self) { \
+        unsigned int outCount, i; \
+        Ivar *ivars = class_copyIvarList([self class], &outCount); \
+        for (i = 0; i < outCount; i++) { \
+            Ivar property = ivars[i]; \
+            NSString *keyName = [NSString stringWithCString:ivar_getName(property) encoding:NSUTF8StringEncoding]; \
+            id value = [aDecoder decodeObjectForKey:keyName]; \
+            [self setValue:value forKey:keyName]; \
+        } \
+    } \
+    return self; \
+} \
+- (void)encodeWithCoder:(NSCoder *)aCoder \
+{ \
+    unsigned int outCount, i; \
+    Ivar *ivars = class_copyIvarList([self class], &outCount); \
+    for (i = 0; i < outCount; i++) { \
+        Ivar property = ivars[i]; \
+        NSString *keyName = [NSString stringWithCString:ivar_getName(property) encoding:NSUTF8StringEncoding]; \
+        id value = [self valueForKey:keyName]; \
+        [aCoder encodeObject:value forKey:keyName]; \
+    } \
+}
 

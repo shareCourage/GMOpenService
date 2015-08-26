@@ -8,13 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
-#import "GMManager.h"
+@class GMManager;
 
 @interface GMTool : NSObject
 
 + (NSString *)mapType:(GMMapType)mapType;
 
 + (NSString *)polygonArea:(CLLocationCoordinate2D *)coords count:(NSUInteger)count;
+
++ (NSArray *)coordinates:(CLLocationCoordinate2D *)coords count:(NSUInteger)count;
 
 + (NSString *)getSystemLangague;//带zh的都转化成zh-CN，其它均为en
 
