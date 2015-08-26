@@ -15,12 +15,12 @@ typedef void (^GMOptionPushInfo)(GMPushInfo *pushInfo);
 @interface GMPushManager : GMManager
 
 /**
- *  语言类型， 例如：zh-CN , en
+ *  语言类型，例如：中文@"zh-CN" , 英文@"en"
  */
 @property (nonatomic, copy)NSString *lang;
 
 /**
- *  需要推送的报警类型，逗号隔开，如：1,2 表示推送进出围栏报警
+ *  需要推送的报警类型，例如：进围栏@"1", 出围栏@"2", 进出围栏@"1,2"
  */
 @property (nonatomic, copy)NSString *alarmType;
 
@@ -30,12 +30,12 @@ typedef void (^GMOptionPushInfo)(GMPushInfo *pushInfo);
 @property (nonatomic, strong)NSNumber *timeZone;
 
 /**
- *  收到报警时是否声音提醒，0：不提醒；1：提醒
+ *  收到报警时是否声音提醒，0：不提醒， 1：提醒
  */
 @property (nonatomic, strong)NSNumber *sound;
 
 /**
- *  收到报警时是否震动提醒，0：不提醒；1：提醒
+ *  收到报警时是否震动提醒，0：不提醒， 1：提醒
  */
 @property (nonatomic, strong)NSNumber *shake;
 
