@@ -16,7 +16,7 @@ GMCodingImplementation
 
 - (void)dealloc
 {
-    GMLog(@"%@->dealloc",NSStringFromClass([self class]));
+//    GMLog(@"%@->dealloc",NSStringFromClass([self class]));
 }
 
 - (instancetype)initWithDict:(NSDictionary *)dict
@@ -47,7 +47,7 @@ GMCodingImplementation
 
 - (void)dealloc
 {
-    GMLog(@"%@->dealloc",NSStringFromClass([self class]));
+//    GMLog(@"%@->dealloc",NSStringFromClass([self class]));
 }
 
 - (instancetype)initWithDict:(NSDictionary *)dict

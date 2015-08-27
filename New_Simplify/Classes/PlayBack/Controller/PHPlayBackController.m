@@ -46,7 +46,6 @@
     [self addNavigationBarTitleItem];
     [self addNavigationRightItem];
     [self fileViewImplementation];
-    [self loadHistoryDataToLocal];
 }
 - (void)addNavigationRightItem
 {
@@ -108,6 +107,8 @@
         historys = [self.hisM selectAllOfHistoryInfosWithDevice:[[PHHistoryLoc alloc] init] orderBy:GMOrderByASC];
     }
     [self.playBackMapView playBackViewWillAppearWithHistorys:historys];
+    
+    [self loadHistoryDataToLocal];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -116,9 +117,15 @@
 }
 - (void)loadHistoryDataToLocal//把服务器近两个月时间的数据全部加载到本地
 {
+    
+    NSArray *historys = [self.hisM selectAllOfHistoryInfosWithDevice:[[PHHistoryLoc alloc] init] orderBy:GMOrderByASC];
+    PHHistoryLoc *hisLoc = [historys lastObject];
+    PHLog(@"数据库总个数-》%ld个",historys.count);
+
     NSTimeInterval start = [NSDate date].timeIntervalSince1970 - 2 * 30 * 24 * 60 * 60;
+    self.hisM.startTime = hisLoc.gps_time == nil ? [NSString stringWithFormat:@"%.f",start] : hisLoc.gps_time;
+    
     NSTimeInterval end = [NSDate date].timeIntervalSince1970;
-    self.hisM.startTime = [NSString stringWithFormat:@"%.f",start];
     self.hisM.endTime = [NSString stringWithFormat:@"%.f",end];
     [self.hisM getHistoryInformationAndSaveToLocalDatabaseWithCompletion:nil];
 }//1428055152

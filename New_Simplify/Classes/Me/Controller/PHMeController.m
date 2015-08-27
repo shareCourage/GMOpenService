@@ -186,12 +186,12 @@
 - (void)reverseTest
 {
     GMNearbyManager *nearby = [GMNearbyManager manager];
-    nearby.mapType = GMMapTypeOfGAODE;
+    nearby.mapType = GMMapTypeOfBAIDU;
     CLLocationCoordinate2D *coords = malloc(sizeof(CLLocationCoordinate2D) * 4);
     coords[0] = CLLocationCoordinate2DMake(40.028830, 116.405911);
     coords[1] = CLLocationCoordinate2DMake(40.128830, 116.505911);
-    coords[2] = CLLocationCoordinate2DMake(22.599726, 114.055489); //广东省.深圳市.宝安区.梅坂大道.离南粤港酒楼约41米
-    coords[3] = CLLocationCoordinate2DMake(21.589726, 114.155489);
+    coords[2] = CLLocationCoordinate2DMake(22.495926, 113.940489); //广东省.深圳市.宝安区.梅坂大道.离南粤港酒楼约41米
+    coords[3] = CLLocationCoordinate2DMake(22.442726, 114.151489);
     [nearby reverseGeocode:coords count:4 completionBlock:^(NSArray *array) {
         for (GMGeocodeResult *result in array) {
             PHLog(@"%@, %.6f, %.6f",result.address, result.location.latitude, result.location.longitude);

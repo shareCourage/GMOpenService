@@ -35,6 +35,13 @@
     if (!launchingOption) return;
 }
 
++ (void)handleRemoteNotification:(NSDictionary *)remoteInfo
+{
+    if (remoteInfo) {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    }
+}
+
 + (void)registerDeviceToken:(NSData *)deviceToken 
 {
     GMNetworkManager *manager = [GMNetworkManager manager];
@@ -55,14 +62,6 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
     } failureBlock:nil];
-}
-
-+ (void)handleRemoteNotification:(NSDictionary *)remoteInfo
-{
-    if (remoteInfo) {
-        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    }
-
 }
 
 - (BOOL)updatePushTypeWithDevid:(NSString *)devid completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure

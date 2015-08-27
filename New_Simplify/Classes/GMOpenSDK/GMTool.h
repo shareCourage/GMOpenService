@@ -17,6 +17,7 @@
 + (NSString *)polygonArea:(CLLocationCoordinate2D *)coords count:(NSUInteger)count;
 
 + (NSArray *)coordinates:(CLLocationCoordinate2D *)coords count:(NSUInteger)count;
++ (NSArray *)coordinates:(CLLocationCoordinate2D *)coords count:(NSUInteger)count mapType:(NSString *)mapType;
 
 + (NSString *)getSystemLangague;//带zh的都转化成zh-CN，其它均为en
 

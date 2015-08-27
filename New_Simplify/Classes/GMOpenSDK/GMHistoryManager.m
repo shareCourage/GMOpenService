@@ -222,7 +222,7 @@
 //FIXME:limit暂时都置为空，保持默认状态
 - (void)downloadData:(NSString *)beginStr end:(NSString *)endStr appid:(NSString *)appid deviceId:(NSString *)deviceId mapType:(NSString *)mapType limit:(NSString *)limit
 {
-    GMNetworkManager *manager = [GMNetworkManager manager];
+    GMNetworkManager *manager = [GMNetworkManager manager];//1440664708  1440668961
     [manager acquireMyOwnDeviceHistoryLocationWithAppID:appid
                                                   devID:deviceId
                                               beginTime:beginStr
@@ -230,22 +230,22 @@
                                                 mapType:mapType
                                             numberLimit:self.numberLimit
                                               withBlock:^(NSDictionary *dict) {//这个block会被AF安置在主线程执行，所以，内部需要在子线程执行的，仍需要主动调用子线程方法
-        dispatch_async(_global, ^{
-            NSArray *array = [self dictionary:dict deviceId:deviceId];
-            if (array.count == 0) return;
-            if (array.count >= GM_MaxNumberOfHistory) {
-                GMDeviceInfo *lastDevice = [array lastObject];
-                [self downloadData:lastDevice.gps_time
-                               end:self.endTime
-                             appid:appid
-                          deviceId:deviceId
-                           mapType:mapType
-                             limit:self.numberLimit];
-            }
-            else {
-                if (self.completionBlock) self.completionBlock();
-            }
-        });
+                dispatch_async(_global, ^{
+                    NSArray *array = [self dictionary:dict deviceId:deviceId];
+                    if (array.count == 0) return;
+                    if (array.count >= GM_MaxNumberOfHistory) {
+                        GMDeviceInfo *lastDevice = [array lastObject];
+                        [self downloadData:lastDevice.gps_time
+                                       end:self.endTime
+                                     appid:appid
+                                  deviceId:deviceId
+                                   mapType:mapType
+                                     limit:self.numberLimit];
+                    }
+                    else {
+                        if (self.completionBlock) self.completionBlock();
+                    }
+                });
     } withFailureBlock:nil];
 }
 

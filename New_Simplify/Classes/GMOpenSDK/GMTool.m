@@ -94,7 +94,19 @@
     }
     return [mArray copy];
 }
-
++ (NSArray *)coordinates:(CLLocationCoordinate2D *)coords count:(NSUInteger)count mapType:(NSString *)mapType
+{
+    NSMutableArray *mArray = [NSMutableArray array];
+    for (int i = 0; i < count; i ++) {
+        NSMutableDictionary *mDict = [NSMutableDictionary dictionary];
+        CLLocationCoordinate2D coord = coords[i];
+        [mDict setValue:@(coord.longitude) forKey:GM_Argument_lng];
+        [mDict setValue:@(coord.latitude) forKey:GM_Argument_lat];
+        if (mapType.length != 0) [mDict setValue:mapType forKey:GM_Argument_map_type];
+        [mArray addObject:mDict];
+    }
+    return [mArray copy];
+}
 + (NSString *)getSystemLangague
 {
     NSArray *languages      = [NSLocale preferredLanguages];

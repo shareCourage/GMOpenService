@@ -671,7 +671,7 @@
     NSDictionary *parameters = @{GM_Argument_appid : appID,
                                  GM_Argument_data  : array};
     NSMutableDictionary *mParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
-    if (mapType.length != 0) [mParameters setValue:mapType forKey:GM_Argument_map_type];
+//    if (mapType.length != 0) [mParameters setValue:mapType forKey:GM_Argument_map_type];
     __autoreleasing NSError *error = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:mParameters options:NSJSONWritingPrettyPrinted error:&error];
     if (error) return nil;

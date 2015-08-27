@@ -63,7 +63,7 @@
     PHSettingItem *alarm  = [PHSettingSwitchItem itemWithTitle:@"是否开启消息推送"];
     
     PHSettingItem *lang = [PHSettingArrowItem itemWithTitle:PH_Push_lang];
-    [push.lang isEqualToString:@"en"] ? (lang.subtitle = PH_English) : (lang.subtitle = PH_Chinese);
+    if(push.lang.length != 0) [push.lang isEqualToString:@"en"] ? (lang.subtitle = PH_English) : (lang.subtitle = PH_Chinese);
     
     PH_WS(ws);
     lang.option = ^{
