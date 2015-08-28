@@ -95,10 +95,7 @@
     NSDictionary *aps = userInfo[@"aps"];
     NSString *alert = aps[@"alert"];
     NSString *fenceName = nil;
-    NSArray *languages      = [NSLocale preferredLanguages];
-    NSString *curLanguage   = [languages firstObject];//zh+Hans简体中文 en英文 繁体 zh+Hant 香港 zh+HK
-    NSRange range = [curLanguage rangeOfString:@"zh"];
-    if (range.length != NSNotFound){
+    if ([alert containsString:@"开"] || [alert containsString:@"入"]) {
         NSRange range = [alert rangeOfString:@"开"];
         if (range.length == 0) {
             range = [alert rangeOfString:@"入"];
@@ -106,7 +103,7 @@
         NSRange subRange = NSMakeRange(range.location + 1, alert.length - range.location - 1);
         fenceName = [alert substringWithRange:subRange];
     }
-    else {
+    else if ([alert containsString:@"Out"] || [alert containsString:@"In"]){
         alert = [alert stringByReplacingOccurrencesOfString:@" " withString:@","];
         NSArray *alerts = [alert componentsSeparatedByString:@","];
         fenceName = alerts[2];
@@ -114,7 +111,6 @@
             return nil;
         }
     }
-    
     return fenceName;
 }
 #pragma mark - BMKGeneralDelegate
