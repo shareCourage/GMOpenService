@@ -156,30 +156,34 @@
 - (void)alertViewShow:(NSString *)alertTitle actionOne:(NSString *)one actionTwo:(NSString *)two actionThree:(NSString *)three
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    [alertController addAction:[self actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel]];
+    [alertController addAction:[self actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel handler:nil]];
     if (one) {
-        _actionRow = 0;
-        [alertController addAction:[self actionWithTitle:one actionStyle:UIAlertActionStyleDefault]];
+        [alertController addAction:[self actionWithTitle:one actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            _actionRow = 0;
+            [self reloadMyTableViewWithSubtitle:one];
+        }]];
     }
     if (two) {
-        _actionRow = 1;
-        [alertController addAction:[self actionWithTitle:two actionStyle:UIAlertActionStyleDefault]];
+        [alertController addAction:[self actionWithTitle:two actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            _actionRow = 1;
+            [self reloadMyTableViewWithSubtitle:two];
+        }]];
     }
     if (three) {
-        _actionRow = 2;
-        [alertController addAction:[self actionWithTitle:three actionStyle:UIAlertActionStyleDefault]];
+        [alertController addAction:[self actionWithTitle:three actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            _actionRow = 2;
+            [self reloadMyTableViewWithSubtitle:three];
+        }]];
     }
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (UIAlertAction *)actionWithTitle:(NSString *)title actionStyle:(UIAlertActionStyle)style
+- (UIAlertAction *)actionWithTitle:(NSString *)title actionStyle:(UIAlertActionStyle)style handler:(void (^)(UIAlertAction *action))handler
 {
     if (style == UIAlertActionStyleCancel) {
-        return [UIAlertAction actionWithTitle:title style:style handler:nil];
+        return [UIAlertAction actionWithTitle:title style:style handler:handler];
     }
-    return [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
-        [self reloadMyTableViewWithSubtitle:title];
-    }];
+    return [UIAlertAction actionWithTitle:title style:style handler:handler];
     
 }
 - (void)reloadMyTableViewWithSubtitle:(NSString *)subtitle
