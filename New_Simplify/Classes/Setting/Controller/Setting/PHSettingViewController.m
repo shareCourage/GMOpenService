@@ -22,6 +22,8 @@
 #import "PHDeviceInfoController.h"
 #import "PHPushViewController.h"
 #import "PHAlarmInfoController.h"
+#import "PHHistoryLocationController.h"
+#import "PHNearbyPeopleController.h"
 #import "PHSettingGroup.h"
 #import "PHSettingItem.h"
 #import "PHSettingArrowItem.h"
@@ -67,10 +69,7 @@
  */
 - (void)aboutGoome
 {
-    PHSettingItem *about = [PHSettingArrowItem itemWithTitle:PH_Setting_About destVcClass:[PHAboutViewController class]];
-    PHSettingGroup *group = [[PHSettingGroup alloc] init];
-    group.items = @[about];
-    [self.dataSource addObject:group];
+    
 }
 
 /**
@@ -95,8 +94,9 @@
     logout.option = ^{
         [ws.alertView show];
     };
+    PHSettingItem *about = [PHSettingArrowItem itemWithTitle:PH_Setting_About destVcClass:[PHAboutViewController class]];
     PHSettingGroup *group = [[PHSettingGroup alloc] init];
-    group.items = @[logout];
+    group.items = @[about,logout];
     [self.dataSource addObject:group];
 }
 /**
@@ -126,9 +126,14 @@
 }
 
 
-- (void)alarmInformation
+- (void)nearbyAndHistorys
 {
+    PHSettingItem *nearby = [PHSettingArrowItem itemWithTitle:@"附近的人" destVcClass:[PHNearbyPeopleController class]];
+    PHSettingItem *history = [PHSettingArrowItem itemWithTitle:@"历史位置记录" destVcClass:[PHHistoryLocationController class]];
     
+    PHSettingGroup *group = [[PHSettingGroup alloc] init];
+    group.items = @[nearby, history];
+    [self.dataSource addObject:group];
 }
 
 /**
@@ -172,11 +177,14 @@
 //    [self messageTips];
 //    [self uploadMylocation];
     [self setupOffLineMap];
+    
     [self currentDeviceID];
+    
+    [self nearbyAndHistorys];
+    
     [self logOutAccount];
-    [self alarmInformation];
+
 //    [self calculateThePushNumber];
-    [self aboutGoome];
 
 }
 
