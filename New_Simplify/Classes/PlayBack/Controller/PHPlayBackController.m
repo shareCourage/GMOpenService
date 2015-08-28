@@ -127,6 +127,7 @@
     
     NSTimeInterval end = [NSDate date].timeIntervalSince1970;
     self.hisM.endTime = [NSString stringWithFormat:@"%.f",end];
+    PHLog(@"time->%@",self.hisM.endTime);
     [self.hisM getHistoryInformationAndSaveToLocalDatabaseWithCompletion:nil];
 }//1428055152
 #if 1
