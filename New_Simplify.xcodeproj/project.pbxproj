@@ -151,6 +151,9 @@
 		A986AC2B1B538B78006403D3 /* GMOpenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A986AC101B538B78006403D3 /* GMOpenManager.m */; };
 		A986AC2C1B538B78006403D3 /* GMPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A986AC121B538B78006403D3 /* GMPushManager.m */; };
 		A986AC2D1B538B78006403D3 /* GMTool.m in Sources */ = {isa = PBXBuildFile; fileRef = A986AC141B538B78006403D3 /* GMTool.m */; };
+		A9A0285C1B90599800FC090D /* PHNearbyPeopleController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A0285B1B90599800FC090D /* PHNearbyPeopleController.m */; };
+		A9A0285F1B9059AA00FC090D /* PHHistoryLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A0285E1B9059AA00FC090D /* PHHistoryLocationController.m */; };
+		A9A028631B905AEE00FC090D /* PHHeatMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A028621B905AEE00FC090D /* PHHeatMapController.m */; };
 		A9C05DB11B5CD4C600FB34B8 /* GMFenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C05DB01B5CD4C600FB34B8 /* GMFenceInfo.m */; };
 		A9D39CB71B8B2B5900F998D8 /* GMPushInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D39CB61B8B2B5900F998D8 /* GMPushInfo.m */; };
 		A9DFA4B41B84845200F695BD /* PHAlarmDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DFA4B31B84845200F695BD /* PHAlarmDetailController.m */; };
@@ -419,6 +422,12 @@
 		A986AC121B538B78006403D3 /* GMPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMPushManager.m; sourceTree = "<group>"; };
 		A986AC131B538B78006403D3 /* GMTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMTool.h; sourceTree = "<group>"; };
 		A986AC141B538B78006403D3 /* GMTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMTool.m; sourceTree = "<group>"; };
+		A9A0285A1B90599800FC090D /* PHNearbyPeopleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNearbyPeopleController.h; sourceTree = "<group>"; };
+		A9A0285B1B90599800FC090D /* PHNearbyPeopleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNearbyPeopleController.m; sourceTree = "<group>"; };
+		A9A0285D1B9059AA00FC090D /* PHHistoryLocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHHistoryLocationController.h; sourceTree = "<group>"; };
+		A9A0285E1B9059AA00FC090D /* PHHistoryLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHistoryLocationController.m; sourceTree = "<group>"; };
+		A9A028611B905AEE00FC090D /* PHHeatMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHHeatMapController.h; sourceTree = "<group>"; };
+		A9A028621B905AEE00FC090D /* PHHeatMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHeatMapController.m; sourceTree = "<group>"; };
 		A9C05DAF1B5CD4C600FB34B8 /* GMFenceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMFenceInfo.h; sourceTree = "<group>"; };
 		A9C05DB01B5CD4C600FB34B8 /* GMFenceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMFenceInfo.m; sourceTree = "<group>"; };
 		A9D39CB51B8B2B5900F998D8 /* GMPushInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMPushInfo.h; sourceTree = "<group>"; };
@@ -1049,6 +1058,9 @@
 		A91B55211B4B85C10042024A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A9A028601B905ADB00FC090D /* HeatMap */,
+				A9A028581B9058D000FC090D /* HistoryLocation */,
+				A9A028591B9058D000FC090D /* NearbyPeople */,
 				A9F362E61B831570004DED58 /* AlarmInfo */,
 				A91B55221B4B85C10042024A /* About */,
 				A91B55251B4B85C10042024A /* AccountLink */,
@@ -1435,6 +1447,33 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
+		A9A028581B9058D000FC090D /* HistoryLocation */ = {
+			isa = PBXGroup;
+			children = (
+				A9A0285D1B9059AA00FC090D /* PHHistoryLocationController.h */,
+				A9A0285E1B9059AA00FC090D /* PHHistoryLocationController.m */,
+			);
+			path = HistoryLocation;
+			sourceTree = "<group>";
+		};
+		A9A028591B9058D000FC090D /* NearbyPeople */ = {
+			isa = PBXGroup;
+			children = (
+				A9A0285A1B90599800FC090D /* PHNearbyPeopleController.h */,
+				A9A0285B1B90599800FC090D /* PHNearbyPeopleController.m */,
+			);
+			path = NearbyPeople;
+			sourceTree = "<group>";
+		};
+		A9A028601B905ADB00FC090D /* HeatMap */ = {
+			isa = PBXGroup;
+			children = (
+				A9A028611B905AEE00FC090D /* PHHeatMapController.h */,
+				A9A028621B905AEE00FC090D /* PHHeatMapController.m */,
+			);
+			path = HeatMap;
+			sourceTree = "<group>";
+		};
 		A9F362E61B831570004DED58 /* AlarmInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1652,6 +1691,7 @@
 				A91B55B71B4B85C10042024A /* PHFilterView.m in Sources */,
 				A91B55C11B4B85C10042024A /* PHAcountLinkViewController.m in Sources */,
 				A91B55B91B4B85C10042024A /* PHPlayAnnotationView.m in Sources */,
+				A9A0285F1B9059AA00FC090D /* PHHistoryLocationController.m in Sources */,
 				A986AC241B538B78006403D3 /* GMNetworkReachabilityManager.m in Sources */,
 				A91B55A61B4B85C10042024A /* PHMeController.m in Sources */,
 				A986AC2D1B538B78006403D3 /* GMTool.m in Sources */,
@@ -1689,6 +1729,7 @@
 				A91B55B61B4B85C10042024A /* PHFilterButton.m in Sources */,
 				A91B55A31B4B85C10042024A /* PHTabBarController.m in Sources */,
 				A91B55D11B4B85C10042024A /* PHDownloadMapCell.m in Sources */,
+				A9A028631B905AEE00FC090D /* PHHeatMapController.m in Sources */,
 				A91B55B51B4B85C10042024A /* PHEndAnnotationView.m in Sources */,
 				A986AC1B1B538B78006403D3 /* GMDeviceInfo.m in Sources */,
 				A986AC211B538B78006403D3 /* GMHTTPRequestOperation.m in Sources */,
@@ -1719,6 +1760,7 @@
 				A91B55C01B4B85C10042024A /* PHAboutViewController.m in Sources */,
 				A91B55C71B4B85C10042024A /* PHPushViewController.m in Sources */,
 				A91B55901B4B85C10042024A /* NSString+PHCategory.m in Sources */,
+				A9A0285C1B90599800FC090D /* PHNearbyPeopleController.m in Sources */,
 				A91B55CF1B4B85C10042024A /* PHSearchRecord.m in Sources */,
 				A91B54571B4B81EE0042024A /* main.m in Sources */,
 				A91B55961B4B85C10042024A /* UITextField+PHCategory.m in Sources */,
