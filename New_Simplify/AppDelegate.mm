@@ -5,16 +5,17 @@
 //  Created by Kowloon on 15/7/7.
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
-#define GM_Appid @"23"
+#define GM_Appid [PH_UserDefaults objectForKey:PH_UniqueAppid]
 #import "AppDelegate.h"
 #import "PHLoginController.h"
 #import <BaiduMapAPI/BMapKit.h>
 #import "GMOpenKit.h"
+#import "PHNavigationController.h"
+
 @interface AppDelegate ()<BMKGeneralDelegate>
 {
     BMKMapManager * _bmkManager;
 }
-@property(nonatomic, strong)PHLoginController *loginVC;
 
 @end
 
@@ -26,20 +27,16 @@
 {
     _bmkManager = [[BMKMapManager alloc] init];
     BOOL flag = [_bmkManager start:PH_BaiduMap_AppKey generalDelegate:self];
-    if (flag) {
-        PHLog(@"bmk->success");
-    }
-    else
-    {
-        PHLog(@"bmk->fail");
-    }
+    flag ? PHLog(@"bmk->success") : PHLog(@"bmk->fail");
 }
 - (void)validateTheGMAppid
 {
     GMOpenManager *open = [GMOpenManager manager];
-    [open validateWithKey:GM_Appid completionBlock:^(GMOpenPermissionStatus status) {
-        if (status == GMOpenPermissionStatusOfSuccess) PHLog(@"appid validate success");
+    NSString *appid = GM_Appid;
+    [open validateWithKey:appid completionBlock:^(GMOpenPermissionStatus status) {
+        status == GMOpenPermissionStatusOfSuccess ? PHLog(@"appid validate success") : PHLog(@"appid validate failure");
     }];
+    
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -56,9 +53,7 @@
     if (!PH_BoolForKey(PH_LoginSuccess)) {
         self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         [self.window makeKeyAndVisible];
-        PHLoginController *login = [[PHLoginController alloc] init];
-        self.loginVC = login;
-        self.window.rootViewController = login;
+        [PHTool loginViewControllerImplementation];
     }
     
     return YES;
@@ -68,6 +63,7 @@
 {
     PHLog(@"deviceToken ->%@",deviceToken);
     [GMPushManager registerDeviceToken:deviceToken];
+    [PH_UserDefaults setObject:deviceToken forKey:PH_UniqueDevicetoken];
 }
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
