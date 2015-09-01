@@ -16,7 +16,7 @@
 #import "PHFenceMapController.h"
 #import "MJRefresh.h"
 
-@interface PHFenceListController ()<PHFenceMapControllerDelegate,MBProgressHUDDelegate,UIGestureRecognizerDelegate>
+@interface PHFenceListController ()<PHFenceMapControllerDelegate,UIGestureRecognizerDelegate>
 {
     BOOL _lanchingPHFenceMapControllerDelegate;//这个参数只用在PHFenceMapControllerDelegate协议方法里面，当该协议被触发时，设置该值为YES
 }
@@ -48,7 +48,6 @@
     PHLog(@"PHFenceListController.h->dealloc");
 }
 - (void)viewDidLoad {
-//    [self testTap];
     [super viewDidLoad];
     self.title = PH_FenceListTitle;
     [self barButtonItemImplementation];
@@ -86,7 +85,8 @@
     deleteItem.tintColor = [UIColor blueColor];
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFence)];
     addItem.tintColor = [UIColor blueColor];
-    self.navigationItem.rightBarButtonItems = @[deleteItem, addItem];
+    self.navigationItem.rightBarButtonItem = addItem;
+//    self.navigationItem.rightBarButtonItems = @[deleteItem, addItem];
 }
 //UIBarButtonItem->deleteFence执行，开启tableView的删除模式
 - (void)deleteFence
@@ -109,11 +109,35 @@
     PH_WS(ws);//相当于 __weak ws = self;防止block导致的循环引用
     GMFenceManager *fence = [GMFenceManager manager];
     fence.mapType = GMMapTypeOfBAIDU;
+#if 0
     [fence inquireFenceWithDeviceId:[PHTool getDeviceIdFromUserDefault] successBlock:^(NSDictionary *dict){
         if (dict) {
             [ws.dataSource removeAllObjects];
             ws.dataSource = nil;
             ws.dataSource = [[NSMutableArray alloc] initWithArray:[PHDevFenceInfo createWithDict:dict]];
+            if (ws.dataSource.count != 0) {
+                if ([PHTool encoderObjectArray:ws.dataSource path:ws.fenceFilePath]) {
+                    PHLog(@"归档成功");
+                }
+                else{
+                    PHLog(@"归档失败");
+                }
+            }
+            [ws.tableView.header endRefreshing];
+            [ws.tableView reloadData];
+        }
+    } failureBlock:^(NSError *error) {
+        if (error) {
+            PHLog(@"%@",error);
+        }
+        [ws.tableView.header endRefreshing];
+    }];
+#endif
+    [fence inquireFenceWithDeviceId:[PHTool getDeviceIdFromUserDefault] successBlockArray:^(NSArray *array) {
+        if (array.count != 0) {
+            [ws.dataSource removeAllObjects];
+            ws.dataSource = nil;
+            ws.dataSource = [[NSMutableArray alloc] initWithArray:array];
             if (ws.dataSource.count != 0) {
                 if ([PHTool encoderObjectArray:ws.dataSource path:ws.fenceFilePath]) {
                     PHLog(@"归档成功");
@@ -149,15 +173,24 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    GMDeviceFence *devFence = self.dataSource[indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@,围栏号:%@",devFence.name.length != 0 ? devFence.name : @"无" ,devFence.fenceid];
+    cell.detailTextLabel.text = devFence.area;
+#if 0
     PHDevFenceInfo *fenceInfo = self.dataSource[indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@,围栏号:%@",fenceInfo.name.length != 0 ? fenceInfo.name : @"无" ,fenceInfo.fenceid];
     cell.detailTextLabel.text = fenceInfo.area;
+#endif
     return cell;
 }
+
+#if 1
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return @"我来删除你了";
+    return @"删除";
 }
+#endif
+
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return UITableViewCellEditingStyleDelete;
@@ -172,27 +205,26 @@
          *3、删除服务器上的数据
          *4、如果做了本地数据库保存，同样需要删除
          */
-        PHLog(@"delete ...");
 #if 1
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
-        hud.delegate = self;
-        hud.labelText = PH_MBProgress_Deleting;
+        [MBProgressHUD showMessage:PH_MBProgress_Deleting toView:self.view];
         PH_WS(ws);
         GMFenceManager *fence = [GMFenceManager manager];
         [fence deleteFenceWithFenceId:fenceInfo.fenceid completionBlock:^(BOOL success) {
+            [MBProgressHUD hideHUDForView:ws.view animated:YES];
             if (success) {
                 [ws.dataSource removeObjectAtIndex:indexPath.row];//1 删除数据源
                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];//2 tableView的删除
                 [PHTool encoderObjectArray:ws.dataSource path:ws.fenceFilePath];//4、对数据的重新归档，就相当于删除
-                [ws mbProgressHudDeleteFail:hud lableText:PH_MBProgress_SuccessOfDelete];
+                [MBProgressHUD showSuccess:PH_MBProgress_SuccessOfDelete toView:ws.view];
                 PHLog(@"delete success");
             }
             else {
-                [ws mbProgressHudDeleteFail:hud lableText:PH_MBProgress_FailureOfDelete];
+                [MBProgressHUD showError:PH_MBProgress_FailureOfDelete toView:ws.view];
             }
+            
         } failureBlock:^(NSError *error) {
             if (error) {
-                [ws mbProgressHudDeleteFail:hud lableText:PH_MBProgress_FailureOfDelete];
+                [MBProgressHUD showError:PH_MBProgress_FailureOfDelete toView:ws.view];
                 PHLog(@"delete failure");
             }
         }];
@@ -211,18 +243,6 @@
     [self.navigationController pushViewController:map animated:YES];
 }
 
-- (void)mbProgressHudDeleteFail:(MBProgressHUD *)hud lableText:(NSString *)text
-{
-    hud.labelText = text;
-    [hud hide:YES afterDelay:0.3f];
-}
-
-#pragma mark - MBProgressHUDDelegate
-- (void)hudWasHidden:(MBProgressHUD *)hud
-{
-    [hud removeFromSuperview];
-    hud = nil;
-}
 
 #pragma mark - PHFenceMapControllerDelegate
 - (void)fenceMapController:(PHFenceMapController *)controller
