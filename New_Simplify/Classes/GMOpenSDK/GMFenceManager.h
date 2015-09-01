@@ -8,7 +8,9 @@
 
 #import "GMManager.h"
 #import <CoreLocation/CoreLocation.h>
-#import "GMFenceInfo.h"
+@class GMFenceInfo;
+@class GMDeviceFence;
+@class GMNumberFence;
 
 typedef NS_ENUM(NSInteger, GMFenceShape) {
     GMFenceShapeOfCircle,
@@ -17,6 +19,8 @@ typedef NS_ENUM(NSInteger, GMFenceShape) {
 
 
 typedef void (^GMOptionFenceInfo)(GMFenceInfo *fenceInfo);
+typedef void (^GMOptionDeviceFence)(GMDeviceFence *deviceFence);
+typedef void (^GMOptionNumberFence)(GMNumberFence *numberFence);
 
 @interface GMFenceManager : GMManager
 
@@ -108,7 +112,7 @@ typedef void (^GMOptionFenceInfo)(GMFenceInfo *fenceInfo);
 - (void)inquireFenceWithDeviceId:(NSString *)deviceId successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure;
 
 /**
- *  根据设备号查询围栏，回调block中的数组指定GMFenceInfo模型
+ *  根据设备号查询围栏，回调block中的数组指定GMDeviceFence模型
  *
  */
 - (void)inquireFenceWithDeviceId:(NSString *)deviceId successBlockArray:(GMOptionArray)success failureBlock:(GMOptionError)failure;
@@ -130,7 +134,7 @@ typedef void (^GMOptionFenceInfo)(GMFenceInfo *fenceInfo);
  *
  *  返回一个GMFenceInfo模型block
  */
-- (void)inquireFenceWithFenceId:(NSString *)fenceId successBlockFenceInfo:(GMOptionFenceInfo)success failureBlock:(GMOptionError)failure;
+- (void)inquireFenceWithFenceId:(NSString *)fenceId successBlockFenceInfo:(GMOptionNumberFence)success failureBlock:(GMOptionError)failure;
 
 
 
