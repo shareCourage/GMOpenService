@@ -11,8 +11,21 @@
 
 @interface GMFenceInfo : NSObject<NSCoding>
 
+
+@property(nonatomic, copy)NSString *area;
+@property(nonatomic, copy)NSString *enable;
+@property(nonatomic, copy)NSString *fenceid;
+@property(nonatomic, copy)NSString *name;
+@property(nonatomic, copy)NSString *shape;
+@property(nonatomic, copy)NSString *threshold;
+@property(nonatomic, copy)NSString *update_time;
+
+
+@end
+
+
 /**
- 通过设备号获取的围栏信息
+ *  通过设备号获取的围栏信息
  area = "22.543140,113.989880,2179";
  devid = 1234567890;
  enable = 0;
@@ -23,9 +36,22 @@
  shape = 1;
  threshold = 3;
  "update_time" = 1431337640;
- 
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 通过围栏号获取的围栏信息
+ */
+@interface GMDeviceFence : GMFenceInfo <NSCoding>
+
+/**
+ *  获取设备围栏信息时，实例化该参数
+ */
+@property(nonatomic, strong)GMDevInOut *devInOut;
+
+- (instancetype)initWithDict:(NSDictionary *)dict;
+
+
+@end
+
+
+/**
+ * 通过围栏号获取的围栏信息
  area = "22.123456,113.123400;22.145543,113.125600;22.164400,113.129900;22.180000,113.135500;22.197700,113.142200";
  devinfo =         (
  {
@@ -41,38 +67,16 @@
  threshold = 4;
  "update_time" = 1431413504;
  */
-@property(nonatomic, copy)NSString *area;
-@property(nonatomic, copy)NSString *enable;
-@property(nonatomic, copy)NSString *fenceid;
-@property(nonatomic, copy)NSString *name;
-@property(nonatomic, copy)NSString *shape;
-@property(nonatomic, copy)NSString *threshold;
-@property(nonatomic, copy)NSString *update_time;
-
-/**
- *  获取设备围栏信息时，实例化该参数
- */
-@property(nonatomic, strong)GMDevInOut *devInOut;
+@interface GMNumberFence : GMFenceInfo <NSCoding>
 
 /**
  *  获取指定围栏信息时，实例化该参数，存放GMDevInOut对象
  */
 @property(nonatomic, strong)NSArray *devinfos;
 
-/**
- *  通过设备号查询的围栏信息
- *
- */
-- (instancetype)initWithDeviceDict:(NSDictionary *)dict;
-
-/**
- *  通过围栏号查询的围栏信息
- *
- */
-- (instancetype)initWithFenceDict:(NSDictionary *)dict;
+- (instancetype)initWithDict:(NSDictionary *)dict;
 
 @end
-
 
 
 @interface GMDevInOut : NSObject <NSCoding>
@@ -80,6 +84,9 @@
 @property(nonatomic, copy)NSString *devid;
 @property(nonatomic, copy)NSString *dev_in;
 @property(nonatomic, copy)NSString *dev_out;
+
+- (instancetype)initWithDict:(NSDictionary *)dict;
+
 
 @end
 
