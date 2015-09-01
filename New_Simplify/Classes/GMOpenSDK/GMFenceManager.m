@@ -192,67 +192,40 @@
     if (appid.length == 0) return;
     NSString *mapType = [GMTool mapType:self.mapType];
     GMNetworkManager *manager = [GMNetworkManager manager];
-    [manager acquireDeviceFenceWidthDevID:deviceId andAPPID:appid mapType:mapType withOptionBlock:^(NSDictionary *dict) {
-        NSArray *datas = dict[GM_Argument_data];
-        if (datas.count == 0) success(nil);
-        NSMutableArray *mArray = [NSMutableArray array];
-        for (NSDictionary *fenceInfo in datas) {
-            GMFenceInfo *fence = [[GMFenceInfo alloc] initWithDeviceDict:fenceInfo];
-#if 0
-{
-    fence.area              = [NSString stringWithFormat:@"%@",fenceInfo[GM_Argument_area]];
-    fence.devInOut.devid    = [NSString stringWithFormat:@"%@",fenceInfo[GM_Argument_devid]];
-    fence.enable            = [NSString stringWithFormat:@"%@",fenceInfo[GM_Argument_enable]];
-    fence.fenceid           = [NSString stringWithFormat:@"%@",fenceInfo[GM_Argument_fenceid]];
-    fence.devInOut.dev_in   = [NSString stringWithFormat:@"%@",fenceInfo[GM_Argument_in]];
-    fence.devInOut.dev_out  = [NSString stringWithFormat:@"%@",fenceInfo[GM_Argument_out]];
-    fence.name              = [NSString stringWithFormat:@"%@",fenceInfo[GM_Argument_name]];
-    fence.shape             = [NSString stringWithFormat:@"%@",fenceInfo[GM_Argument_shape]];
-    fence.threshold         = [NSString stringWithFormat:@"%@",fenceInfo[GM_Argument_threshold]];
-    fence.update_time       = [NSString stringWithFormat:@"%@",fenceInfo[GM_Argument_update_time]];
-}
-#endif
-            [mArray addObject:fence];
-        }
-        if (success) success([mArray copy]);
-     } andFailureBlock:failure];
+    [manager acquireDeviceFenceWidthDevID:deviceId
+                                 andAPPID:appid
+                                  mapType:mapType
+                          withOptionBlock:^(NSDictionary *dict) {
+                            NSArray *datas = dict[GM_Argument_data];
+                            if (datas.count == 0) success(nil);
+                            NSMutableArray *mArray = [NSMutableArray array];
+                            for (NSDictionary *fenceInfo in datas) {
+                                GMFenceInfo *fence = [[GMDeviceFence alloc] initWithDict:fenceInfo];
+                                [mArray addObject:fence];
+                            }
+                            if (success) success([mArray copy]);
+                         }
+                          andFailureBlock:failure];
 }
 
 
-- (void)inquireFenceWithFenceId:(NSString *)fenceId successBlockFenceInfo:(GMOptionFenceInfo)success failureBlock:(GMOptionError)failure
+- (void)inquireFenceWithFenceId:(NSString *)fenceId successBlockFenceInfo:(GMOptionNumberFence)success failureBlock:(GMOptionError)failure
 {
     if (fenceId.length == 0) return;
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
     if (appid.length == 0) return;
     NSString *mapType = [GMTool mapType:self.mapType];
     GMNetworkManager *manager = [GMNetworkManager manager];
-    [manager acquireDeviceFenceWidthFenceID:fenceId andAPPID:appid mapType:mapType withOptionBlock:^(NSDictionary *dict) {
-        NSDictionary *fenceDict = dict[GM_Argument_data];
-        if (fenceDict.count == 0) success(nil);
-        GMFenceInfo *fenceInfo  = [[GMFenceInfo alloc] initWithFenceDict:fenceDict];
-#if 0
-{
-        fenceInfo.area          = [NSString stringWithFormat:@"%@",fenceDict[GM_Argument_area]];
-        fenceInfo.enable        = [NSString stringWithFormat:@"%@",fenceDict[GM_Argument_enable]];
-        fenceInfo.fenceid       = [NSString stringWithFormat:@"%@",fenceDict[GM_Argument_fenceid]];
-        fenceInfo.name          = [NSString stringWithFormat:@"%@",fenceDict[GM_Argument_name]];
-        fenceInfo.shape         = [NSString stringWithFormat:@"%@",fenceDict[GM_Argument_shape]];
-        fenceInfo.threshold     = [NSString stringWithFormat:@"%@",fenceDict[GM_Argument_threshold]];
-        fenceInfo.update_time   = [NSString stringWithFormat:@"%@",fenceDict[GM_Argument_update_time]];
-        NSArray *devinfos       = fenceDict[GM_Argument_devinfo];
-        NSMutableArray *mArray  = [NSMutableArray array];
-        for (NSDictionary *obj in devinfos) {
-            GMDevInOut *devInOut    = [[GMDevInOut alloc] init];
-            devInOut.devid          = [NSString stringWithFormat:@"%@",obj[GM_Argument_devid]];
-            devInOut.dev_in         = [NSString stringWithFormat:@"%@",obj[GM_Argument_in]];
-            devInOut.dev_out        = [NSString stringWithFormat:@"%@",obj[GM_Argument_out]];
-            [mArray addObject:devInOut];
-        }
-        fenceInfo.devinfos = [mArray copy];
-}
-#endif
-        if (success) success(fenceInfo);
-    } andFailureBlock:failure];
+    [manager acquireDeviceFenceWidthFenceID:fenceId
+                                   andAPPID:appid
+                                    mapType:mapType
+                            withOptionBlock:^(NSDictionary *dict) {
+                            NSDictionary *fenceDict = dict[GM_Argument_data];
+                            if (fenceDict.count == 0) success(nil);
+                            GMNumberFence *fenceInfo  = [[GMNumberFence alloc] initWithDict:fenceDict];
+                            if (success) success(fenceInfo);
+                        }
+                            andFailureBlock:failure];
 }
 
 @end
