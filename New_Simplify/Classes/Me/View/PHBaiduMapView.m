@@ -10,6 +10,7 @@
 #import "PHBaiduMapView.h"
 #import "PHDeviceInfo.h"
 #import "PHAnnotation.h"
+#import "GMOpenKit.h"
 @interface PHBaiduMapView ()
 @property(nonatomic, weak)UIButton *minusBtn;//缩小地图
 @property(nonatomic, weak)UIButton *plusBtn;//放大地图
@@ -18,7 +19,7 @@
 
 @implementation PHBaiduMapView
 
-- (void)setDevice:(PHDeviceInfo *)device
+- (void)setDevice:(id<GMDevice>)device
 {
     _device = device;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -30,6 +31,7 @@
         [self insertAnnotationWithDevice:device];
     });
 }
+
 #pragma mark - init Method
 //保证代码实例化能创建BMKMapView
 - (instancetype)initWithFrame:(CGRect)frame
@@ -53,7 +55,7 @@
 }
 - (void)awakeFromNib
 {
-    PHLog(@"awakeFromNib");
+//    PHLog(@"awakeFromNib");
 }
 
 
@@ -100,7 +102,7 @@
 //self添加子控件的时候，设置frame
 - (void)didMoveToSuperview
 {
-    PHLog(@"didMoveToSuperview");
+//    PHLog(@"didMoveToSuperview");
     [self setBmkMapViewFrameUsingAutoLayout];
     [self setMinusAndPlusFrameUsingAutoLayout];
 }
@@ -141,7 +143,7 @@
 
 #pragma mark - PHBaiduMapView->Method
 //在地图上插上大头针
-- (void)insertAnnotationWithDevice:(PHDeviceInfo *)device
+- (void)insertAnnotationWithDevice:(id<GMDevice>)device
 {
     PHAnnotation *anno = [[PHAnnotation alloc] init];
     CLLocationCoordinate2D coor;
