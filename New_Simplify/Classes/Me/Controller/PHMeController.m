@@ -15,11 +15,21 @@
 @property(nonatomic, strong)NSTimer *myTimer;//周期获取设备最新位置定时器
 @property (weak, nonatomic) IBOutlet PHMeMapView *meMapView;
 
+@property (nonatomic, strong)__block NSMutableArray *deviceInfos;
 
 @end
 
 @implementation PHMeController
-
+- (NSMutableArray *)deviceInfos
+{
+    if (_deviceInfos == nil) {
+        _deviceInfos = [NSMutableArray array];
+    }
+    if (_deviceInfos.count >= 100) {
+        [_deviceInfos removeObjectAtIndex:0];
+    }
+    return _deviceInfos;
+}
 - (void)dealloc
 {
     PHLog(@"PHMeController.h->dealloc");
@@ -44,7 +54,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我的设备";
-
+    [self barButtonItemImplementation];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -59,7 +69,20 @@
     [self.meMapView baiduMapViewWillDisappear];
     [self invalidateTimer];
 }
-
+/**
+ *  导航栏UIBarButtonItem的放置
+ */
+- (void)barButtonItemImplementation
+{
+    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(removeMeMapPloyline)];
+    deleteItem.tintColor = [UIColor blueColor];
+    self.navigationItem.rightBarButtonItem = deleteItem;
+}
+//UIBarButtonItem->deleteFence执行，开启tableView的删除模式
+- (void)removeMeMapPloyline
+{
+    [self.meMapView removeAllOfPolyline];
+}
 //根据devId号，获取信息当前最新位置信息
 - (void)getDeviceIdInfomation
 {
@@ -68,13 +91,21 @@
     history.mapType = GMMapTypeOfBAIDU;
     history.deviceId = [PHTool getDeviceIdFromUserDefault];
     [history getNewestInformationSuccessBlockDeviceInfo:^(GMDeviceInfo *deviceInfo) {
-        ws.meMapView.device = deviceInfo;
+        [ws configMeMapViewWithDeviceInfo:deviceInfo];
     } failureBlock:^(NSError *error) {
         if (error) PHLog(@"error %@",error);
     }];
 }
 
-
+- (void)configMeMapViewWithDeviceInfo:(GMDeviceInfo *)deviceInfo
+{
+    self.meMapView.device = deviceInfo;
+    [self.deviceInfos addObject:deviceInfo];
+    NSUInteger count = self.deviceInfos.count;
+    if (count >= 2) {
+        [self.meMapView configurePolylineWithStartDevice:[self.deviceInfos objectAtIndex:count - 2] end:[self.deviceInfos lastObject]];
+    }
+}
 
 @end
 

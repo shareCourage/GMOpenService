@@ -55,7 +55,7 @@
     
     [mapType addTarget:self action:@selector(mapTypeBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [traffic addTarget:self action:@selector(trafficBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [locationOrCar addTarget:self action:@selector(locationOrCarBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [locationOrCar addTarget:self action:@selector(locationOrCarBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     [self addSubview:mapType];
 //    [self addSubview:traffic];
@@ -88,13 +88,39 @@
 - (void)trafficBtnClick{
     self.bmkMapView.trafficEnabled = !self.bmkMapView.isTrafficEnabled;
 }
-- (void)locationOrCarBtnClick{
-    self.locationOrCarBtn.selected = !self.locationOrCarBtn.selected;
+- (void)locationOrCarBtnClick:(UIButton *)sender{
+    sender.selected = !sender.selected;
     CLLocationCoordinate2D coorOfDevice = CLLocationCoordinate2DMake([self.device.lat doubleValue], [self.device.lng doubleValue]);
-    CLLocationCoordinate2D coor = self.locationOrCarBtn.selected ? self.userLocation.location.coordinate : (coorOfDevice.latitude == 0 ? self.userLocation.location.coordinate : coorOfDevice);//后面的CLLocationCoordinate2D也要根据当前coorOfDevice是否有值来确定
-    [self.bmkMapView setCenterCoordinate:coor animated:YES];
-    self.bmkMapView.zoomLevel = self.currentZoomLevel == 0 ? 13 : self.currentZoomLevel;
+    CLLocationCoordinate2D coorUserLocation = self.userLocation.location.coordinate;
     
+    if (sender.selected) {
+        if (self.userLocation.location) {//如果定位到了坐标点，则使用定位到的坐标；反之，没有定位到，则用设备的坐标
+            [self.bmkMapView setCenterCoordinate:coorUserLocation animated:YES];
+            _locationModel = YES;//在这个情况下才是定位模式，地图一直刷新定位的点
+        }
+        else {
+            [self.bmkMapView setCenterCoordinate:coorOfDevice animated:YES];
+            sender.selected = NO;//为了不让button的图片发生改变
+            _locationModel = NO;
+        }
+    }
+    else {
+        [self.bmkMapView setCenterCoordinate:coorOfDevice animated:YES];
+        _locationModel = NO;
+    }
+    self.bmkMapView.zoomLevel = self.currentZoomLevel == 0 ? 13 : self.currentZoomLevel;
+
+}
+
+- (void)insertAnnotationWithDevice:(id<GMDevice>)device
+{
+    [super insertAnnotationWithDevice:device];
+    if (!self.isLocationModel) {
+        CLLocationCoordinate2D coord;
+        coord.latitude = [device.lat doubleValue];
+        coord.longitude = [device.lng doubleValue];
+        [self.bmkMapView setCenterCoordinate:coord animated:YES];
+    }
 }
 
 - (void)didMoveToSuperview
@@ -152,8 +178,45 @@
 {
     self.userLocation = userLocation;
     [self.bmkMapView updateLocationData:userLocation];
-}
 
+}
+- (void)removeAllOfPolyline
+{
+    [self.bmkMapView removeOverlays:self.bmkMapView.overlays];
+}
+/**
+ *  MapView添加Overlay
+ */
+- (void)configurePolylineWithStartDevice:(id<GMDevice>)start end:(id<GMDevice>)end
+{
+    CLLocationCoordinate2D startCoord = [self coordinateFromDevice:start];
+    CLLocationCoordinate2D endCoord = [self coordinateFromDevice:end];
+    if (startCoord.latitude == endCoord.latitude && startCoord.longitude == endCoord.longitude) return;
+    BMKMapPoint *mapPoints = malloc(sizeof(BMKMapPoint) * 2);
+    mapPoints[0] = BMKMapPointForCoordinate(startCoord);
+    mapPoints[1] = BMKMapPointForCoordinate(endCoord);
+    BMKPolyline *polyline = [BMKPolyline polylineWithPoints:mapPoints count:2];
+    free(mapPoints);//使用C在堆里面分配的一段内存，记得要释放
+    [self.bmkMapView addOverlay:polyline];
+}
+- (CLLocationCoordinate2D)coordinateFromDevice:(id<GMDevice>)device
+{
+    double lat = [device.lat doubleValue];
+    double lng = [device.lng doubleValue];
+    return CLLocationCoordinate2DMake(lat, lng);
+}
+#pragma mark - BMKMapViewDelegate
+- (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id<BMKOverlay>)overlay
+{
+    if ([overlay isKindOfClass:[BMKPolyline class]]) {
+        BMKPolylineView *polylineView = [[BMKPolylineView alloc] initWithOverlay:overlay];
+        polylineView.strokeColor = self.polylineColor ? self.polylineColor : [UIColor redColor];
+        polylineView.lineWidth = self.polylineWidth == 0 ? 5.0 : self.polylineWidth;
+        return polylineView;
+    } else {
+        return nil;
+    }
+}
 @end
 
 

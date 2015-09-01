@@ -151,7 +151,7 @@
     coor.longitude = [device.lng doubleValue];
     anno.coordinate = coor;
     [_bmkMapView addAnnotation:anno];
-    [self.bmkMapView setCenterCoordinate:coor animated:YES];
+//    [self.bmkMapView setCenterCoordinate:coor animated:YES];
 }
 //删除地图上所有的大头针
 - (void)removeAllAnnotationOnTheMap

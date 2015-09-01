@@ -34,6 +34,7 @@
  */
 - (void)baiduMapViewWillDisappear;
 
+- (void)insertAnnotationWithDevice:(id<GMDevice>)device;
 
 @end
 

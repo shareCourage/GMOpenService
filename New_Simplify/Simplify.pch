@@ -63,6 +63,8 @@
 
 #define PH_CurrentTime [NSString stringWithFormat:@"%.f",[NSDate date].timeIntervalSince1970]
 #define PH_WS(weakSelf) __weak __typeof(&*self)weakSelf = self;
+#define PH_SS(strongSelf) __strong __typeof(&*self)strongSelf = self;
+
 #define PH_UserDefaults [NSUserDefaults standardUserDefaults]
 #define PH_BoolForKey(LocationModelKey) [[NSUserDefaults standardUserDefaults] boolForKey:LocationModelKey]
 
