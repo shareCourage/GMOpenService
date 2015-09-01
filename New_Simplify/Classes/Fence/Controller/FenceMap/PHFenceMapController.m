@@ -176,7 +176,6 @@
     [self.fenceMapTitleView fenceMapTitleViewWillDisappear];
 }
 
-
 //当前信息的展示
 - (void)titleViewImplementation
 {
@@ -249,17 +248,7 @@
         [ws.myHud hide:YES afterDelay:0.3f];
     }];
 #endif
-#if 0
-    [fence modifyFenceWithFenceId:self.fenceInfo.fenceid successBlock:^(NSDictionary *dict) {
-        NSString *msg = dict[@"msg"];
-        if (msg.length == 0) {
-            ws.myHud.labelText = @"修改成功";
-            [ws.myHud hide:YES afterDelay:0.3f];
-        }
-    } failureBlock:^(NSError *error) {
-        [ws.myHud hide:YES afterDelay:0.3f];
-    }];
-#endif
+
 }
 /**
  *  创建围栏
@@ -289,17 +278,6 @@
 #if 1
     [fence addFenceWithDeviceIds:@[devid, @"1234567890"] completionBlock:^(BOOL success) {
         if (success) {
-            ws.myHud.labelText = @"创建成功";
-            [ws.myHud hide:YES afterDelay:0.3f];
-        }
-    } failureBlock:^(NSError *error) {
-        [ws.myHud hide:YES afterDelay:0.3f];
-    }];
-#endif
-#if 0
-    [fence addFenceWithDeviceId:devid successBlock:^(NSDictionary *dict) {
-        NSString *msg = dict[@"msg"];
-        if (msg.length == 0) {
             ws.myHud.labelText = @"创建成功";
             [ws.myHud hide:YES afterDelay:0.3f];
         }
