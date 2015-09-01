@@ -46,6 +46,8 @@
 #define PH_UniqueDeviceId        @"存储登录设备的devid号"
 #define PH_UniqueAppid           @"存储登录设备的appid号"
 #define PH_UniqueAccess_token    @"存储登录设备的access_token号"
+#define PH_UniqueDevicetoken     @"存储登录设备的devicetoken号"
+
 #define PH_LoginSuccess          @"登录成功"
 #define PH_ValueForKey(Key)      [PH_UserDefaults valueForKey:Key]
 #define PH_CountOfRemotePush_Active   @"前台推送总计"
