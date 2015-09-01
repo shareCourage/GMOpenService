@@ -162,6 +162,8 @@
 		A9F362E91B83159B004DED58 /* PHAlarmInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362E81B83159B004DED58 /* PHAlarmInfoController.m */; };
 		A9F362F71B842B3F004DED58 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362F61B842B3F004DED58 /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A9F9B7821B94530900CF7017 /* PHTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F9B7811B94530900CF7017 /* PHTest.m */; };
+		A9F9B7AC1B95A3C600CF7017 /* PHFenceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F9B7AB1B95A3C600CF7017 /* PHFenceTableViewCell.m */; };
+		A9F9B7B01B95B49F00CF7017 /* PHFenceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9F9B7AF1B95B49F00CF7017 /* PHFenceTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -445,6 +447,9 @@
 		A9F362F61B842B3F004DED58 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		A9F9B7801B94530900CF7017 /* PHTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTest.h; sourceTree = "<group>"; };
 		A9F9B7811B94530900CF7017 /* PHTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTest.m; sourceTree = "<group>"; };
+		A9F9B7AA1B95A3C600CF7017 /* PHFenceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceTableViewCell.h; sourceTree = "<group>"; };
+		A9F9B7AB1B95A3C600CF7017 /* PHFenceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFenceTableViewCell.m; sourceTree = "<group>"; };
+		A9F9B7AF1B95B49F00CF7017 /* PHFenceTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PHFenceTableViewCell.xib; sourceTree = "<group>"; };
 		B33409234F7CF2A5B43539EE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -684,6 +689,7 @@
 		A91B54B31B4B85C00042024A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A9F9B7A91B95A38500CF7017 /* FenceCell */,
 				A91B54B41B4B85C00042024A /* FenceMapTitleView */,
 				A91B54B81B4B85C00042024A /* FenceMapView */,
 			);
@@ -1490,6 +1496,16 @@
 			path = AlarmInfo;
 			sourceTree = "<group>";
 		};
+		A9F9B7A91B95A38500CF7017 /* FenceCell */ = {
+			isa = PBXGroup;
+			children = (
+				A9F9B7AA1B95A3C600CF7017 /* PHFenceTableViewCell.h */,
+				A9F9B7AB1B95A3C600CF7017 /* PHFenceTableViewCell.m */,
+				A9F9B7AF1B95B49F00CF7017 /* PHFenceTableViewCell.xib */,
+			);
+			path = FenceCell;
+			sourceTree = "<group>";
+		};
 		F2546C9A8ED190F866BA5CB9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1605,6 +1621,7 @@
 				A91B55E11B4B85C10042024A /* home_current_highlighted@2x.png in Resources */,
 				A91B55EA1B4B85C10042024A /* history_stop@2x.png in Resources */,
 				A91B55E51B4B85C10042024A /* signal_lamp_open@2x.png in Resources */,
+				A9F9B7B01B95B49F00CF7017 /* PHFenceTableViewCell.xib in Resources */,
 				A91B55F01B4B85C10042024A /* radio_unchecked.png in Resources */,
 				A91B55F31B4B85C10042024A /* tabbar_contactsHL@2x.png in Resources */,
 				A91B55F71B4B85C10042024A /* tabbar_mainframeHL@2x.png in Resources */,
@@ -1773,6 +1790,7 @@
 				A91B55C61B4B85C10042024A /* PHOfflineMapController.m in Sources */,
 				A91B55911B4B85C10042024A /* UIButton+PHCategory.m in Sources */,
 				A986AC221B538B78006403D3 /* GMHTTPRequestOperationManager.m in Sources */,
+				A9F9B7AC1B95A3C600CF7017 /* PHFenceTableViewCell.m in Sources */,
 				A91B55A01B4B85C10042024A /* PHLoginController.m in Sources */,
 				A91B55C41B4B85C10042024A /* PHDeviceInfoController.m in Sources */,
 				A9F362C81B7C8120004DED58 /* GMAlarmInfo.m in Sources */,

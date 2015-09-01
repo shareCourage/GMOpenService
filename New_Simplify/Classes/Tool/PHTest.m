@@ -105,7 +105,7 @@
         PHLog(@"alarmArray - > %@",array);
     } failureBlock:nil];
 }
-- (void)reverseTest
++ (void)reverseTest
 {
     GMNearbyManager *nearby = [GMNearbyManager manager];
     nearby.mapType = GMMapTypeOfGOOGLE;

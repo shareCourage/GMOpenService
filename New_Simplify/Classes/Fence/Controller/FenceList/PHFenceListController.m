@@ -15,7 +15,8 @@
 #import "PHDevFenceInfo.h"
 #import "PHFenceMapController.h"
 #import "MJRefresh.h"
-
+#import "PHFenceTableViewCell.h"
+#import "PHTest.h"
 @interface PHFenceListController ()<PHFenceMapControllerDelegate,UIGestureRecognizerDelegate>
 {
     BOOL _lanchingPHFenceMapControllerDelegate;//这个参数只用在PHFenceMapControllerDelegate协议方法里面，当该协议被触发时，设置该值为YES
@@ -106,7 +107,6 @@
  */
 - (void)displayFenceList
 {
-    PH_WS(ws);//相当于 __weak ws = self;防止block导致的循环引用
     GMFenceManager *fence = [GMFenceManager manager];
     fence.mapType = GMMapTypeOfBAIDU;
 #if 0
@@ -135,25 +135,18 @@
 #endif
     [fence inquireFenceWithDeviceId:[PHTool getDeviceIdFromUserDefault] successBlockArray:^(NSArray *array) {
         if (array.count != 0) {
-            [ws.dataSource removeAllObjects];
-            ws.dataSource = nil;
-            ws.dataSource = [[NSMutableArray alloc] initWithArray:array];
-            if (ws.dataSource.count != 0) {
-                if ([PHTool encoderObjectArray:ws.dataSource path:ws.fenceFilePath]) {
-                    PHLog(@"归档成功");
-                }
-                else{
-                    PHLog(@"归档失败");
-                }
+            [self.dataSource removeAllObjects];
+            self.dataSource = nil;
+            self.dataSource = [[NSMutableArray alloc] initWithArray:array];
+            if (self.dataSource.count != 0) {
+                [PHTool encoderObjectArray:self.dataSource path:self.fenceFilePath] ? PHLog(@"归档成功") : PHLog(@"归档失败");
             }
-            [ws.tableView.header endRefreshing];
-            [ws.tableView reloadData];
+            [self.tableView.header endRefreshing];
+            [self.tableView reloadData];
         }
     } failureBlock:^(NSError *error) {
-        if (error) {
-            PHLog(@"%@",error);
-        }
-        [ws.tableView.header endRefreshing];
+        if (error) PHLog(@"%@",error);
+        [self.tableView.header endRefreshing];
     }];
 }
 
@@ -166,21 +159,11 @@
     return self.dataSource.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *ID = @"fence";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
-    }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    PHFenceTableViewCell *cell = [PHFenceTableViewCell cellWithTableView:tableView];
     GMDeviceFence *devFence = self.dataSource[indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@,围栏号:%@",devFence.name.length != 0 ? devFence.name : @"无" ,devFence.fenceid];
-    cell.detailTextLabel.text = devFence.area;
-#if 0
-    PHDevFenceInfo *fenceInfo = self.dataSource[indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@,围栏号:%@",fenceInfo.name.length != 0 ? fenceInfo.name : @"无" ,fenceInfo.fenceid];
-    cell.detailTextLabel.text = fenceInfo.area;
-#endif
+    cell.devFence = devFence;
     return cell;
 }
 
@@ -235,7 +218,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    PHDevFenceInfo *fenceInfo = self.dataSource[indexPath.row];
+    GMDeviceFence *fenceInfo = self.dataSource[indexPath.row];
     PHFenceMapController *map = [[PHFenceMapController alloc] init];
     map.delegate = self;
     map.title = [NSString stringWithFormat:@"%@",fenceInfo.name.length != 0 ? fenceInfo.name : fenceInfo.fenceid];

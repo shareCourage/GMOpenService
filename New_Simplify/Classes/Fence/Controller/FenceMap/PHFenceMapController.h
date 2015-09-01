@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class PHDevFenceInfo;
+@class GMDeviceFence;
 @class PHFenceMapController;
 
 @protocol PHFenceMapControllerDelegate <NSObject>
@@ -19,7 +19,7 @@
 
 @interface PHFenceMapController : UIViewController
 
-@property(nonatomic, strong)PHDevFenceInfo *fenceInfo;
+@property(nonatomic, strong)GMDeviceFence *fenceInfo;
 
 @property(nonatomic, assign)id<PHFenceMapControllerDelegate>delegate;
 

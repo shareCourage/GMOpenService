@@ -10,7 +10,6 @@
 #import <objc/runtime.h>
 #import "GMConstant.h"
 
-
 @implementation GMFenceInfo
 
 

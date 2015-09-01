@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface PHTest : NSObject
-
++ (void)reverseTest;
 @end

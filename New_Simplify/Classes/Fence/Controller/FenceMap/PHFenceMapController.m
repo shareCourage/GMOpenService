@@ -140,8 +140,12 @@
 {
     if ([self.fenceInfo.shape isEqualToString:@"1"]) {//圆形
         self.mySlider.hidden = NO;
-        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([self.fenceInfo.lat doubleValue], [self.fenceInfo.lng doubleValue]);
-        double radius = [self.fenceInfo.radius doubleValue];
+        NSArray *array = [NSArray seprateString:self.fenceInfo.area characterSet:@","];
+        NSString *lat = [array firstObject];
+        NSString *lng = array[1];
+        NSString *radiusStr = [array lastObject];
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([lat doubleValue], [lng doubleValue]);
+        double radius = [radiusStr doubleValue];
         self.fenceMap.enable = [self.fenceInfo.enable boolValue];
         self.fenceMap.radius = radius;
         self.fenceMap.coordinate = coordinate;
@@ -150,11 +154,12 @@
         PHLog(@"radius->%.3f",self.fenceMap.radius);
     }
     else if ([self.fenceInfo.shape isEqualToString:@"2"]){//多边形
-        if (self.fenceInfo.coords.count < 2) return;
+        NSArray *array = [NSArray seprateString:self.fenceInfo.area characterSet:@";"];
+        if (array.count < 2) return;
         self.mySlider.hidden = YES;
         self.myStepper.hidden = NO;
-        self.maxCoords = [self.fenceInfo.coords mutableCopy];
-        self.fenceMap.coords = self.fenceInfo.coords;
+        self.maxCoords = [array mutableCopy];
+        self.fenceMap.coords = array;
         self.fenceMapView.fenceMap = self.fenceMap;
         _isCircleFence = NO;
     }
@@ -225,8 +230,8 @@
 //    fence.mapType = GMMapTypeOfBAIDU;
     fence.enable = self.fenceMapTitleView.mySwitch.isOn;
     fence.threshold = [self.fenceInfo.threshold intValue];
-    fence.getIn = [self.fenceInfo.dev_In boolValue];
-    fence.getOut = [self.fenceInfo.dev_Out boolValue];
+    fence.getIn = [self.fenceInfo.devInOut.dev_in boolValue];
+    fence.getOut = [self.fenceInfo.devInOut.dev_out boolValue];
     fence.fenceName = self.fenceInfo.name;
     if (_isCircleFence) {//判断是否是圆形
         fence.shape = GMFenceShapeOfCircle;
