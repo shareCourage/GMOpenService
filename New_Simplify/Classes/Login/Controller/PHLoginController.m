@@ -5,27 +5,25 @@
 //  Created by Kowloon on 15/4/23.
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
-#define PH_AppidDidnotRegisted @"app还未注册"
-#define PH_DeviceInvalidUserId @"invalid user id"
-#define PH_PasswordInvalidate  @"invalid pwd"
+#define PHDisplay_Login                     @"登录中..."
+#define PHDisplay_appidValidateFaliure      @"appid验证错误"
+#define PHDisplay_appidTextF_Placeholder    @"appid"
+#define PHDisplay_devidTextF_Placeholder    @"设备号"
+#define PHDisplay_Login_Failure             @"登录失败"
+#define PHDisplay_LoginButton_title         @"登录"
 #import "PHLoginController.h"
 #import "AppDelegate.h"
-@interface PHLoginController ()<UITextFieldDelegate, MBProgressHUDDelegate>
+@interface PHLoginController ()<UITextFieldDelegate>
 {
     BOOL _appidStatus;
     BOOL _deviceIDStatus;
 }
 @property (weak, nonatomic) IBOutlet UITextField *appidTextF;
 @property (weak, nonatomic) IBOutlet UITextField *devidTextF;
-@property (weak, nonatomic) IBOutlet UITextField *passwordTextF;
-@property (weak, nonatomic) IBOutlet UIButton *loginButton;
-@property (weak, nonatomic) IBOutlet UILabel *appidTipsL;
-@property (weak, nonatomic) IBOutlet UILabel *deviceIDTipsL;
-@property(nonatomic, weak)UITextField *editTextField;
-@property(nonatomic, strong)MBProgressHUD *myHud;
 
-- (IBAction)forgetPassword:(id)sender;
-- (IBAction)help:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+
+@property(nonatomic, weak)UITextField *editTextField;
 
 @end
 
@@ -36,107 +34,80 @@
     PHLog(@"PHLoginController->dealloc");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-- (void)hudShowOnTheView:(NSString *)text
-{
-    self.myHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.myHud.delegate = self;
-    self.myHud.labelText = text;
-}
+
 - (IBAction)loginClick:(id)sender {
-    
-    PHLog(@"loginClick");
     [self.view endEditing:YES];
-#if 1
     NSString *devidString = self.devidTextF.text;
     NSString *appidString = self.appidTextF.text;
-    NSString *signature = nil;
-    if (self.passwordTextF.text.length == 0) {
-        signature = [PH_CurrentTime MD5];
-    }
-    else {
-        signature = [self.passwordTextF.text MD5];
-    }
-    [self hudShowOnTheView:@"Log in..."];
     PH_WS(ws);
     if (devidString.length != 0 && appidString.length != 0) {
         GMLoginManager *login = [GMLoginManager manager];
         login.mapType = GMMapTypeOfBAIDU;
+        [MBProgressHUD showMessage:PHDisplay_Login toView:self.view];
         [login loginWithDevid:devidString completionBlock:^(BOOL success) {
+            [MBProgressHUD hideHUDForView:ws.view];
             if (success) {
                 PHLog(@"登录成功");
-                [PHTool loginSuccessWithAppid:appidString devid:devidString accessToken:signature];
-                UIStoryboard *storyA = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                UIViewController *vc = [storyA instantiateViewControllerWithIdentifier:@"PHTabBarControllerIdentity"];
-                ws.view.window.rootViewController = vc;
-                [ws.myHud hide:YES];
+                [ws loginSuccessWithAppid:appidString devid:devidString];
+                [GMPushManager registerDeviceToken:[PH_UserDefaults objectForKey:PH_UniqueDevicetoken]];
             }
             else {
                 PHLog(@"登录失败");
-                [ws.myHud hide:YES];
+                [MBProgressHUD showError:PHDisplay_Login_Failure];
             }
         } failureBlock:^(NSError *error) {
-            [ws.myHud hide:YES];
+            [MBProgressHUD hideHUDForView:ws.view];
             [MBProgressHUD showError:@"登录超时"];
         }];
 
     }
-#endif
 }
-- (BOOL)appidDidnotRegisted:(NSString *)msg
+- (void)loginSuccessWithAppid:(NSString *)appid devid:(NSString *)devid
 {
-    BOOL success = NO;
-    if ([msg isEqualToString:PH_AppidDidnotRegisted]) {
-        success = YES;
-    }
-    return success;
+    [PHTool loginSuccessWithAppid:appid devid:devid accessToken:nil];
+    UIStoryboard *storyA = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *vc = [storyA instantiateViewControllerWithIdentifier:@"PHTabBarControllerIdentity"];
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    delegate.window.rootViewController = vc;
+    
 }
-- (BOOL)deviceIdInValidate:(NSString *)msg
-{
-    BOOL success = NO;
-    if ([msg isEqualToString:PH_DeviceInvalidUserId]) {
-        success = YES;
-    }
-    return success;
-}
-- (BOOL)passwordInValidate:(NSString *)msg
-{
-    BOOL success = NO;
-    if ([msg isEqualToString:PH_PasswordInvalidate]) {
-        success = YES;
-    }
-    return success;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self textFieldSetup];//textField的初始化
+    [self loginButtonSetup];//登录按钮的设定
+    [self keyBoardSetup];//给self.view添加点击手势，以此来控制键盘
+    
     _deviceIDStatus = NO;
-    self.appidTipsL.hidden = YES;
-    self.appidTipsL.text = @"只能包含数字";
-    self.deviceIDTipsL.hidden = YES;
-    self.deviceIDTipsL.text = @"只能包含数字,字母(区分大小写),下划线";
-    
-    self.appidTextF.keyboardType = UIKeyboardTypeNumberPad;
-    self.devidTextF.keyboardType = UIKeyboardTypeNumberPad;
-    self.appidTextF.delegate = self;
-    self.devidTextF.delegate = self;
-    self.passwordTextF.delegate = self;
-    
-    self.appidTextF.text = [PHTool getAppidFromUserDefault];
-    self.devidTextF.text = [PHTool getDeviceIdFromUserDefault];
+    _appidStatus = NO;
     if (self.appidTextF.text.length != 0) {
         _appidStatus = YES;
+        [self validateAppid:self.appidTextF];
     }
-    else {
-        _appidStatus = NO;
-    }
+}
+- (void)textFieldSetup
+{
+    self.appidTextF.keyboardType = UIKeyboardTypeNumberPad;
+    self.devidTextF.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    self.appidTextF.placeholder = PHDisplay_appidTextF_Placeholder;
+    self.devidTextF.placeholder = PHDisplay_devidTextF_Placeholder;
+    self.appidTextF.font = [UIFont systemFontOfSize:25];
+    self.devidTextF.font = [UIFont systemFontOfSize:20];
+    self.appidTextF.delegate = self;
+    self.devidTextF.delegate = self;
+    self.appidTextF.text = [PHTool getAppidFromUserDefault];
+    self.devidTextF.text = [PHTool getDeviceIdFromUserDefault];
+}
+- (void)loginButtonSetup
+{
     [self loginButtonStatusSetting];
+    [self.loginButton setTitle:PHDisplay_LoginButton_title forState:UIControlStateNormal];
     self.loginButton.layer.cornerRadius = 5;
     self.loginButton.layer.masksToBounds = YES;
-    self.devidTextF.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    
+}
+- (void)keyBoardSetup
+{
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)]];
-    
-    
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     //1.谁去处理
     //2.如何处理
@@ -169,7 +140,6 @@
         self.view.frame = contentF;
     }];
 }
-
 - (void)hideKeyboard
 {
     [self.view endEditing:YES];
@@ -180,34 +150,19 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     self.editTextField = textField;
+    textField.textColor = [UIColor blackColor];
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     if (textField == self.appidTextF) {
         BOOL isMatch = [self matchWithRegex:@"^[0-9]*$" string:textField.text];
         if (textField.text.length == 0) isMatch = NO;
-        if (isMatch) {
-            [self setupViewStatus:YES textField:textField];
-            GMOpenManager *open = [GMOpenManager manager];
-            [open validateWithKey:textField.text completionBlock:^(GMOpenPermissionStatus status) {
-                if (status == GMOpenPermissionStatusOfSuccess) {
-                    PHLog(@"appid验证成功");
-                }
-            }];
-        }
-        else{
-            [self setupViewStatus:NO textField:textField];
-        }
+        isMatch ? [self validateAppid:textField] : [self setupViewStatus:NO textField:textField];
     }
     else if (textField == self.devidTextF) {
         BOOL isMatch = [self matchWithRegex:@"^[a-zA-Z0-9_]+$" string:textField.text];
         if (textField.text.length == 0) isMatch = NO;
-        if (isMatch) {
-            [self setupViewStatus:YES textField:textField];
-        }
-        else{
-            [self setupViewStatus:NO textField:textField];
-        }
+        [self setupViewStatus:isMatch textField:textField];
     }
 }
 
@@ -222,12 +177,6 @@
     return YES;
 }
 
-#pragma mark - MBProgressHUDDelegate
-- (void)hudWasHidden:(MBProgressHUD *)hud
-{
-    [self.myHud removeFromSuperview];
-    self.myHud = nil;
-}
 
 #pragma mark - method
 - (void)showTheStatus:(UITextField *)textField replacementString:(NSString *)string regex:(NSString *)regex
@@ -235,24 +184,22 @@
     NSString *textFAndString = [self getTextFieldCurrentText:textField replacementString:string];
     BOOL isMatch = [self matchWithRegex:regex string:textFAndString];
     if (textFAndString.length == 0) isMatch = NO;
-    if (isMatch) {
-        [self setupViewStatus:YES textField:textField];
-    }
-    else{
-        [self setupViewStatus:NO textField:textField];
-    }
+    [self setupViewStatus:isMatch textField:textField];
 }
 - (NSString *)getTextFieldCurrentText:(UITextField *)textField replacementString:(NSString *)string
 {
     NSString *textFAndString = nil;
     if (string.length != 0) {
+        //针对写入
         textFAndString = [textField.text stringByAppendingString:string];
     }
     else {
+        //针对删除
         textFAndString = [textField.text substringWithRange:NSMakeRange(0, textField.text.length - 1)];
     }
     return textFAndString;
 }
+
 - (BOOL)matchWithRegex:(NSString *)regex string:(NSString *)string
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex];
@@ -262,15 +209,14 @@
 - (void)setupViewStatus:(BOOL)status textField:(UITextField *)textField
 {
     if (textField == self.appidTextF) {
-        self.appidTipsL.hidden = status;
         _appidStatus = status;
     }
     else if (textField == self.devidTextF) {
-        self.deviceIDTipsL.hidden = status;
         _deviceIDStatus = status;
     }
     [self loginButtonStatusSetting];
 }
+
 - (void)loginButtonStatusSetting
 {
     if (_appidStatus && _deviceIDStatus) {
@@ -284,15 +230,26 @@
 }
 
 
-- (IBAction)forgetPassword:(id)sender {
-    PHLog(@"forgetPassword");
+- (void)validateAppid:(UITextField *)textField
+{
+    PH_WS(ws);
+    GMOpenManager *open = [GMOpenManager manager];
+    [open validateWithKey:textField.text completionBlock:^(GMOpenPermissionStatus status) {
+        if (status == GMOpenPermissionStatusOfSuccess) {
+            PHLog(@"appid验证成功");
+            [PH_UserDefaults setObject:textField.text forKey:PH_UniqueAppid];
+            [ws setupViewStatus:YES textField:textField];
+            textField.textColor = PH_RGBColor(85, 136, 158);
+        }
+        else if (status == GMOpenPermissionStatusOfFailure) {
+            PHLog(@"appid验证失败");
+            [PH_UserDefaults setObject:nil forKey:PH_UniqueAppid];
+            [ws setupViewStatus:NO textField:textField];
+            [MBProgressHUD showError:PHDisplay_appidValidateFaliure];
+            textField.textColor = [UIColor grayColor];
+        }
+    }];
 }
-
-- (IBAction)help:(id)sender {
-    PHLog(@"help");
-
-}
-
 
 @end
 

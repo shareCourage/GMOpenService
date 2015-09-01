@@ -13,7 +13,10 @@
 @end
 
 @implementation PHNavigationController
-
+- (void)dealloc
+{
+    PHLog(@"%@->dealloc",NSStringFromClass([self class]));
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
 }

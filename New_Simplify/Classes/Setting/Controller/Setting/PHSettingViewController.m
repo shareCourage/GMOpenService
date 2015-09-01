@@ -24,10 +24,12 @@
 #import "PHAlarmInfoController.h"
 #import "PHHistoryLocationController.h"
 #import "PHNearbyPeopleController.h"
+#import "PHHeatMapController.h"
 #import "PHSettingGroup.h"
 #import "PHSettingItem.h"
 #import "PHSettingArrowItem.h"
 #import "PHSettingSwitchItem.h"
+#import "PHNavigationController.h"
 @interface PHSettingViewController ()<UIAlertViewDelegate>
 {
     int _pushNumber;
@@ -130,9 +132,9 @@
 {
     PHSettingItem *nearby = [PHSettingArrowItem itemWithTitle:@"附近的人" destVcClass:[PHNearbyPeopleController class]];
     PHSettingItem *history = [PHSettingArrowItem itemWithTitle:@"历史位置记录" destVcClass:[PHHistoryLocationController class]];
-    
+    PHSettingItem *heat = [PHSettingArrowItem itemWithTitle:@"历史位置热地图" destVcClass:[PHHeatMapController class]];
     PHSettingGroup *group = [[PHSettingGroup alloc] init];
-    group.items = @[nearby, history];
+    group.items = @[nearby, history, heat];
     [self.dataSource addObject:group];
 }
 
@@ -180,7 +182,7 @@
     
     [self currentDeviceID];
     
-    [self nearbyAndHistorys];
+//    [self nearbyAndHistorys];
     
     [self logOutAccount];
 
@@ -206,7 +208,7 @@
                         [PH_UserDefaults setObject:nil forKey:PH_UniqueAppid];
                         [PH_UserDefaults setObject:nil forKey:PH_UniqueDeviceId];
                         [PH_UserDefaults synchronize];
-                        self.view.window.rootViewController = [[PHLoginController alloc] init];
+                        [PHTool loginViewControllerImplementation];
                     }
                 } failureBlock:nil];
             }

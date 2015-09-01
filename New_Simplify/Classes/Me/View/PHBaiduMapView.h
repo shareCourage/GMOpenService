@@ -15,14 +15,16 @@
 #import <UIKit/UIKit.h>
 #import <BaiduMapAPI/BMapKit.h>
 #import <Masonry/Masonry.h>
-@class PHDeviceInfo;
 
 
 @interface PHBaiduMapView : UIView <BMKMapViewDelegate>
 
 @property(nonatomic, weak)BMKMapView *bmkMapView;//地图
 @property(nonatomic, assign)float currentZoomLevel;//地图当前的zoomlevel
-@property(nonatomic, strong)PHDeviceInfo *device;
+
+@property(nonatomic, strong)id<GMDevice>device;
+
+
 /**
  *  baiduMapView模拟的WillAppear周期，为BMKMapView的周期做准备
  */

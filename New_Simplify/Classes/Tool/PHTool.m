@@ -8,7 +8,9 @@
 #define PHArchiver_memberArray @"memberArray"
 
 #import "PHTool.h"
-
+#import "AppDelegate.h"
+#import "PHNavigationController.h"
+#import "PHLoginController.h"
 @implementation PHTool
 + (CLLocationCoordinate2D *)transitToCoords:(NSArray *)coords
 {
@@ -186,5 +188,14 @@
     NSArray *array = [unarc decodeObjectForKey:PHArchiver_memberArray];
     NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:array];
     return mutableArray;
+}
+
++ (void)loginViewControllerImplementation
+{
+    PHLoginController *login = [[PHLoginController alloc] init];
+    login.title = @"登录";
+    PHNavigationController *navi = [[PHNavigationController alloc] initWithRootViewController:login];
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    delegate.window.rootViewController = navi;
 }
 @end

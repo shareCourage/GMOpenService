@@ -71,7 +71,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="6zd-ly-8mS"/>
                     <connections>
-                        <outlet property="baiDuMapView" destination="6VH-0B-k6s" id="ETb-NT-K47"/>
+                        <outlet property="meMapView" destination="6VH-0B-k6s" id="XOJ-2x-gl9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V0P-Nf-N8O" userLabel="First Responder" sceneMemberID="firstResponder"/>

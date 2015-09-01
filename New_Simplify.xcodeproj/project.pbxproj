@@ -161,6 +161,7 @@
 		A9F362C81B7C8120004DED58 /* GMAlarmInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362C71B7C8120004DED58 /* GMAlarmInfo.m */; };
 		A9F362E91B83159B004DED58 /* PHAlarmInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362E81B83159B004DED58 /* PHAlarmInfoController.m */; };
 		A9F362F71B842B3F004DED58 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362F61B842B3F004DED58 /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A9F9B7821B94530900CF7017 /* PHTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F9B7811B94530900CF7017 /* PHTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -442,6 +443,8 @@
 		A9F362E81B83159B004DED58 /* PHAlarmInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAlarmInfoController.m; sourceTree = "<group>"; };
 		A9F362F51B842B3F004DED58 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		A9F362F61B842B3F004DED58 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
+		A9F9B7801B94530900CF7017 /* PHTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTest.h; sourceTree = "<group>"; };
+		A9F9B7811B94530900CF7017 /* PHTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTest.m; sourceTree = "<group>"; };
 		B33409234F7CF2A5B43539EE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -543,8 +546,8 @@
 			children = (
 				A986ABD81B4F55A7006403D3 /* Lib */,
 				A91B54861B4B85C00042024A /* Catagory */,
-				A91B54A01B4B85C00042024A /* Fence */,
 				A91B54BB1B4B85C00042024A /* Login */,
+				A91B54A01B4B85C00042024A /* Fence */,
 				A91B54C21B4B85C00042024A /* Main */,
 				A91B54CE1B4B85C00042024A /* Me */,
 				A91B54E71B4B85C00042024A /* PlayBack */,
@@ -1254,6 +1257,8 @@
 				A91B555D1B4B85C10042024A /* PHKeyValueObserver.m */,
 				A91B555E1B4B85C10042024A /* PHTool.h */,
 				A91B555F1B4B85C10042024A /* PHTool.m */,
+				A9F9B7801B94530900CF7017 /* PHTest.h */,
+				A9F9B7811B94530900CF7017 /* PHTest.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1681,6 +1686,7 @@
 				A91B558A1B4B85C10042024A /* MBProgressHUD+MJ.m in Sources */,
 				A986AC1D1B538B78006403D3 /* GMHistoryManager.m in Sources */,
 				A9D39CB71B8B2B5900F998D8 /* GMPushInfo.m in Sources */,
+				A9F9B7821B94530900CF7017 /* PHTest.m in Sources */,
 				A91B559F1B4B85C10042024A /* PHFenceMapView.m in Sources */,
 				A91B558D1B4B85C10042024A /* NSDate+PHCategory.m in Sources */,
 				A986AC2A1B538B78006403D3 /* GMNetworkManager.m in Sources */,

@@ -70,7 +70,7 @@
  */
 + (CLLocationCoordinate2D *)transitToCoords:(NSArray *)coords;
 
-
++ (void)loginViewControllerImplementation;
 @end
 
 

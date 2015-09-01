@@ -9,7 +9,7 @@
 #import "PHMeMapView.h"
 #import "PHDeviceInfo.h"
 @interface PHMeMapView ()<BMKLocationServiceDelegate, UIAlertViewDelegate>
-@property(nonatomic, strong)BMKLocationService *location;//定位服务
+@property(nonatomic, strong)BMKLocationService *locationService;//定位服务
 @property(nonatomic, strong)BMKUserLocation *userLocation;//当前定位到的位置
 @property(nonatomic, weak)UIButton *mapTypeBtn;//地图样式
 @property(nonatomic, weak)UIButton *trafficBtn;//是否展示地图交通情况
@@ -60,6 +60,11 @@
     [self addSubview:mapType];
 //    [self addSubview:traffic];
     [self addSubview:locationOrCar];
+    
+    mapType.layer.cornerRadius = 10;
+    locationOrCar.layer.cornerRadius = 10;
+    mapType.layer.masksToBounds = YES;
+    locationOrCar.layer.masksToBounds = YES;
     self.mapTypeBtn = mapType;
     self.trafficBtn = traffic;
     self.locationOrCarBtn = locationOrCar;
@@ -74,7 +79,7 @@
     //指定最小距离更新(米)，默认：kCLDistanceFilterNone
     [BMKLocationService setLocationDistanceFilter:100.f];
     [location startUserLocationService];//开始自己位置的定位
-    self.location = location;
+    self.locationService = location;
 }
 - (void)mapTypeBtnClick{
     self.mapTypeStandard = !self.isMapTypeStandard;

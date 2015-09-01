@@ -32,6 +32,7 @@ typedef enum {
     PHPlayBackSpeedOfFastPlus,//快+
 }PHPlayBackSpeed;
 
+
 @interface PHPlaybackView ()<PHPlayProgressViewDelegate>
 {
     NSUInteger _playIndex;
