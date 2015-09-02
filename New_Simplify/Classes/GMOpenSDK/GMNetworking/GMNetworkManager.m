@@ -510,6 +510,30 @@
 
 }
 
+//TODO: 9.02添加
+- (GMHTTPRequestOperation *)modifyFenceWithAppid:(NSString *)appid
+                                         fenceid:(NSString *)fenceid
+                                          enable:(BOOL)enable
+                                      completion:(GMOptionDict)optionDict
+                                         failure:(GMOptionError)optionError
+{
+    if (appid.length == 0 || fenceid.length == 0) {
+        optionDict(nil);
+        return nil;
+    }
+    NSDictionary *parameters = [GMTool parameters:appid
+                                          fenceId:fenceid
+                                            shape:nil
+                                        threshold:nil
+                                              are:nil
+                                           enable:@(enable)
+                                          mapType:nil
+                                        fenceName:nil
+                                          devInfo:nil];
+    GMHTTPRequestOperation *operation = [self POST:GM_Modify_Fence_URL parameters:parameters dictBlock:optionDict errorBlock:optionError];
+    return operation;
+}
+
 
 #pragma mark - selfForLogin
 - (GMHTTPRequestOperation *)logoutWithAppID:(NSString *)appID

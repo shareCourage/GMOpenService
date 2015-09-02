@@ -91,10 +91,20 @@ typedef void (^GMOptionNumberFence)(GMNumberFence *numberFence);
  */
 - (void)addFenceWithDeviceIds:(NSArray *)devids completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
 
+@end
+
+
+@interface GMFenceManager (GMDeleteFenceManager)
+
 /**
  *  删除围栏
  */
 - (void)deleteFenceWithFenceId:(NSString *)fenceId completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
+
+@end
+
+
+@interface GMFenceManager (GMModifyFenceManager)
 
 /**
  *  修改围栏
@@ -103,19 +113,30 @@ typedef void (^GMOptionNumberFence)(GMNumberFence *numberFence);
 - (void)modifyFenceWithFenceId:(NSString *)fenceId completionBlock:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
 
 
+/**
+ *  仅用来修改围栏的enable属性
+ *
+ */
++ (void)modifyFenceWithFenceId:(NSString *)fenceId enable:(BOOL)enable completion:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
+
+@end
+
+
+@interface GMFenceManager (GMObtainFenceManager)
+
 //TODO: 下面两个方法实现功能相同，但回调的block不一样;第一个返回原生的字典，用户可根据具体情况自己解析;第二个返回一个数组，已解析完成，内部存放GMFenceInfo模型，可直接使用
 /**
  *  根据设备号查询围栏
  *
  *  @param devid   deviceId 设备号
  */
-- (void)inquireFenceWithDeviceId:(NSString *)deviceId successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure;
+- (void)obtainFenceWithDeviceId:(NSString *)deviceId successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure;
 
 /**
  *  根据设备号查询围栏，回调block中的数组指定GMDeviceFence模型
  *
  */
-- (void)inquireFenceWithDeviceId:(NSString *)deviceId successBlockArray:(GMOptionArray)success failureBlock:(GMOptionError)failure;
+- (void)obtainFenceWithDeviceId:(NSString *)deviceId successBlockArray:(GMOptionArray)success failureBlock:(GMOptionError)failure;
 
 
 
@@ -127,24 +148,15 @@ typedef void (^GMOptionNumberFence)(GMNumberFence *numberFence);
  *
  *  @param devid   fenceId 围栏号
  */
-- (void)inquireFenceWithFenceId:(NSString *)fenceId successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure;
+- (void)obtainFenceWithFenceId:(NSString *)fenceId successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure;
 
 /**
  *  根据围栏号查询围栏
  *
  *  返回一个GMFenceInfo模型block
  */
-- (void)inquireFenceWithFenceId:(NSString *)fenceId successBlockFenceInfo:(GMOptionNumberFence)success failureBlock:(GMOptionError)failure;
-
-
-
-
-
+- (void)obtainFenceWithFenceId:(NSString *)fenceId successBlockFenceInfo:(GMOptionNumberFence)success failureBlock:(GMOptionError)failure;
 
 @end
-
-
-
-
 
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
 
-#define PH_FenceListTitle @"设备围栏"
+#define PH_FenceListTitle @"围栏列表"
 #define PH_MBProgress_Deleting @"删除中..."
 #define PH_MBProgress_SuccessOfDelete @"删除成功..."
 #define PH_MBProgress_FailureOfDelete @"删除失败..."
@@ -16,7 +16,8 @@
 #import "PHFenceMapController.h"
 #import "MJRefresh.h"
 #import "PHFenceTableViewCell.h"
-#import "PHTest.h"
+#import "PHFenceModifyMapController.h"
+
 @interface PHFenceListController ()<PHFenceMapControllerDelegate,UIGestureRecognizerDelegate>
 {
     BOOL _lanchingPHFenceMapControllerDelegate;//这个参数只用在PHFenceMapControllerDelegate协议方法里面，当该协议被触发时，设置该值为YES
@@ -26,30 +27,14 @@
 @end
 
 @implementation PHFenceListController
-#if 0
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    PHLog(@"%@",touch.view);
-    return  ![NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"];
-}
-- (void)testTap
-{
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick)];
-    tap.delegate = self;
-    [self.view addGestureRecognizer:tap];
-}
-- (void)tapClick
-{
-    PHLog(@"tapClick");
-}
-#endif
-
 - (void)dealloc
 {
     PHLog(@"PHFenceListController.h->dealloc");
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.title = PH_FenceListTitle;
     [self barButtonItemImplementation];
     _lanchingPHFenceMapControllerDelegate = NO;
@@ -82,18 +67,11 @@
  */
 - (void)barButtonItemImplementation
 {
-    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteFence)];
-    deleteItem.tintColor = [UIColor blueColor];
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFence)];
     addItem.tintColor = [UIColor blueColor];
     self.navigationItem.rightBarButtonItem = addItem;
-//    self.navigationItem.rightBarButtonItems = @[deleteItem, addItem];
 }
-//UIBarButtonItem->deleteFence执行，开启tableView的删除模式
-- (void)deleteFence
-{
-    [self.tableView setEditing:!self.tableView.isEditing animated:YES];
-}
+
 //UIBarButtonItem->addFence跳转至PHFenceMapController来添加围栏
 - (void)addFence
 {
@@ -109,31 +87,7 @@
 {
     GMFenceManager *fence = [GMFenceManager manager];
     fence.mapType = GMMapTypeOfBAIDU;
-#if 0
-    [fence inquireFenceWithDeviceId:[PHTool getDeviceIdFromUserDefault] successBlock:^(NSDictionary *dict){
-        if (dict) {
-            [ws.dataSource removeAllObjects];
-            ws.dataSource = nil;
-            ws.dataSource = [[NSMutableArray alloc] initWithArray:[PHDevFenceInfo createWithDict:dict]];
-            if (ws.dataSource.count != 0) {
-                if ([PHTool encoderObjectArray:ws.dataSource path:ws.fenceFilePath]) {
-                    PHLog(@"归档成功");
-                }
-                else{
-                    PHLog(@"归档失败");
-                }
-            }
-            [ws.tableView.header endRefreshing];
-            [ws.tableView reloadData];
-        }
-    } failureBlock:^(NSError *error) {
-        if (error) {
-            PHLog(@"%@",error);
-        }
-        [ws.tableView.header endRefreshing];
-    }];
-#endif
-    [fence inquireFenceWithDeviceId:[PHTool getDeviceIdFromUserDefault] successBlockArray:^(NSArray *array) {
+    [fence obtainFenceWithDeviceId:[PHTool getDeviceIdFromUserDefault] successBlockArray:^(NSArray *array) {
         if (array.count != 0) {
             [self.dataSource removeAllObjects];
             self.dataSource = nil;
@@ -167,12 +121,15 @@
     return cell;
 }
 
-#if 1
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return @"删除";
 }
-#endif
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50;
+}
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -188,7 +145,6 @@
          *3、删除服务器上的数据
          *4、如果做了本地数据库保存，同样需要删除
          */
-#if 1
         [MBProgressHUD showMessage:PH_MBProgress_Deleting toView:self.view];
         PH_WS(ws);
         GMFenceManager *fence = [GMFenceManager manager];
@@ -211,19 +167,23 @@
                 PHLog(@"delete failure");
             }
         }];
-#endif
-        
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     GMDeviceFence *fenceInfo = self.dataSource[indexPath.row];
+    
+    PHFenceModifyMapController *modify = [[PHFenceModifyMapController alloc] init];
+    modify.fenceInfo = fenceInfo;
+    
     PHFenceMapController *map = [[PHFenceMapController alloc] init];
     map.delegate = self;
     map.title = [NSString stringWithFormat:@"%@",fenceInfo.name.length != 0 ? fenceInfo.name : fenceInfo.fenceid];
     map.fenceInfo = fenceInfo;
-    [self.navigationController pushViewController:map animated:YES];
+//    [self.navigationController pushViewController:map animated:YES];
+    [self.navigationController pushViewController:modify animated:YES];
+
 }
 
 

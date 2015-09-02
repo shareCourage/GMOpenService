@@ -154,7 +154,26 @@
     } failureBlock:failure];
 }
 
-- (void)inquireFenceWithDeviceId:(NSString *)deviceId successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure
++ (void)modifyFenceWithFenceId:(NSString *)fenceId enable:(BOOL)enable completion:(GMOptionSuccess)success failureBlock:(GMOptionError)failure
+{
+    NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
+    if (fenceId.length == 0 || appid.length == 0) {
+        success(NO);
+        return;
+    }
+    GMNetworkManager *manager = [GMNetworkManager manager];
+    [manager modifyFenceWithAppid:appid
+                          fenceid:fenceId
+                           enable:enable
+                       completion:^(NSDictionary *dict) {
+                           NSString *msg = dict[GM_Argument_msg];
+                           BOOL value = NO;
+                           msg.length == 0 ? (value = YES) : (value = NO);
+                           if (success) success(value);
+    } failure:failure];
+}
+
+- (void)obtainFenceWithDeviceId:(NSString *)deviceId successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure
 {
     if (deviceId.length == 0) return;
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
@@ -169,7 +188,7 @@
 }
 
 
-- (void)inquireFenceWithFenceId:(NSString *)fenceId successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure
+- (void)obtainFenceWithFenceId:(NSString *)fenceId successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure
 {
     if (fenceId.length == 0) return;
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
@@ -185,7 +204,7 @@
 
 #pragma mark - 2015.07.20增加
 
-- (void)inquireFenceWithDeviceId:(NSString *)deviceId successBlockArray:(GMOptionArray)success failureBlock:(GMOptionError)failure
+- (void)obtainFenceWithDeviceId:(NSString *)deviceId successBlockArray:(GMOptionArray)success failureBlock:(GMOptionError)failure
 {
     if (deviceId.length == 0) return;
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
@@ -209,7 +228,7 @@
 }
 
 
-- (void)inquireFenceWithFenceId:(NSString *)fenceId successBlockFenceInfo:(GMOptionNumberFence)success failureBlock:(GMOptionError)failure
+- (void)obtainFenceWithFenceId:(NSString *)fenceId successBlockFenceInfo:(GMOptionNumberFence)success failureBlock:(GMOptionError)failure
 {
     if (fenceId.length == 0) return;
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];

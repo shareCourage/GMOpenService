@@ -344,6 +344,16 @@
                                                 devinfo:(NSString *)devinfo
                                               withBlock:(GMOptionDict)optionDict
                                        withFailureBlock:(GMOptionError)optionError;
+//TODO: 9.02添加
+/**
+ *  仅用来修改围栏的enable属性
+ */
+- (GMHTTPRequestOperation *)modifyFenceWithAppid:(NSString *)appid
+                                         fenceid:(NSString *)fenceid
+                                          enable:(BOOL)enable
+                                      completion:(GMOptionDict)optionDict
+                                         failure:(GMOptionError)optionError;
+
 @end
 
 #pragma mark - GMNetworkManagerForLogin

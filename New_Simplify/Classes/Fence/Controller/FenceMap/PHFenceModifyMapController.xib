@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PHFenceModifyMapController">
+            <connections>
+                <outlet property="CircleDisplayView" destination="3gr-Bi-2SW" id="M1Q-0T-unW"/>
+                <outlet property="circleRadiusL" destination="QPz-ZL-auj" id="Qw2-U8-ChW"/>
+                <outlet property="circleSlider" destination="6qw-Cv-zD9" id="Y2L-Ae-xFl"/>
+                <outlet property="fenceMapView" destination="clA-Tm-bkI" id="u7e-Ny-bnu"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="clA-Tm-bkI" customClass="PHFenceMapView">
+                    <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                    <color key="backgroundColor" red="0.75995907569999999" green="0.76215055170000001" blue="0.050025538299999998" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3gr-Bi-2SW" userLabel="CircleDisplayView">
+                    <rect key="frame" x="0.0" y="64" width="320" height="40"/>
+                    <subviews>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6qw-Cv-zD9">
+                            <rect key="frame" x="6" y="10" width="308" height="31"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="sdC-1B-Av8"/>
+                            </constraints>
+                            <connections>
+                                <action selector="circleSliderAction:" destination="-1" eventType="valueChanged" id="gCH-Tw-OiR"/>
+                            </connections>
+                        </slider>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QPz-ZL-auj">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="10"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="10" id="zRg-JP-5f0"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.34357882179999999" green="0.84349387880000004" blue="0.75585458390000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="QPz-ZL-auj" firstAttribute="leading" secondItem="3gr-Bi-2SW" secondAttribute="leading" id="8ra-GZ-x7a"/>
+                        <constraint firstAttribute="trailing" secondItem="6qw-Cv-zD9" secondAttribute="trailing" constant="8" id="A5P-iz-DKR"/>
+                        <constraint firstItem="QPz-ZL-auj" firstAttribute="top" secondItem="3gr-Bi-2SW" secondAttribute="top" id="VWI-fD-nxn"/>
+                        <constraint firstAttribute="bottom" secondItem="6qw-Cv-zD9" secondAttribute="bottom" id="cLz-Qc-xhE"/>
+                        <constraint firstItem="6qw-Cv-zD9" firstAttribute="leading" secondItem="3gr-Bi-2SW" secondAttribute="leading" constant="8" id="hst-UU-c0T"/>
+                        <constraint firstAttribute="height" constant="40" id="pCB-8W-9xw"/>
+                        <constraint firstAttribute="trailing" secondItem="QPz-ZL-auj" secondAttribute="trailing" id="zDx-G9-17i"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="3gr-Bi-2SW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="h22-0e-Y2T"/>
+                <constraint firstAttribute="trailing" secondItem="3gr-Bi-2SW" secondAttribute="trailing" id="kLH-Eq-ebW"/>
+                <constraint firstAttribute="trailing" secondItem="clA-Tm-bkI" secondAttribute="trailing" id="qBf-52-dpc"/>
+                <constraint firstAttribute="bottom" secondItem="clA-Tm-bkI" secondAttribute="bottom" id="sEI-5K-cL6"/>
+                <constraint firstItem="clA-Tm-bkI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="vcz-ra-ljR"/>
+                <constraint firstItem="clA-Tm-bkI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="y5w-h0-EO3"/>
+                <constraint firstItem="3gr-Bi-2SW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="yac-vU-Y8f"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+</document>
