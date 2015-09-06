@@ -169,11 +169,7 @@
 }
 
 - (void)modifyFenceName:(NSString *)name {
-    PHSettingGroup *group = self.dataSource[self.selectedIndexPath.section];
-    PHSettingItem *item = group.items[self.selectedIndexPath.row];
-    item.subtitle = name;
-    self.title = name;
-    [self.tableView reloadRowsAtIndexPaths:@[self.selectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self updateTableView:name];
     [GMFenceManager modifyFenceWithFenceId:self.fenceInfo.fenceid name:name completion:^(BOOL success) {
         success ? PHLog(@"modify name Fence success") : PHLog(@"modify name Fence failure");
     } failure:nil];
@@ -181,13 +177,17 @@
 }
 
 - (void)modifyFenceThreshold:(NSString *)threshold {
-    PHSettingGroup *group = self.dataSource[self.selectedIndexPath.section];
-    PHSettingItem *item = group.items[self.selectedIndexPath.row];
-    item.subtitle = threshold;
-    [self.tableView reloadRowsAtIndexPaths:@[self.selectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self updateTableView:threshold];
     [GMFenceManager modifyFenceWithFenceId:self.fenceInfo.fenceid threshold:threshold completion:^(BOOL success) {
         success ? PHLog(@"modify threshold Fence success") : PHLog(@"modify threshold Fence failure");
     } failure:nil];
+}
+
+- (void)updateTableView:(NSString *)subtitle {
+    PHSettingGroup *group = self.dataSource[self.selectedIndexPath.section];
+    PHSettingItem *item = group.items[self.selectedIndexPath.row];
+    item.subtitle = subtitle;
+    [self.tableView reloadRowsAtIndexPaths:@[self.selectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (UIAlertAction *)actionWithTitle:(NSString *)title actionStyle:(UIAlertActionStyle)style handler:(void (^)(UIAlertAction *action))handler
