@@ -119,6 +119,22 @@ typedef void (^GMOptionNumberFence)(GMNumberFence *numberFence);
  */
 + (void)modifyFenceWithFenceId:(NSString *)fenceId enable:(BOOL)enable completion:(GMOptionSuccess)success failureBlock:(GMOptionError)failure;
 
+//TODO: 9.06添加
+/**
+ *  仅用来修改围栏的devinfo属性
+ *
+ */
++ (void)modifyFenceWithFenceId:(NSString *)fenceId devinfo:(NSString *)devinfo completion:(GMOptionSuccess)success failure:(GMOptionError)failure;
+
+//TODO: 9.06添加
+/**
+ *  仅用来修改围栏的name属性
+ *
+ */
++ (void)modifyFenceWithFenceId:(NSString *)fenceId name:(NSString *)name completion:(GMOptionSuccess)success failure:(GMOptionError)failure;
+
++ (void)modifyFenceWithFenceId:(NSString *)fenceId threshold:(NSString *)threshold completion:(GMOptionSuccess)success failure:(GMOptionError)failure;
+
 @end
 
 

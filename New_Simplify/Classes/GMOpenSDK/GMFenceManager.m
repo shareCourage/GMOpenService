@@ -173,6 +173,62 @@
     } failure:failure];
 }
 
+//TODO: 9.06添加
++ (void)modifyFenceWithFenceId:(NSString *)fenceId devinfo:(NSString *)devinfo completion:(GMOptionSuccess)success failure:(GMOptionError)failure {
+    NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
+    if (fenceId.length == 0 || appid.length == 0) {
+        success(NO);
+        return;
+    }
+    GMNetworkManager *manager = [GMNetworkManager manager];
+    [manager modifyFenceWithAppid:appid
+                          fenceid:fenceId
+                          devInfo:devinfo
+                       completion:^(NSDictionary *dict) {
+                           NSString *msg = dict[GM_Argument_msg];
+                           BOOL value = NO;
+                           msg.length == 0 ? (value = YES) : (value = NO);
+                           if (success) success(value);
+                       } failure:failure];
+}
+//TODO: 9.06添加
++ (void)modifyFenceWithFenceId:(NSString *)fenceId name:(NSString *)name completion:(GMOptionSuccess)success failure:(GMOptionError)failure {
+    NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
+    if (fenceId.length == 0 || appid.length == 0) {
+        success(NO);
+        return;
+    }
+    GMNetworkManager *manager = [GMNetworkManager manager];
+    [manager modifyFenceWithAppid:appid
+                          fenceid:fenceId
+                        fenceName:name
+                       completion:^(NSDictionary *dict) {
+                           NSString *msg = dict[GM_Argument_msg];
+                           BOOL value = NO;
+                           msg.length == 0 ? (value = YES) : (value = NO);
+                           if (success) success(value);
+                       } failure:failure];
+}
+
+
++ (void)modifyFenceWithFenceId:(NSString *)fenceId threshold:(NSString *)threshold completion:(GMOptionSuccess)success failure:(GMOptionError)failure {
+    NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
+    if (fenceId.length == 0 || appid.length == 0) {
+        success(NO);
+        return;
+    }
+    GMNetworkManager *manager = [GMNetworkManager manager];
+    [manager modifyFenceWithAppid:appid
+                          fenceid:fenceId
+                        threshold:threshold
+                       completion:^(NSDictionary *dict) {
+                           NSString *msg = dict[GM_Argument_msg];
+                           BOOL value = NO;
+                           msg.length == 0 ? (value = YES) : (value = NO);
+                           if (success) success(value);
+                       } failure:failure];
+}
+
 - (void)obtainFenceWithDeviceId:(NSString *)deviceId successBlock:(GMOptionDict)success failureBlock:(GMOptionError)failure
 {
     if (deviceId.length == 0) return;
@@ -240,7 +296,10 @@
                                     mapType:mapType
                             withOptionBlock:^(NSDictionary *dict) {
                             NSDictionary *fenceDict = dict[GM_Argument_data];
-                            if (fenceDict.count == 0) success(nil);
+                            if (fenceDict.count == 0) {
+                                success(nil);
+                                return;
+                            }
                             GMNumberFence *fenceInfo  = [[GMNumberFence alloc] initWithDict:fenceDict];
                             if (success) success(fenceInfo);
                         }

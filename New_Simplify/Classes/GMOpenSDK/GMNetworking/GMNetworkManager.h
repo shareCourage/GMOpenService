@@ -353,7 +353,31 @@
                                           enable:(BOOL)enable
                                       completion:(GMOptionDict)optionDict
                                          failure:(GMOptionError)optionError;
+//TODO: 9.06添加
+/**
+ *  仅用来修改围栏的devInfo属性
+ */
+- (GMHTTPRequestOperation *)modifyFenceWithAppid:(NSString *)appid
+                                         fenceid:(NSString *)fenceid
+                                         devInfo:(NSString *)devInfo
+                                      completion:(GMOptionDict)optionDict
+                                         failure:(GMOptionError)optionError;
 
+//TODO: 9.06添加
+/**
+ *  仅用来修改围栏的fenceName属性
+ */
+- (GMHTTPRequestOperation *)modifyFenceWithAppid:(NSString *)appid
+                                         fenceid:(NSString *)fenceid
+                                       fenceName:(NSString *)fenceName
+                                      completion:(GMOptionDict)optionDict
+                                         failure:(GMOptionError)optionError;
+//TODO: 9.06添加
+- (GMHTTPRequestOperation *)modifyFenceWithAppid:(NSString *)appid
+                                         fenceid:(NSString *)fenceid
+                                       threshold:(NSString *)threshold
+                                      completion:(GMOptionDict)optionDict
+                                         failure:(GMOptionError)optionError;
 @end
 
 #pragma mark - GMNetworkManagerForLogin
