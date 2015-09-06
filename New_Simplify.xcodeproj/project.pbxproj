@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		70F9A3A1F39BDBE545F6FBC3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9F33294FC3C4BBEF0C28EE /* libPods.a */; };
+		A90FA48C1B9BF0F100A8F708 /* PHFenceOtherArgumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA48B1B9BF0F100A8F708 /* PHFenceOtherArgumentController.m */; };
+		A90FA48F1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA48E1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.m */; };
+		A90FA4931B9C4C2F00A8F708 /* PHPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA4921B9C4C2F00A8F708 /* PHPickerView.m */; };
+		A90FA4951B9C4C4500A8F708 /* PHPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A90FA4941B9C4C4500A8F708 /* PHPickerView.xib */; };
 		A91B54571B4B81EE0042024A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B54561B4B81EE0042024A /* main.m */; };
 		A91B545A1B4B81EE0042024A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91B54591B4B81EE0042024A /* AppDelegate.mm */; };
 		A91B54601B4B81EE0042024A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A91B545E1B4B81EE0042024A /* Main.storyboard */; };
@@ -181,6 +185,13 @@
 /* Begin PBXFileReference section */
 		0C90E702680256A7F24C2F38 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8F9F33294FC3C4BBEF0C28EE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A90FA48A1B9BF0F100A8F708 /* PHFenceOtherArgumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceOtherArgumentController.h; sourceTree = "<group>"; };
+		A90FA48B1B9BF0F100A8F708 /* PHFenceOtherArgumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFenceOtherArgumentController.m; sourceTree = "<group>"; };
+		A90FA48D1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceOtherArguemntCell.h; sourceTree = "<group>"; };
+		A90FA48E1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFenceOtherArguemntCell.m; sourceTree = "<group>"; };
+		A90FA4911B9C4C2F00A8F708 /* PHPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPickerView.h; sourceTree = "<group>"; };
+		A90FA4921B9C4C2F00A8F708 /* PHPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPickerView.m; sourceTree = "<group>"; };
+		A90FA4941B9C4C4500A8F708 /* PHPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PHPickerView.xib; sourceTree = "<group>"; };
 		A91B54511B4B81EE0042024A /* New_Simplify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = New_Simplify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A91B54551B4B81EE0042024A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A91B54561B4B81EE0042024A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -488,6 +499,16 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		A90FA4901B9C4C1700A8F708 /* PHPickView */ = {
+			isa = PBXGroup;
+			children = (
+				A90FA4911B9C4C2F00A8F708 /* PHPickerView.h */,
+				A90FA4921B9C4C2F00A8F708 /* PHPickerView.m */,
+				A90FA4941B9C4C4500A8F708 /* PHPickerView.xib */,
+			);
+			path = PHPickView;
+			sourceTree = "<group>";
+		};
 		A91B54481B4B81EE0042024A = {
 			isa = PBXGroup;
 			children = (
@@ -653,6 +674,8 @@
 				A9AEA2B71B970222003B2E49 /* PHFenceModifyMapController.h */,
 				A9AEA2B81B970222003B2E49 /* PHFenceModifyMapController.m */,
 				A9AEA2B91B970222003B2E49 /* PHFenceModifyMapController.xib */,
+				A90FA48A1B9BF0F100A8F708 /* PHFenceOtherArgumentController.h */,
+				A90FA48B1B9BF0F100A8F708 /* PHFenceOtherArgumentController.m */,
 			);
 			path = FenceMap;
 			sourceTree = "<group>";
@@ -697,6 +720,7 @@
 		A91B54B31B4B85C00042024A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A90FA4901B9C4C1700A8F708 /* PHPickView */,
 				A9F9B7A91B95A38500CF7017 /* FenceCell */,
 				A91B54B41B4B85C00042024A /* FenceMapTitleView */,
 				A91B54B81B4B85C00042024A /* FenceMapView */,
@@ -1510,6 +1534,8 @@
 				A9F9B7AA1B95A3C600CF7017 /* PHFenceTableViewCell.h */,
 				A9F9B7AB1B95A3C600CF7017 /* PHFenceTableViewCell.m */,
 				A9F9B7AF1B95B49F00CF7017 /* PHFenceTableViewCell.xib */,
+				A90FA48D1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.h */,
+				A90FA48E1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.m */,
 			);
 			path = FenceCell;
 			sourceTree = "<group>";
@@ -1618,6 +1644,7 @@
 				A91B55991B4B85C10042024A /* PHFenceMapController.xib in Resources */,
 				A91B54601B4B81EE0042024A /* Main.storyboard in Resources */,
 				A91B55E41B4B85C10042024A /* map_plus@2x.png in Resources */,
+				A90FA4951B9C4C4500A8F708 /* PHPickerView.xib in Resources */,
 				A91B55C21B4B85C10042024A /* PHAcountLinkViewController.xib in Resources */,
 				A91B558B1B4B85C10042024A /* MBProgressHUD.bundle in Resources */,
 				A91B55EE1B4B85C10042024A /* radio_checked.png in Resources */,
@@ -1718,6 +1745,7 @@
 				A986AC2A1B538B78006403D3 /* GMNetworkManager.m in Sources */,
 				A91B559D1B4B85C10042024A /* PHFenceMapTitleView.m in Sources */,
 				A986AC171B538B78006403D3 /* GFMDatabasePool.m in Sources */,
+				A90FA48F1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.m in Sources */,
 				A91B55CE1B4B85C10042024A /* PHSettingSwitchItem.m in Sources */,
 				A91B55CB1B4B85C10042024A /* PHSettingArrowItem.m in Sources */,
 				A91B55B71B4B85C10042024A /* PHFilterView.m in Sources */,
@@ -1771,6 +1799,7 @@
 				A91B55AE1B4B85C10042024A /* PHPlayBackController.m in Sources */,
 				A91B55BE1B4B85C10042024A /* PHStartAnnotationView.m in Sources */,
 				A9F362F71B842B3F004DED58 /* SFHFKeychainUtils.m in Sources */,
+				A90FA4931B9C4C2F00A8F708 /* PHPickerView.m in Sources */,
 				A91B559C1B4B85C10042024A /* PHFenceMap.m in Sources */,
 				A91B55931B4B85C10042024A /* UILabel+PHCategory.m in Sources */,
 				A91B545A1B4B81EE0042024A /* AppDelegate.mm in Sources */,
@@ -1798,6 +1827,7 @@
 				A91B54571B4B81EE0042024A /* main.m in Sources */,
 				A91B55961B4B85C10042024A /* UITextField+PHCategory.m in Sources */,
 				A91B55C61B4B85C10042024A /* PHOfflineMapController.m in Sources */,
+				A90FA48C1B9BF0F100A8F708 /* PHFenceOtherArgumentController.m in Sources */,
 				A91B55911B4B85C10042024A /* UIButton+PHCategory.m in Sources */,
 				A986AC221B538B78006403D3 /* GMHTTPRequestOperationManager.m in Sources */,
 				A9F9B7AC1B95A3C600CF7017 /* PHFenceTableViewCell.m in Sources */,

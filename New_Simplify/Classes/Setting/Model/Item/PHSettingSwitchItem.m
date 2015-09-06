@@ -23,7 +23,11 @@
 }
 
 
-
++ (instancetype)itemWithTitle:(NSString *)title completion:(PHSettingSwitchStatus)status {
+    PHSettingSwitchItem *item = [self itemWithTitle:title destVcClass:nil];
+    item.status = status;
+    return item;
+}
 
 @end
 

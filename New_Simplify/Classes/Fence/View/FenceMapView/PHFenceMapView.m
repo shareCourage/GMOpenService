@@ -24,6 +24,8 @@
     [self.bmkMapView removeAnnotations:self.bmkMapView.annotations];
     if ((fenceMap.coords.count >= 3)) {//多边形
         [self addPolygonWithCoords:fenceMap.coords];
+        [self.bmkMapView setCenterCoordinate:[self averageCoord:fenceMap.coords] animated:YES];
+
     }
     else if (fenceMap.coords.count == 2){//直线
         [self addPolylineWithCoords:fenceMap.coords];
@@ -38,6 +40,23 @@
         }
     }
 }
+
+/**
+ *  计算经纬度的平均值
+ */
+- (CLLocationCoordinate2D)averageCoord:(NSArray *)coords {
+    double lats = 0;
+    double lngs = 0;
+    for (NSString *obj in coords) {
+        NSArray *objArray = [NSArray seprateString:obj characterSet:@","];
+        NSString *lat = [objArray firstObject];
+        NSString *lng = [objArray lastObject];
+        lats += [lat doubleValue];
+        lngs += [lng doubleValue];
+    }
+    return CLLocationCoordinate2DMake(lats / coords.count, lngs / coords.count);
+}
+
 /**
  *  添加BMKPolyline
  *
@@ -93,7 +112,7 @@
  */
 - (void)addAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate
 {
-    if (coordinate.latitude != 0) {
+    if (_fenceMap.coords.count == 0) {//判断是圆形时，才设置地图中心点
         [self.bmkMapView setCenterCoordinate:coordinate animated:YES];
     }
     PHFenceAnnotation *fenceAn = [PHFenceAnnotation fenceAnnotation];
@@ -119,14 +138,14 @@
     }
     else if ([overlay isKindOfClass:[BMKPolygon class]]) {
         BMKPolygonView *polygonView = [[BMKPolygonView alloc] initWithOverlay:overlay];
-        polygonView.fillColor = [[UIColor purpleColor] colorWithAlphaComponent:0.1];
-        polygonView.strokeColor = [[UIColor purpleColor] colorWithAlphaComponent:0.7];
+        polygonView.fillColor = [[UIColor redColor] colorWithAlphaComponent:0.1];
+        polygonView.strokeColor = [[UIColor redColor] colorWithAlphaComponent:0.7];
         polygonView.lineWidth = 3.0;
         return polygonView;
     }
     else if ([overlay isKindOfClass:[BMKPolyline class]]) {
         BMKPolylineView *polylineView = [[BMKPolylineView alloc] initWithOverlay:overlay];
-        polylineView.strokeColor = [UIColor purpleColor];
+        polylineView.strokeColor = [UIColor redColor];
         polylineView.lineWidth = 3.0;
         return polylineView;
     }
