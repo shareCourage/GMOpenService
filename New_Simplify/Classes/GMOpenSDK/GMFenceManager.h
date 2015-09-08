@@ -133,7 +133,14 @@ typedef void (^GMOptionNumberFence)(GMNumberFence *numberFence);
  */
 + (void)modifyFenceWithFenceId:(NSString *)fenceId name:(NSString *)name completion:(GMOptionSuccess)success failure:(GMOptionError)failure;
 
+//TODO: 9.06添加
+/**
+ *  仅用来修改围栏的threshold(阈值)属性
+ *
+ */
 + (void)modifyFenceWithFenceId:(NSString *)fenceId threshold:(NSString *)threshold completion:(GMOptionSuccess)success failure:(GMOptionError)failure;
+
++ (void)modifyFenceWithFenceId:(NSString *)fenceId area:(NSString *)area mapType:(GMMapType)mapType completion:(GMOptionSuccess)success failure:(GMOptionError)failure;
 
 @end
 

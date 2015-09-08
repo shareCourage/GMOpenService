@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @interface PHFenceListController : UITableViewController
 
+@property (nonatomic, assign, getter = isFenceArgumentChanged) BOOL fenceArgumentChanged;
 
 @end

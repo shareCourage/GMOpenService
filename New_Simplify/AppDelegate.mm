@@ -91,22 +91,25 @@
     NSDictionary *aps = userInfo[@"aps"];
     NSString *alert = aps[@"alert"];
     NSString *fenceName = nil;
-    if ([alert containsString:@"开"] || [alert containsString:@"入"]) {
-        NSRange range = [alert rangeOfString:@"开"];
-        if (range.length == 0) {
-            range = [alert rangeOfString:@"入"];
+    if (PH_iOS(8.0)) {
+        if ([alert containsString:@"开"] || [alert containsString:@"入"]) {
+            NSRange range = [alert rangeOfString:@"开"];
+            if (range.length == 0) {
+                range = [alert rangeOfString:@"入"];
+            }
+            NSRange subRange = NSMakeRange(range.location + 1, alert.length - range.location - 1);
+            fenceName = [alert substringWithRange:subRange];
         }
-        NSRange subRange = NSMakeRange(range.location + 1, alert.length - range.location - 1);
-        fenceName = [alert substringWithRange:subRange];
-    }
-    else if ([alert containsString:@"Out"] || [alert containsString:@"In"]){
-        alert = [alert stringByReplacingOccurrencesOfString:@" " withString:@","];
-        NSArray *alerts = [alert componentsSeparatedByString:@","];
-        fenceName = alerts[2];
-        if ([fenceName isEqualToString:@"Fence"]) {
-            return nil;
+        else if ([alert containsString:@"Out"] || [alert containsString:@"In"]){
+            alert = [alert stringByReplacingOccurrencesOfString:@" " withString:@","];
+            NSArray *alerts = [alert componentsSeparatedByString:@","];
+            fenceName = alerts[2];
+            if ([fenceName isEqualToString:@"Fence"]) {
+                return nil;
+            }
         }
     }
+    
     return fenceName;
 }
 #pragma mark - BMKGeneralDelegate

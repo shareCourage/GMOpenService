@@ -120,7 +120,7 @@
     
     NSArray *historys = [self.hisM selectAllOfHistoryInfosWithDevice:[[PHHistoryLoc alloc] init] orderBy:GMOrderByASC];
     PHHistoryLoc *hisLoc = [historys lastObject];
-    PHLog(@"数据库总个数-》%ld个",historys.count);
+    PHLog(@"数据库总个数-》%ld个",(unsigned long)historys.count);
 
     NSTimeInterval start = [NSDate date].timeIntervalSince1970 - 2 * 30 * 24 * 60 * 60;
     self.hisM.startTime = hisLoc.gps_time == nil ? [NSString stringWithFormat:@"%.f",start] : hisLoc.gps_time;
@@ -156,7 +156,7 @@
     }
     self.playBackMapView.historys = results;
 
-    PHLog(@"___+++___%ld个",results.count);
+    PHLog(@"___+++___%ld个",(unsigned long)results.count);
 }
 #endif
 
@@ -171,7 +171,7 @@
 #pragma mark - PHFilterViewDelegate
 - (void)filterView:(PHFilterView *)filterView didSelectButtonFrom:(NSUInteger)from to:(NSUInteger)to
 {
-    PHLog(@"from %ld, to %ld",from,to);
+    PHLog(@"from %ld, to %ld",(unsigned long)from,(unsigned long)to);
 }
 - (void)filterView:(PHFilterView *)filterView didSelectStatu:(PHFilterViewStatus)status withStartTime:(NSTimeInterval)start endTime:(NSTimeInterval)end
 {

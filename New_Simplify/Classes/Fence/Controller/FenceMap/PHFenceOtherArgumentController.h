@@ -11,6 +11,8 @@
 
 @interface PHFenceOtherArgumentController : PHBaseSettingViewController
 
-@property(nonatomic, strong)GMDeviceFence *fenceInfo;
+@property (nonatomic, strong) GMDeviceFence *fenceInfo;
+
+@property (nonatomic, strong) GMFenceManager *fenceM;
 
 @end

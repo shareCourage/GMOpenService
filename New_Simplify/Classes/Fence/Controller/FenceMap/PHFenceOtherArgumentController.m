@@ -24,6 +24,8 @@
 #import "PHSettingSwitchItem.h"
 #import "PHFenceOtherArguemntCell.h"
 #import "PHPickerView.h"
+#import "PHFenceListController.h"
+
 @interface PHFenceOtherArgumentController ()
 {
     __block NSString *_devIn;
@@ -46,16 +48,22 @@
     [super viewDidLoad];
     
     self.title = self.fenceInfo.name.length != 0 ? self.fenceInfo.name : self.fenceInfo.fenceid;
-    _devIn = self.fenceInfo.devInOut.dev_in;
-    _devOut = self.fenceInfo.devInOut.dev_out;
+    _devIn = self.fenceInfo ? self.fenceInfo.devInOut.dev_in : @"1";
+    _devOut = self.fenceInfo ? self.fenceInfo.devInOut.dev_out : @"1";
     
     PH_WS(ws);
     PHSettingSwitchItem *enable = [PHSettingSwitchItem itemWithTitle:PH_FenceOtherArgument_enable completion:^(BOOL enable) {
-        [GMFenceManager modifyFenceWithFenceId:ws.fenceInfo.fenceid enable:enable completion:^(BOOL success) {
-            success ? PHLog(@"modify enable Fence success") : PHLog(@"modify enable Fence failure");
-        } failureBlock:nil];
+        if (ws.fenceM) {
+            ws.fenceM.enable = enable;
+        }
+        else {
+            [GMFenceManager modifyFenceWithFenceId:ws.fenceInfo.fenceid enable:enable completion:^(BOOL success) {
+                success ? PHLog(@"modify enable Fence success") : PHLog(@"modify enable Fence failure");
+            } failureBlock:nil];
+            [ws rootViewControllerShouldRefresh];
+        }
     }];
-    enable.enabled = [self.fenceInfo.enable boolValue];
+    enable.enabled = self.fenceInfo ? [self.fenceInfo.enable boolValue] : YES;
     
     
     PHSettingSwitchItem *devIn = [PHSettingSwitchItem itemWithTitle:PH_FenceOtherArgument_devIn completion:^(BOOL enable) {
@@ -63,17 +71,17 @@
         strongSelf -> _devIn = [NSString stringWithFormat:@"%d",enable];
         [ws modifyDevinfo];
     }];
-    devIn.enabled = [self.fenceInfo.devInOut.dev_in boolValue];
+    devIn.enabled = self.fenceInfo ? [self.fenceInfo.devInOut.dev_in boolValue] : YES;
     
     PHSettingSwitchItem *devOut = [PHSettingSwitchItem itemWithTitle:PH_FenceOtherArgument_devOut completion:^(BOOL enable) {
         __strong typeof(ws) strongSelf = ws;
         strongSelf -> _devOut = [NSString stringWithFormat:@"%d",enable];
         [ws modifyDevinfo];
     }];
-    devOut.enabled = [self.fenceInfo.devInOut.dev_out boolValue];
+    devOut.enabled = self.fenceInfo ? [self.fenceInfo.devInOut.dev_out boolValue] : YES;
 
     PHSettingItem *name = [PHSettingArrowItem itemWithTitle:PH_FenceOtherArgument_name];
-    name.subtitle = self.fenceInfo.name;
+    name.subtitle = self.fenceInfo ? self.fenceInfo.name : self.fenceM.fenceName;
     name.option = ^{
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入围栏名称" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
@@ -88,7 +96,7 @@
     };
     
     PHSettingItem *threshold = [PHSettingArrowItem itemWithTitle:PH_FenceOtherArgument_threshold];
-    threshold.subtitle = self.fenceInfo.threshold;
+    threshold.subtitle = self.fenceInfo ? self.fenceInfo.threshold : [NSString stringWithFormat:@"%@",@(self.fenceM.threshold)];
     threshold.option = ^{
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入围栏报警阈值" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
@@ -115,7 +123,7 @@
     }
     else if ([self.fenceInfo.shape isEqualToString:@"2"]) {
         NSArray *array = [NSArray seprateString:self.fenceInfo.area characterSet:@";"];
-        shape.subtitle = [NSString stringWithFormat:@"%ld边形",array.count];
+        shape.subtitle = [NSString stringWithFormat:@"%ld边形",(unsigned long)array.count];
     }
     
     PHSettingGroup *groupOne = [[PHSettingGroup alloc] init];
@@ -150,7 +158,7 @@
             NSMutableArray *array = [NSMutableArray array];
             NSUInteger i = 1;
             for (GMDevInOut *devInOut in numberFence.devinfos) {
-                PHSettingItem *devid = [PHSettingItem itemWithTitle:[NSString stringWithFormat:@"设备号%ld",i]];
+                PHSettingItem *devid = [PHSettingItem itemWithTitle:[NSString stringWithFormat:@"设备号%ld",(unsigned long)i]];
                 devid.subtitle = devInOut.devid;
                 [array addObject:devid];
                 i ++;
@@ -162,25 +170,43 @@
 }
 
 - (void)modifyDevinfo {
-    NSString *devinfo = [NSString stringWithFormat:@"%@,%@,%@",self.fenceInfo.devInOut.devid,_devIn,_devOut];
-    [GMFenceManager modifyFenceWithFenceId:self.fenceInfo.fenceid devinfo:devinfo completion:^(BOOL success) {
-        success ? PHLog(@"modify devinfo Fence success") : PHLog(@"modify devinfo Fence failure");
-    } failure:nil];
+    if (self.fenceM) {
+        self.fenceM.getIn = [_devIn boolValue];
+        self.fenceM.getOut = [_devOut boolValue];
+    }
+    else {
+        NSString *devinfo = [NSString stringWithFormat:@"%@,%@,%@",self.fenceInfo.devInOut.devid,_devIn,_devOut];
+        [GMFenceManager modifyFenceWithFenceId:self.fenceInfo.fenceid devinfo:devinfo completion:^(BOOL success) {
+            success ? PHLog(@"modify devinfo Fence success") : PHLog(@"modify devinfo Fence failure");
+        } failure:nil];
+        [self rootViewControllerShouldRefresh];
+    }
 }
 
 - (void)modifyFenceName:(NSString *)name {
+    if (self.fenceM) {
+        self.fenceM.fenceName = name;
+    }
+    else {
+        [GMFenceManager modifyFenceWithFenceId:self.fenceInfo.fenceid name:name completion:^(BOOL success) {
+            success ? PHLog(@"modify name Fence success") : PHLog(@"modify name Fence failure");
+        } failure:nil];
+    }
     [self updateTableView:name];
-    [GMFenceManager modifyFenceWithFenceId:self.fenceInfo.fenceid name:name completion:^(BOOL success) {
-        success ? PHLog(@"modify name Fence success") : PHLog(@"modify name Fence failure");
-    } failure:nil];
-    
+
 }
 
 - (void)modifyFenceThreshold:(NSString *)threshold {
+    if (self.fenceM) {
+        self.fenceM.threshold = (NSUInteger)[threshold integerValue];
+    }
+    else {
+        [GMFenceManager modifyFenceWithFenceId:self.fenceInfo.fenceid threshold:threshold completion:^(BOOL success) {
+            success ? PHLog(@"modify threshold Fence success") : PHLog(@"modify threshold Fence failure");
+        } failure:nil];
+    }
     [self updateTableView:threshold];
-    [GMFenceManager modifyFenceWithFenceId:self.fenceInfo.fenceid threshold:threshold completion:^(BOOL success) {
-        success ? PHLog(@"modify threshold Fence success") : PHLog(@"modify threshold Fence failure");
-    } failure:nil];
+
 }
 
 - (void)updateTableView:(NSString *)subtitle {
@@ -188,6 +214,7 @@
     PHSettingItem *item = group.items[self.selectedIndexPath.row];
     item.subtitle = subtitle;
     [self.tableView reloadRowsAtIndexPaths:@[self.selectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self rootViewControllerShouldRefresh];
 }
 
 - (UIAlertAction *)actionWithTitle:(NSString *)title actionStyle:(UIAlertActionStyle)style handler:(void (^)(UIAlertAction *action))handler
@@ -197,6 +224,11 @@
     }
     return [UIAlertAction actionWithTitle:title style:style handler:handler];
     
+}
+
+- (void)rootViewControllerShouldRefresh {
+    PHFenceListController *fenceList = [self.navigationController.viewControllers firstObject];
+    fenceList.fenceArgumentChanged = YES;
 }
 
 #pragma mark - UITableViewDelegate

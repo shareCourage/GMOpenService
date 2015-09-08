@@ -23,6 +23,10 @@ static BOOL isRegisted = NO;
 
 @implementation PHFenceTableViewCell
 
+- (void)dealloc {
+    isRegisted = NO;
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
@@ -69,7 +73,7 @@ static BOOL isRegisted = NO;
     }
     else {
         NSArray *array = [NSArray seprateString:self.devFence.area characterSet:@";"];
-        self.fenceShapeL.text = [NSString stringWithFormat:@"%ld边形围栏",array.count];
+        self.fenceShapeL.text = [NSString stringWithFormat:@"%ld边形围栏",(unsigned long)array.count];
         self.fenceRadiusL.hidden = YES;
     }
     
@@ -85,12 +89,15 @@ static BOOL isRegisted = NO;
         if (success) {
             PHLog(@"modify Fence success");
             ws.devFence.enable = [NSString stringWithFormat:@"%d",sender.isOn];//实时更新devFence的属性
+//            [MBProgressHUD showSuccess:@"修改成功"];
         }
         else {
             PHLog(@"modify Fence failure");
+            [MBProgressHUD showError:@"修改失败"];
         }
     } failureBlock:^(NSError *error) {
         if (error) PHLog(@"modify Fence failure -> %@", error);
+        [MBProgressHUD showError:@"修改失败"];
     }];
     
 }

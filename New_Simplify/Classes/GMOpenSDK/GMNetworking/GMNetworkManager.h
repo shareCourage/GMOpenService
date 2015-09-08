@@ -378,6 +378,14 @@
                                        threshold:(NSString *)threshold
                                       completion:(GMOptionDict)optionDict
                                          failure:(GMOptionError)optionError;
+
+//TODO: 9.07添加
+- (GMHTTPRequestOperation *)modifyFenceWithAppid:(NSString *)appid
+                                         fenceid:(NSString *)fenceid
+                                            area:(NSString *)area
+                                         mapType:(NSString *)mapType
+                                      completion:(GMOptionDict)optionDict
+                                         failure:(GMOptionError)optionError;
 @end
 
 #pragma mark - GMNetworkManagerForLogin

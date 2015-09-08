@@ -32,6 +32,7 @@
 
 + (void)setupWithOption:(NSDictionary *)launchingOption
 {
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     if (!launchingOption) return;
 }
 

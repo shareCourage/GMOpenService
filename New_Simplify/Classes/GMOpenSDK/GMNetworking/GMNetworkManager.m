@@ -606,6 +606,38 @@
     return operation;
 }
 
+//TODO: 9.07添加
+- (GMHTTPRequestOperation *)modifyFenceWithAppid:(NSString *)appid
+                                         fenceid:(NSString *)fenceid
+                                            area:(NSString *)area
+                                         mapType:(NSString *)mapType
+                                      completion:(GMOptionDict)optionDict
+                                         failure:(GMOptionError)optionError
+{
+    if (appid.length == 0 || fenceid.length == 0 || area.length == 0) {
+        optionDict(nil);
+        return nil;
+    }
+    NSNumber *shape = nil;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
+        area.length > 20 ? (shape = @2) : (shape = @1);
+    }
+    else {
+        shape = [area containsString:@";"] ? @2 : @1;
+    }
+    NSDictionary *parameters = [GMTool parameters:appid
+                                          fenceId:fenceid
+                                            shape:shape
+                                        threshold:nil
+                                              are:area
+                                           enable:nil
+                                          mapType:mapType
+                                        fenceName:nil
+                                          devInfo:nil];
+    GMHTTPRequestOperation *operation = [self POST:GM_Modify_Fence_URL parameters:parameters dictBlock:optionDict errorBlock:optionError];
+    return operation;
+}
+
 #pragma mark - selfForLogin
 - (GMHTTPRequestOperation *)logoutWithAppID:(NSString *)appID
                                    deviceID:(NSString *)deviceID

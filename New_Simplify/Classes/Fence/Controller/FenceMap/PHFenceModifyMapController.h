@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 @class GMDeviceFence;
+
 @interface PHFenceModifyMapController : UIViewController
 
-@property(nonatomic, strong)GMDeviceFence *fenceInfo;
+@property(nonatomic, strong)__block GMDeviceFence *fenceInfo;
 
 
 @end

@@ -10,6 +10,7 @@
                 <outlet property="CircleDisplayView" destination="3gr-Bi-2SW" id="M1Q-0T-unW"/>
                 <outlet property="circleRadiusL" destination="QPz-ZL-auj" id="Qw2-U8-ChW"/>
                 <outlet property="circleSlider" destination="6qw-Cv-zD9" id="Y2L-Ae-xFl"/>
+                <outlet property="drawFenceView" destination="EBC-LQ-K7s" id="DYo-MI-DSj"/>
                 <outlet property="fenceMapView" destination="clA-Tm-bkI" id="u7e-Ny-bnu"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -56,13 +57,24 @@
                         <constraint firstAttribute="trailing" secondItem="QPz-ZL-auj" secondAttribute="trailing" id="zDx-G9-17i"/>
                     </constraints>
                 </view>
+                <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBC-LQ-K7s" userLabel="DrawView" customClass="PHDrawFenceView">
+                    <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="puP-uh-Zo8"/>
+                    </connections>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="EBC-LQ-K7s" secondAttribute="trailing" id="BZB-I3-aTW"/>
+                <constraint firstItem="EBC-LQ-K7s" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="K2g-qI-QmS"/>
+                <constraint firstAttribute="bottom" secondItem="EBC-LQ-K7s" secondAttribute="bottom" id="MWd-35-yK9"/>
                 <constraint firstItem="3gr-Bi-2SW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="h22-0e-Y2T"/>
                 <constraint firstAttribute="trailing" secondItem="3gr-Bi-2SW" secondAttribute="trailing" id="kLH-Eq-ebW"/>
                 <constraint firstAttribute="trailing" secondItem="clA-Tm-bkI" secondAttribute="trailing" id="qBf-52-dpc"/>
                 <constraint firstAttribute="bottom" secondItem="clA-Tm-bkI" secondAttribute="bottom" id="sEI-5K-cL6"/>
+                <constraint firstItem="EBC-LQ-K7s" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="uML-wR-Ylc"/>
                 <constraint firstItem="clA-Tm-bkI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="vcz-ra-ljR"/>
                 <constraint firstItem="clA-Tm-bkI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="y5w-h0-EO3"/>
                 <constraint firstItem="3gr-Bi-2SW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="yac-vU-Y8f"/>

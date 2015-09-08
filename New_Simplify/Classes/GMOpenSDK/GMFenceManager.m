@@ -176,7 +176,7 @@
 //TODO: 9.06添加
 + (void)modifyFenceWithFenceId:(NSString *)fenceId devinfo:(NSString *)devinfo completion:(GMOptionSuccess)success failure:(GMOptionError)failure {
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
-    if (fenceId.length == 0 || appid.length == 0) {
+    if (fenceId.length == 0 || appid.length == 0 || devinfo.length == 0) {
         success(NO);
         return;
     }
@@ -194,7 +194,7 @@
 //TODO: 9.06添加
 + (void)modifyFenceWithFenceId:(NSString *)fenceId name:(NSString *)name completion:(GMOptionSuccess)success failure:(GMOptionError)failure {
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
-    if (fenceId.length == 0 || appid.length == 0) {
+    if (fenceId.length == 0 || appid.length == 0 || name.length == 0) {
         success(NO);
         return;
     }
@@ -213,7 +213,7 @@
 
 + (void)modifyFenceWithFenceId:(NSString *)fenceId threshold:(NSString *)threshold completion:(GMOptionSuccess)success failure:(GMOptionError)failure {
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
-    if (fenceId.length == 0 || appid.length == 0) {
+    if (fenceId.length == 0 || appid.length == 0 || threshold.length == 0) {
         success(NO);
         return;
     }
@@ -221,6 +221,26 @@
     [manager modifyFenceWithAppid:appid
                           fenceid:fenceId
                         threshold:threshold
+                       completion:^(NSDictionary *dict) {
+                           NSString *msg = dict[GM_Argument_msg];
+                           BOOL value = NO;
+                           msg.length == 0 ? (value = YES) : (value = NO);
+                           if (success) success(value);
+                       } failure:failure];
+}
+
++ (void)modifyFenceWithFenceId:(NSString *)fenceId area:(NSString *)area mapType:(GMMapType)mapType completion:(GMOptionSuccess)success failure:(GMOptionError)failure {
+    NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
+    if (fenceId.length == 0 || appid.length == 0 || area.length == 0) {
+        success(NO);
+        return;
+    }
+    NSString *maptype = [GMTool mapType:mapType];
+    GMNetworkManager *manager = [GMNetworkManager manager];
+    [manager modifyFenceWithAppid:appid
+                          fenceid:fenceId
+                             area:area
+                          mapType:maptype
                        completion:^(NSDictionary *dict) {
                            NSString *msg = dict[GM_Argument_msg];
                            BOOL value = NO;

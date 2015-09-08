@@ -120,7 +120,7 @@
     //    coords[3] = CLLocationCoordinate2DMake(22.442726, 114.151489);
     [nearby reverseGeocode:coords count:maxCount completionBlock:^(NSArray *array) {
         for (GMGeocodeResult *result in array) {
-            PHLog(@"%@, %.6f, %.6f, num -> %ld",result.address, result.location.latitude, result.location.longitude, array.count);
+            PHLog(@"%@, %.6f, %.6f, num -> %ld",result.address, result.location.latitude, result.location.longitude, (unsigned long)array.count);
         }
     } failureBlock:nil];
     free(coords);

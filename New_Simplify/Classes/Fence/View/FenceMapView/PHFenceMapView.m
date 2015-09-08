@@ -16,7 +16,10 @@
 
 @implementation PHFenceMapView
 
-
+- (void)removeMapViewOverlays {
+    [self.bmkMapView removeOverlays:self.bmkMapView.overlays];
+    [self.bmkMapView removeAnnotations:self.bmkMapView.annotations];
+}
 - (void)setFenceMap:(PHFenceMap *)fenceMap
 {
     _fenceMap = fenceMap;
@@ -25,6 +28,7 @@
     if ((fenceMap.coords.count >= 3)) {//多边形
         [self addPolygonWithCoords:fenceMap.coords];
         [self.bmkMapView setCenterCoordinate:[self averageCoord:fenceMap.coords] animated:YES];
+        [self settingMapViewZoomLevelWithDistance:[self maxDistanceOfCoords:fenceMap.coords]];
 
     }
     else if (fenceMap.coords.count == 2){//直线
@@ -35,12 +39,69 @@
             free([self transitToCoords:fenceMap.coords]);
         }
         else {
+            if (fenceMap.coordinate.latitude == 0 || fenceMap.coordinate.longitude == 0) return;
             [self addCircleWithCoordinate:fenceMap.coordinate radius:fenceMap.radius];
             [self addAnnotationWithCoordinate:fenceMap.coordinate];
+            [self settingMapViewZoomLevelWithDistance:(CGFloat)fenceMap.radius * 2];
         }
     }
 }
-
+- (void)settingMapViewZoomLevelWithDistance:(CGFloat)distance {
+    if (distance < 200) {
+        self.bmkMapView.zoomLevel = 19;
+    }
+    else if (distance < 600) {
+        self.bmkMapView.zoomLevel = 18;
+    }
+    else if (distance < 1000) {
+        self.bmkMapView.zoomLevel = 17;
+    }
+    else if (distance < 2400) {
+        self.bmkMapView.zoomLevel = 16;
+    }
+    else if (distance < 4800) {
+        self.bmkMapView.zoomLevel = 15;
+    }
+    else if (distance < 9600) {
+        self.bmkMapView.zoomLevel = 14;
+    }
+    else if (distance < 18000) {
+        self.bmkMapView.zoomLevel = 13;
+    }
+    else if (distance < 10000) {
+        self.bmkMapView.zoomLevel = 12.5f;
+    }
+    else if (distance < 40000) {
+        self.bmkMapView.zoomLevel = 12;
+    }
+    else if (distance < 100000) {
+        self.bmkMapView.zoomLevel = 11;
+    }
+    else if (distance < 200000) {
+        self.bmkMapView.zoomLevel = 10;
+    }
+    else if (distance < 400000) {
+        self.bmkMapView.zoomLevel = 9;
+    }
+    else if (distance < 600000) {
+        self.bmkMapView.zoomLevel = 8;
+    }
+    else if (distance < 1200000) {
+        self.bmkMapView.zoomLevel = 7;
+    }
+    else if (distance < 2500000) {
+        self.bmkMapView.zoomLevel = 6;
+    }
+    else if (distance < 5000000) {
+        self.bmkMapView.zoomLevel = 5;
+    }
+    else if (distance < 10000000) {
+        self.bmkMapView.zoomLevel = 4;
+    }
+    else if (distance < 20500000) {
+        self.bmkMapView.zoomLevel = 3;
+    }
+}
 /**
  *  计算经纬度的平均值
  */
@@ -55,6 +116,34 @@
         lngs += [lng doubleValue];
     }
     return CLLocationCoordinate2DMake(lats / coords.count, lngs / coords.count);
+}
+
+- (CLLocationDistance)maxDistanceOfCoords:(NSArray *)coords {
+    CLLocationDistance distance = 0.0;
+    NSString *coordStr1 = [coords firstObject];
+    CLLocationCoordinate2D coordA = [self coordsFromString:coordStr1];
+    for (int i = 1; i < coords.count; i ++) {
+        NSString *coordStr2 = coords[i];
+        CLLocationCoordinate2D coordB = [self coordsFromString:coordStr2];
+        CLLocationDistance abDistance = [self distanceFromCoordA:coordA toCoordB:coordB];
+        if (distance < abDistance) {
+            distance = abDistance;
+        }
+    }
+//    PHLog(@"maxDistance->%.2f",distance);
+    return distance;
+}
+
+- (CLLocationCoordinate2D)coordsFromString:(NSString *)string {
+    NSArray *objArray = [NSArray seprateString:string characterSet:@","];
+    NSString *lat = [objArray firstObject];
+    NSString *lng = [objArray lastObject];
+    return CLLocationCoordinate2DMake([lat doubleValue], [lng doubleValue]);
+}
+- (CGFloat)distanceBetweenCoordA:(CLLocationCoordinate2D)coordA coordB:(CLLocationCoordinate2D)coordB {
+    CGFloat lat = fabs(coordA.latitude - coordB.latitude);
+    CGFloat lng = fabs(coordA.longitude - coordB.longitude);
+    return sqrt(lat * lat + lng * lng);
 }
 
 /**
@@ -120,11 +209,6 @@
     [self.bmkMapView addAnnotation:fenceAn];
 }
 
-
-
-
-
-
 #pragma mark - BMKMapViewDelegate
 
 - (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id<BMKOverlay>)overlay
@@ -158,6 +242,7 @@
     if ([self.delegate respondsToSelector:@selector(fenceMapViewRegionDidChanged:)]) {
         [self.delegate fenceMapViewRegionDidChanged:self];
     }
+    PHLog(@"zoomlevel->%.f",mapView.zoomLevel);
 }
 
 - (void)mapview:(BMKMapView *)mapView onLongClick:(CLLocationCoordinate2D)coordinate
@@ -168,24 +253,14 @@
 }
 
 
-
-//#if 0
-- (CLLocationDistance)calculateDistanceBetweenLeftAndRightPoint
+- (CLLocationDistance)distanceFromCoordA:(CLLocationCoordinate2D)coordA toCoordB:(CLLocationCoordinate2D)coordB
 {
-    CGPoint leftP = CGPointMake(0, 0);
-    CGPoint rightP = CGPointMake(PH_WidthOfScreen, 0);
-    CLLocationCoordinate2D leftCoor = [self.bmkMapView convertPoint:leftP toCoordinateFromView:self];
-    CLLocationCoordinate2D rightCoor = [self.bmkMapView convertPoint:rightP toCoordinateFromView:self];
-    PHLog(@"leftCoor ->%.6f,%.6f",leftCoor.latitude,leftCoor.longitude);
-    PHLog(@"rightCoor->%.6f,%.6f",rightCoor.latitude,rightCoor.longitude);
-    BMKMapPoint aPoint = BMKMapPointForCoordinate(leftCoor);
-    BMKMapPoint bPoint = BMKMapPointForCoordinate(rightCoor);
-    CLLocationDistance distance= BMKMetersBetweenMapPoints(aPoint, bPoint);
-    PHLog(@"distance->%.3f",distance);
-    
+    BMKMapPoint pointA = BMKMapPointForCoordinate(coordA);
+    BMKMapPoint pointB = BMKMapPointForCoordinate(coordB);
+    CLLocationDistance distance= BMKMetersBetweenMapPoints(pointA, pointB);
+//    PHLog(@"distance->%.3f",distance);
     return distance;
 }
-//#endif
 
 @end
 

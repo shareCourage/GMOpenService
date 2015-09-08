@@ -13,15 +13,12 @@
 
 #import "PHFenceListController.h"
 #import "PHDevFenceInfo.h"
-#import "PHFenceMapController.h"
 #import "MJRefresh.h"
 #import "PHFenceTableViewCell.h"
 #import "PHFenceModifyMapController.h"
 
-@interface PHFenceListController ()<PHFenceMapControllerDelegate,UIGestureRecognizerDelegate>
-{
-    BOOL _lanchingPHFenceMapControllerDelegate;//这个参数只用在PHFenceMapControllerDelegate协议方法里面，当该协议被触发时，设置该值为YES
-}
+@interface PHFenceListController () <UIGestureRecognizerDelegate>
+
 @property(nonatomic, strong)NSMutableArray *dataSource;//tableView的数据源
 @property(nonatomic, strong)NSString *fenceFilePath;//文件路径
 @end
@@ -37,7 +34,6 @@
     
     self.title = PH_FenceListTitle;
     [self barButtonItemImplementation];
-    _lanchingPHFenceMapControllerDelegate = NO;
     NSString *documents = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
     self.fenceFilePath = [documents stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.arc",[PHTool getDeviceIdFromUserDefault]]];
     PH_WS(ws);
@@ -57,10 +53,15 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (_lanchingPHFenceMapControllerDelegate) {//只要这个值为YES，则自动开始下拉刷新，不需要用户自己操作
+    if (self.isFenceArgumentChanged) {//只要这个值为YES，则自动开始下拉刷新，不需要用户自己操作
         [self.tableView.header beginRefreshing];
     }
-    _lanchingPHFenceMapControllerDelegate = NO;//同时，必须至为NO，是否刷新,必须有代理决定
+    self.fenceArgumentChanged = NO;//同时，必须至为NO，是否刷新,必须有代理决定
+}
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.tableView.header endRefreshing];
 }
 /**
  *  导航栏UIBarButtonItem的放置
@@ -75,10 +76,10 @@
 //UIBarButtonItem->addFence跳转至PHFenceMapController来添加围栏
 - (void)addFence
 {
-    PHFenceMapController *map = [[PHFenceMapController alloc] init];
-    map.title = @"创建围栏";
-    map.delegate = self;
-    [self.navigationController pushViewController:map animated:YES];
+    PHFenceModifyMapController *addMap = [[PHFenceModifyMapController alloc] init];
+//    [self.navigationController pushViewController:map animated:YES];
+
+    [self.navigationController pushViewController:addMap animated:YES];
 }
 /**
  *  网络获取围栏列表的信息,并且将数据存储到数据库当中
@@ -145,11 +146,9 @@
          *3、删除服务器上的数据
          *4、如果做了本地数据库保存，同样需要删除
          */
-        [MBProgressHUD showMessage:PH_MBProgress_Deleting toView:self.view];
         PH_WS(ws);
         GMFenceManager *fence = [GMFenceManager manager];
         [fence deleteFenceWithFenceId:fenceInfo.fenceid completionBlock:^(BOOL success) {
-            [MBProgressHUD hideHUDForView:ws.view animated:YES];
             if (success) {
                 [ws.dataSource removeObjectAtIndex:indexPath.row];//1 删除数据源
                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];//2 tableView的删除
@@ -173,25 +172,13 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     GMDeviceFence *fenceInfo = self.dataSource[indexPath.row];
-    
     PHFenceModifyMapController *modify = [[PHFenceModifyMapController alloc] init];
     modify.fenceInfo = fenceInfo;
-    
-    PHFenceMapController *map = [[PHFenceMapController alloc] init];
-    map.delegate = self;
-    map.title = [NSString stringWithFormat:@"%@",fenceInfo.name.length != 0 ? fenceInfo.name : fenceInfo.fenceid];
-    map.fenceInfo = fenceInfo;
-//    [self.navigationController pushViewController:map animated:YES];
     [self.navigationController pushViewController:modify animated:YES];
 
 }
 
 
-#pragma mark - PHFenceMapControllerDelegate
-- (void)fenceMapController:(PHFenceMapController *)controller
-{
-    _lanchingPHFenceMapControllerDelegate = YES;
-}
 @end
 
 

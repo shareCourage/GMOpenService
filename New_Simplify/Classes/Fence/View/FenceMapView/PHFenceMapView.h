@@ -29,7 +29,13 @@
  *
  *  @return double
  */
-- (CLLocationDistance)calculateDistanceBetweenLeftAndRightPoint;
+- (CLLocationDistance)distanceFromCoordA:(CLLocationCoordinate2D)coordA toCoordB:(CLLocationCoordinate2D)coordB
+;
+
+/**
+ *  移除地图上所有的标记
+ */
+- (void)removeMapViewOverlays;
 
 @end
 

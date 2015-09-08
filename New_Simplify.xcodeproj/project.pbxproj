@@ -12,6 +12,7 @@
 		A90FA48F1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA48E1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.m */; };
 		A90FA4931B9C4C2F00A8F708 /* PHPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA4921B9C4C2F00A8F708 /* PHPickerView.m */; };
 		A90FA4951B9C4C4500A8F708 /* PHPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A90FA4941B9C4C4500A8F708 /* PHPickerView.xib */; };
+		A90FA49C1B9D376D00A8F708 /* PHDrawFenceView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA49B1B9D376D00A8F708 /* PHDrawFenceView.m */; };
 		A91B54571B4B81EE0042024A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B54561B4B81EE0042024A /* main.m */; };
 		A91B545A1B4B81EE0042024A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91B54591B4B81EE0042024A /* AppDelegate.mm */; };
 		A91B54601B4B81EE0042024A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A91B545E1B4B81EE0042024A /* Main.storyboard */; };
@@ -34,13 +35,9 @@
 		A91B55951B4B85C10042024A /* UISlider+PHCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B549D1B4B85C00042024A /* UISlider+PHCategory.m */; };
 		A91B55961B4B85C10042024A /* UITextField+PHCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B549F1B4B85C00042024A /* UITextField+PHCategory.m */; };
 		A91B55971B4B85C10042024A /* PHFenceListController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B54A41B4B85C00042024A /* PHFenceListController.m */; };
-		A91B55981B4B85C10042024A /* PHFenceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B54A71B4B85C00042024A /* PHFenceMapController.m */; };
-		A91B55991B4B85C10042024A /* PHFenceMapController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A91B54A81B4B85C00042024A /* PHFenceMapController.xib */; };
 		A91B559A1B4B85C10042024A /* PHDevFenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B54AC1B4B85C00042024A /* PHDevFenceInfo.m */; };
 		A91B559B1B4B85C10042024A /* PHFenceAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B54AF1B4B85C00042024A /* PHFenceAnnotation.m */; };
 		A91B559C1B4B85C10042024A /* PHFenceMap.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B54B21B4B85C00042024A /* PHFenceMap.m */; };
-		A91B559D1B4B85C10042024A /* PHFenceMapTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B54B61B4B85C00042024A /* PHFenceMapTitleView.m */; };
-		A91B559E1B4B85C10042024A /* PHFenceMapTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A91B54B71B4B85C00042024A /* PHFenceMapTitleView.xib */; };
 		A91B559F1B4B85C10042024A /* PHFenceMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B54BA1B4B85C00042024A /* PHFenceMapView.m */; };
 		A91B55A01B4B85C10042024A /* PHLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B54BE1B4B85C00042024A /* PHLoginController.m */; };
 		A91B55A11B4B85C10042024A /* PHLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A91B54BF1B4B85C00042024A /* PHLoginController.xib */; };
@@ -192,6 +189,8 @@
 		A90FA4911B9C4C2F00A8F708 /* PHPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPickerView.h; sourceTree = "<group>"; };
 		A90FA4921B9C4C2F00A8F708 /* PHPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPickerView.m; sourceTree = "<group>"; };
 		A90FA4941B9C4C4500A8F708 /* PHPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PHPickerView.xib; sourceTree = "<group>"; };
+		A90FA49A1B9D376D00A8F708 /* PHDrawFenceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDrawFenceView.h; sourceTree = "<group>"; };
+		A90FA49B1B9D376D00A8F708 /* PHDrawFenceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDrawFenceView.m; sourceTree = "<group>"; };
 		A91B54511B4B81EE0042024A /* New_Simplify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = New_Simplify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A91B54551B4B81EE0042024A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A91B54561B4B81EE0042024A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -232,18 +231,12 @@
 		A91B549F1B4B85C00042024A /* UITextField+PHCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+PHCategory.m"; sourceTree = "<group>"; };
 		A91B54A31B4B85C00042024A /* PHFenceListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceListController.h; sourceTree = "<group>"; };
 		A91B54A41B4B85C00042024A /* PHFenceListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFenceListController.m; sourceTree = "<group>"; };
-		A91B54A61B4B85C00042024A /* PHFenceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceMapController.h; sourceTree = "<group>"; };
-		A91B54A71B4B85C00042024A /* PHFenceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFenceMapController.m; sourceTree = "<group>"; };
-		A91B54A81B4B85C00042024A /* PHFenceMapController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PHFenceMapController.xib; sourceTree = "<group>"; };
 		A91B54AB1B4B85C00042024A /* PHDevFenceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDevFenceInfo.h; sourceTree = "<group>"; };
 		A91B54AC1B4B85C00042024A /* PHDevFenceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDevFenceInfo.m; sourceTree = "<group>"; };
 		A91B54AE1B4B85C00042024A /* PHFenceAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceAnnotation.h; sourceTree = "<group>"; };
 		A91B54AF1B4B85C00042024A /* PHFenceAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFenceAnnotation.m; sourceTree = "<group>"; };
 		A91B54B11B4B85C00042024A /* PHFenceMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceMap.h; sourceTree = "<group>"; };
 		A91B54B21B4B85C00042024A /* PHFenceMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFenceMap.m; sourceTree = "<group>"; };
-		A91B54B51B4B85C00042024A /* PHFenceMapTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceMapTitleView.h; sourceTree = "<group>"; };
-		A91B54B61B4B85C00042024A /* PHFenceMapTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFenceMapTitleView.m; sourceTree = "<group>"; };
-		A91B54B71B4B85C00042024A /* PHFenceMapTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PHFenceMapTitleView.xib; sourceTree = "<group>"; };
 		A91B54B91B4B85C00042024A /* PHFenceMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceMapView.h; sourceTree = "<group>"; };
 		A91B54BA1B4B85C00042024A /* PHFenceMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFenceMapView.m; sourceTree = "<group>"; };
 		A91B54BD1B4B85C00042024A /* PHLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLoginController.h; sourceTree = "<group>"; };
@@ -509,6 +502,15 @@
 			path = PHPickView;
 			sourceTree = "<group>";
 		};
+		A90FA4991B9D376D00A8F708 /* DrawFenceView */ = {
+			isa = PBXGroup;
+			children = (
+				A90FA49A1B9D376D00A8F708 /* PHDrawFenceView.h */,
+				A90FA49B1B9D376D00A8F708 /* PHDrawFenceView.m */,
+			);
+			path = DrawFenceView;
+			sourceTree = "<group>";
+		};
 		A91B54481B4B81EE0042024A = {
 			isa = PBXGroup;
 			children = (
@@ -668,9 +670,6 @@
 		A91B54A51B4B85C00042024A /* FenceMap */ = {
 			isa = PBXGroup;
 			children = (
-				A91B54A61B4B85C00042024A /* PHFenceMapController.h */,
-				A91B54A71B4B85C00042024A /* PHFenceMapController.m */,
-				A91B54A81B4B85C00042024A /* PHFenceMapController.xib */,
 				A9AEA2B71B970222003B2E49 /* PHFenceModifyMapController.h */,
 				A9AEA2B81B970222003B2E49 /* PHFenceModifyMapController.m */,
 				A9AEA2B91B970222003B2E49 /* PHFenceModifyMapController.xib */,
@@ -720,22 +719,12 @@
 		A91B54B31B4B85C00042024A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A90FA4991B9D376D00A8F708 /* DrawFenceView */,
 				A90FA4901B9C4C1700A8F708 /* PHPickView */,
 				A9F9B7A91B95A38500CF7017 /* FenceCell */,
-				A91B54B41B4B85C00042024A /* FenceMapTitleView */,
 				A91B54B81B4B85C00042024A /* FenceMapView */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		A91B54B41B4B85C00042024A /* FenceMapTitleView */ = {
-			isa = PBXGroup;
-			children = (
-				A91B54B51B4B85C00042024A /* PHFenceMapTitleView.h */,
-				A91B54B61B4B85C00042024A /* PHFenceMapTitleView.m */,
-				A91B54B71B4B85C00042024A /* PHFenceMapTitleView.xib */,
-			);
-			path = FenceMapTitleView;
 			sourceTree = "<group>";
 		};
 		A91B54B81B4B85C00042024A /* FenceMapView */ = {
@@ -1641,7 +1630,6 @@
 				A9AEA2BB1B970222003B2E49 /* PHFenceModifyMapController.xib in Resources */,
 				A91B55D71B4B85C10042024A /* buddy_header_bg.png in Resources */,
 				A91B55E81B4B85C10042024A /* history_end@2x.png in Resources */,
-				A91B55991B4B85C10042024A /* PHFenceMapController.xib in Resources */,
 				A91B54601B4B81EE0042024A /* Main.storyboard in Resources */,
 				A91B55E41B4B85C10042024A /* map_plus@2x.png in Resources */,
 				A90FA4951B9C4C4500A8F708 /* PHPickerView.xib in Resources */,
@@ -1665,7 +1653,6 @@
 				A91B55FC1B4BD3B30042024A /* mapapi.bundle in Resources */,
 				A91B55F41B4B85C10042024A /* tabbar_discover@2x.png in Resources */,
 				A91B55D81B4B85C10042024A /* buddy_header_bg_highlighted.png in Resources */,
-				A91B559E1B4B85C10042024A /* PHFenceMapTitleView.xib in Resources */,
 				A91B55E71B4B85C10042024A /* history_car@2x.png in Resources */,
 				A91B55F21B4B85C10042024A /* tabbar_contacts@2x.png in Resources */,
 				A91B55DE1B4B85C10042024A /* navigationbar_filter_background_highlighted.png in Resources */,
@@ -1743,7 +1730,6 @@
 				A91B559F1B4B85C10042024A /* PHFenceMapView.m in Sources */,
 				A91B558D1B4B85C10042024A /* NSDate+PHCategory.m in Sources */,
 				A986AC2A1B538B78006403D3 /* GMNetworkManager.m in Sources */,
-				A91B559D1B4B85C10042024A /* PHFenceMapTitleView.m in Sources */,
 				A986AC171B538B78006403D3 /* GFMDatabasePool.m in Sources */,
 				A90FA48F1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.m in Sources */,
 				A91B55CE1B4B85C10042024A /* PHSettingSwitchItem.m in Sources */,
@@ -1767,6 +1753,7 @@
 				A91B55A81B4B85C10042024A /* PHDeviceInfo.m in Sources */,
 				A91B55C91B4B85C10042024A /* PHUploadLocController.m in Sources */,
 				A986AC291B538B78006403D3 /* GMURLSessionManager.m in Sources */,
+				A90FA49C1B9D376D00A8F708 /* PHDrawFenceView.m in Sources */,
 				A91B55D01B4B85C10042024A /* PHOfflineMapCell.m in Sources */,
 				A91B55951B4B85C10042024A /* UISlider+PHCategory.m in Sources */,
 				A91B55C31B4B85C10042024A /* PHBaseSettingViewController.m in Sources */,
@@ -1840,7 +1827,6 @@
 				A986AC191B538B78006403D3 /* GFMResultSet.m in Sources */,
 				A91B55CA1B4B85C10042024A /* PHSettingGroup.m in Sources */,
 				A9DFA4B41B84845200F695BD /* PHAlarmDetailController.m in Sources */,
-				A91B55981B4B85C10042024A /* PHFenceMapController.m in Sources */,
 				A986AC2B1B538B78006403D3 /* GMOpenManager.m in Sources */,
 				A91B55D41B4B85C10042024A /* PHKeyValueObserver.m in Sources */,
 				A91B55B21B4B85C10042024A /* PHPlayAnnotation.m in Sources */,
@@ -1986,7 +1972,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = New_Simplify;
-				PROVISIONING_PROFILE = "d475c083-3cd2-462a-8155-7c3f511df050";
+				PROVISIONING_PROFILE = "7761611c-c812-44a3-bae3-9da97c029ee0";
 			};
 			name = Debug;
 		};
@@ -2006,7 +1992,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = New_Simplify;
-				PROVISIONING_PROFILE = "d475c083-3cd2-462a-8155-7c3f511df050";
+				PROVISIONING_PROFILE = "7761611c-c812-44a3-bae3-9da97c029ee0";
 			};
 			name = Release;
 		};

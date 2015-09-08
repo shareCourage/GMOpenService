@@ -64,6 +64,7 @@
 - (void)bmkMapViewInstantiation
 {
     BMKMapView *mapView = [[BMKMapView alloc] init];
+    mapView.showMapScaleBar = YES;
     mapView.zoomLevel = 15.0f;
     mapView.showsUserLocation = NO;
     mapView.mapType = BMKMapTypeStandard;
