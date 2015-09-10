@@ -117,7 +117,6 @@
 }
 - (void)loadHistoryDataToLocal//把服务器近两个月时间的数据全部加载到本地
 {
-    
     NSArray *historys = [self.hisM selectAllOfHistoryInfosWithDevice:[[PHHistoryLoc alloc] init] orderBy:GMOrderByASC];
     PHHistoryLoc *hisLoc = [historys lastObject];
     PHLog(@"数据库总个数-》%ld个",(unsigned long)historys.count);
@@ -127,7 +126,7 @@
     
     NSTimeInterval end = [NSDate date].timeIntervalSince1970;
     self.hisM.endTime = [NSString stringWithFormat:@"%.f",end];
-    PHLog(@"time->%@",self.hisM.endTime);
+    PHLog(@"time:start-> %@   , end%@",self.hisM.startTime ,self.hisM.endTime);
     [self.hisM getHistoryInformationAndSaveToLocalDatabaseWithCompletion:nil];
 }//1428055152
 #if 1

@@ -92,6 +92,7 @@ typedef void (^PHFenceOtherArgumentCompletion)(BOOL enable);
     else if ([self.phItem isKindOfClass:[PHSettingItem class]])//最初状态
     {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.accessoryType = UITableViewCellAccessoryNone;
     }
     else {//防止复用问题
         self.accessoryView = nil;

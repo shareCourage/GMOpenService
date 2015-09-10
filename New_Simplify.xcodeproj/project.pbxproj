@@ -13,6 +13,7 @@
 		A90FA4931B9C4C2F00A8F708 /* PHPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA4921B9C4C2F00A8F708 /* PHPickerView.m */; };
 		A90FA4951B9C4C4500A8F708 /* PHPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A90FA4941B9C4C4500A8F708 /* PHPickerView.xib */; };
 		A90FA49C1B9D376D00A8F708 /* PHDrawFenceView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA49B1B9D376D00A8F708 /* PHDrawFenceView.m */; };
+		A90FA4A41B9FCA3B00A8F708 /* PHSettingArgumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA4A31B9FCA3B00A8F708 /* PHSettingArgumentController.m */; };
 		A91B54571B4B81EE0042024A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A91B54561B4B81EE0042024A /* main.m */; };
 		A91B545A1B4B81EE0042024A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = A91B54591B4B81EE0042024A /* AppDelegate.mm */; };
 		A91B54601B4B81EE0042024A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A91B545E1B4B81EE0042024A /* Main.storyboard */; };
@@ -191,6 +192,8 @@
 		A90FA4941B9C4C4500A8F708 /* PHPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PHPickerView.xib; sourceTree = "<group>"; };
 		A90FA49A1B9D376D00A8F708 /* PHDrawFenceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDrawFenceView.h; sourceTree = "<group>"; };
 		A90FA49B1B9D376D00A8F708 /* PHDrawFenceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDrawFenceView.m; sourceTree = "<group>"; };
+		A90FA4A21B9FCA3B00A8F708 /* PHSettingArgumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHSettingArgumentController.h; path = ../PHSettingArgumentController.h; sourceTree = "<group>"; };
+		A90FA4A31B9FCA3B00A8F708 /* PHSettingArgumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHSettingArgumentController.m; path = ../PHSettingArgumentController.m; sourceTree = "<group>"; };
 		A91B54511B4B81EE0042024A /* New_Simplify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = New_Simplify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A91B54551B4B81EE0042024A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A91B54561B4B81EE0042024A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -675,6 +678,8 @@
 				A9AEA2B91B970222003B2E49 /* PHFenceModifyMapController.xib */,
 				A90FA48A1B9BF0F100A8F708 /* PHFenceOtherArgumentController.h */,
 				A90FA48B1B9BF0F100A8F708 /* PHFenceOtherArgumentController.m */,
+				A90FA4A21B9FCA3B00A8F708 /* PHSettingArgumentController.h */,
+				A90FA4A31B9FCA3B00A8F708 /* PHSettingArgumentController.m */,
 			);
 			path = FenceMap;
 			sourceTree = "<group>";
@@ -1801,6 +1806,7 @@
 				A986AC281B538B78006403D3 /* GMURLResponseSerialization.m in Sources */,
 				A91B55D51B4B85C10042024A /* PHTool.m in Sources */,
 				A986AC151B538B78006403D3 /* GFMDatabase.m in Sources */,
+				A90FA4A41B9FCA3B00A8F708 /* PHSettingArgumentController.m in Sources */,
 				A91B55CC1B4B85C10042024A /* PHSettingItem.m in Sources */,
 				A986AC1A1B538B78006403D3 /* GMDatabase.m in Sources */,
 				A9C05DB11B5CD4C600FB34B8 /* GMFenceInfo.m in Sources */,

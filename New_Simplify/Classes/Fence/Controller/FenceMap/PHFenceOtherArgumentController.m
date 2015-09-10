@@ -25,7 +25,8 @@
 #import "PHFenceOtherArguemntCell.h"
 #import "PHPickerView.h"
 #import "PHFenceListController.h"
-
+#import "PHNavigationController.h"
+#import "PHSettingArgumentController.h"
 @interface PHFenceOtherArgumentController ()
 {
     __block NSString *_devIn;
@@ -82,34 +83,57 @@
 
     PHSettingItem *name = [PHSettingArrowItem itemWithTitle:PH_FenceOtherArgument_name];
     name.subtitle = self.fenceInfo ? self.fenceInfo.name : self.fenceM.fenceName;
+    __weak PHSettingItem *nameWeak = name;
     name.option = ^{
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入围栏名称" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-            textField.placeholder = @"围栏名称";
-        }];
-        [alertController addAction:[ws actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel handler:nil]];
-        [alertController addAction:[ws actionWithTitle:@"确定" actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            UITextField *textF =  [alertController.textFields firstObject];
-            textF.text.length != 0 ? [ws modifyFenceName:textF.text] : nil;
-        }]];
-        [ws presentViewController:alertController animated:YES completion:nil];
+        if (PH_iOS(8.0)) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入围栏名称" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"围栏名称";
+            }];
+            [alertController addAction:[ws actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel handler:nil]];
+            [alertController addAction:[ws actionWithTitle:@"确定" actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                UITextField *textF =  [alertController.textFields firstObject];
+                textF.text.length != 0 ? [ws modifyFenceName:textF.text] : nil;
+            }]];
+            [ws presentViewController:alertController animated:YES completion:nil];
+        }
+        else {
+            PHSettingArgumentController *settingArgu = [[PHSettingArgumentController alloc] initWithCompletion:^(NSString *value) {
+                value.length != 0 ? [ws modifyFenceName:value] : nil;
+            }];
+            settingArgu.titleArgument = nameWeak.title;
+            settingArgu.subtitleArgument = nameWeak.subtitle;
+            PHNavigationController *navi = [[PHNavigationController alloc] initWithRootViewController:settingArgu];
+            [self.navigationController presentViewController:navi animated:YES completion:nil];
+        }
     };
     
     PHSettingItem *threshold = [PHSettingArrowItem itemWithTitle:PH_FenceOtherArgument_threshold];
     threshold.subtitle = self.fenceInfo ? self.fenceInfo.threshold : [NSString stringWithFormat:@"%@",@(self.fenceM.threshold)];
+    __weak PHSettingItem *threholdWeak = threshold;
     threshold.option = ^{
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入围栏报警阈值" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-            textField.placeholder = @"围栏报警阈值，限数字";
-            textField.keyboardType = UIKeyboardTypeNumberPad;
-        }];
-        [alertController addAction:[ws actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel handler:nil]];
-        [alertController addAction:[ws actionWithTitle:@"确定" actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            UITextField *textF =  [alertController.textFields firstObject];
-            textF.text.length != 0 ? [ws modifyFenceThreshold:textF.text] : nil;
-        }]];
-        [ws presentViewController:alertController animated:YES completion:nil];
-
+        if (PH_iOS(8.0)) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入围栏报警阈值" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"围栏报警阈值，限数字";
+                textField.keyboardType = UIKeyboardTypeNumberPad;
+            }];
+            [alertController addAction:[ws actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel handler:nil]];
+            [alertController addAction:[ws actionWithTitle:@"确定" actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                UITextField *textF =  [alertController.textFields firstObject];
+                textF.text.length != 0 ? [ws modifyFenceThreshold:textF.text] : nil;
+            }]];
+            [ws presentViewController:alertController animated:YES completion:nil];
+        }
+        else {
+            PHSettingArgumentController *settingArgu = [[PHSettingArgumentController alloc] initWithCompletion:^(NSString *value) {
+                value.length != 0 ? [ws modifyFenceThreshold:value] : nil;
+            }];
+            settingArgu.titleArgument = threholdWeak.title;
+            settingArgu.subtitleArgument = threholdWeak.subtitle;
+            PHNavigationController *navi = [[PHNavigationController alloc] initWithRootViewController:settingArgu];
+            [self.navigationController presentViewController:navi animated:YES completion:nil];
+        }
     };
     
     PHSettingItem *fenceid = [PHSettingItem itemWithTitle:PH_FenceOtherArgument_fenceid];
