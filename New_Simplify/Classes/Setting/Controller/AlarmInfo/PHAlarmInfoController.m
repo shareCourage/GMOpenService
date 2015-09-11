@@ -6,6 +6,9 @@
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
 
+#define PH_AlarmTitleOfInto @"进入"
+#define PH_AlarmTitleOfOut  @"离开"
+
 #import "PHAlarmInfoController.h"
 #import "MJRefresh.h"
 #import "GMAlarmInfo.h"
@@ -87,7 +90,7 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     GMAlarmInfo *alarmInfo = self.dataSource[indexPath.row];
     NSString *fence = [NSString stringWithFormat:@" %@围栏",alarmInfo.fenceId];
-    cell.textLabel.text = [alarmInfo.typeId isEqualToString:@"1"] ? [@"Into" stringByAppendingString:fence] : [@"Out" stringByAppendingString:fence];
+    cell.textLabel.text = [alarmInfo.typeId isEqualToString:@"1"] ? [PH_AlarmTitleOfInto stringByAppendingString:fence] : [PH_AlarmTitleOfOut stringByAppendingString:fence];
     cell.detailTextLabel.text = alarmInfo.alartTime;
 
     return cell;

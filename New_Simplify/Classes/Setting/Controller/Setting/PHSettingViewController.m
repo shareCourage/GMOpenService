@@ -123,7 +123,7 @@
     PHSettingItem *push = [PHSettingArrowItem itemWithTitle:@"消息推送" destVcClass:[PHPushViewController class]];
 
     PHSettingGroup *group = [[PHSettingGroup alloc] init];
-    group.items = @[alarm, deviceId, push];
+    group.items = @[alarm, push, deviceId,];
     [self.dataSource addObject:group];
 }
 
@@ -175,7 +175,7 @@
     // 1.标题
     self.title = @"设置";
     // 2.添加数据
-    [self telephoneLinkAccount];
+//    [self telephoneLinkAccount];
 //    [self messageTips];
 //    [self uploadMylocation];
     [self setupOffLineMap];

@@ -12,4 +12,6 @@
 
 @property (nonatomic, assign, getter = isFenceArgumentChanged) BOOL fenceArgumentChanged;
 
+@property(nonatomic, strong)NSMutableArray *dataSource;//tableView的数据源
+
 @end

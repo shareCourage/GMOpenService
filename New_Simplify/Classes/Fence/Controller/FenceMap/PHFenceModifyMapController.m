@@ -50,11 +50,11 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
 - (GMFenceManager *)fenceManager {
     if (_fenceManager == nil) {
         _fenceManager = [GMFenceManager manager];
-        _fenceManager.threshold = 1;
+        _fenceManager.threshold = 3;
         _fenceManager.getIn = YES;
         _fenceManager.getOut = YES;
         _fenceManager.enable = YES;
-        _fenceManager.fenceName = nil;
+        _fenceManager.fenceName = @"新建围栏";
     }
     return _fenceManager;
 }
@@ -84,7 +84,6 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
             _fenceMapModel.coords = [array copy];
         }
         _fenceMapModel.enable = [self.fenceInfo.enable boolValue];
-
     }
     
     return _fenceMapModel;
@@ -133,6 +132,8 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
         [self addTitleButtonView];
         _isCreateFence = YES;
         _isCircleFence = YES;
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(editClick)];
+        self.navigationItem.backBarButtonItem = backItem;
     }
     self.fenceMapView.delegate = self;
     self.radiusKVO = [PHKeyValueObserver observeObject:self.fenceMapModel keyPath:@"radius" target:self selector:@selector(radiusFromFenceMapKVO)];
@@ -159,7 +160,7 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
     self.CircleDisplayView.backgroundColor = [UIColor clearColor];
     
     NSString *radius = [[NSArray seprateString:self.fenceInfo.area characterSet:@","] lastObject];
-    self.circleRadiusL.text = [NSString stringWithFormat:@"半径:%@米", radius];
+    self.circleRadiusL.text = [NSString stringWithFormat:@"半径:%@米", radius.length == 0 ? @200 : radius];
     self.circleSlider.minimumValue = 200.f;
     self.circleSlider.maximumValue = 10000.f;
     self.circleSlider.value = [radius floatValue];
@@ -187,6 +188,8 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
     else {
         self.navigationItem.rightBarButtonItems = @[otherItem, editItem, doneItem];
     }
+    
+    
 }
 - (void)editClick {
     self.drawFenceView.hidden = !self.drawFenceView.hidden;
@@ -203,37 +206,44 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
         [self rootViewControllerShouldRefresh];
         [self updateArea:area];
     }
-    
 }
+
 - (void)createFence {
     PH_WS(ws);
-    if (_isCircleFence) {
-        self.fenceManager.coord = self.fenceMapModel.coordinate;
-        self.fenceManager.radius = self.fenceMapModel.radius;
-        self.fenceManager.shape = GMFenceShapeOfCircle;//默认是圆形，可不写
-    }
-    else {
-        CLLocationCoordinate2D *coords = [PHTool transitToCoords:[self.fenceMapModel.coords copy]];
-        self.fenceManager.coords = coords;
-        self.fenceManager.coordsCount = (int)self.fenceMapModel.coords.count;
-        self.fenceManager.shape = GMFenceShapeOfPolygon;
-    }
-    NSString *devid = [PHTool getDeviceIdFromUserDefault];
-    [self.fenceManager addFenceWithDeviceIds:@[devid] completionBlock:^(BOOL success) {
-        if (success) {
-            [MBProgressHUD showSuccess:@"创建成功" toView:ws.view];
-            PHLog(@"add Fence success");
+    PHFenceListController *fenceList = [self.navigationController.viewControllers firstObject];
+    if (fenceList.dataSource.count <= 20) {
+        if (_isCircleFence) {
+            self.fenceManager.coord = self.fenceMapModel.coordinate;
+            self.fenceManager.radius = self.fenceMapModel.radius;
+            self.fenceManager.shape = GMFenceShapeOfCircle;//默认是圆形，可不写
         }
         else {
-            [MBProgressHUD showError:@"创建失败" toView:ws.view];
-            PHLog(@"add Fence failure");
+            CLLocationCoordinate2D *coords = [PHTool transitToCoords:[self.fenceMapModel.coords copy]];
+            self.fenceManager.coords = coords;
+            self.fenceManager.coordsCount = (int)self.fenceMapModel.coords.count;
+            self.fenceManager.shape = GMFenceShapeOfPolygon;
         }
-    } failureBlock:^(NSError *error) {
-        if (error) {
-            [MBProgressHUD showError:@"创建失败" toView:ws.view];
-            PHLog(@"add Fence failure");
-        }
-    }];
+        NSString *devid = [PHTool getDeviceIdFromUserDefault];
+        [self.fenceManager addFenceWithDeviceIds:@[devid] completionBlock:^(BOOL success) {
+            if (success) {
+                [MBProgressHUD showSuccess:@"创建成功" toView:ws.view];
+                PHLog(@"add Fence success");
+            }
+            else {
+                [MBProgressHUD showError:@"创建失败" toView:ws.view];
+                PHLog(@"add Fence failure");
+            }
+        } failureBlock:^(NSError *error) {
+            if (error) {
+                [MBProgressHUD showError:@"创建失败" toView:ws.view];
+                PHLog(@"add Fence failure");
+            }
+        }];
+    }
+    else {
+        [MBProgressHUD showError:@"围栏超过上限,添加失败" toView:self.view];
+    }
+    
 
 }
 - (void)updateArea:(NSString *)area {
@@ -281,6 +291,9 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
 - (void)coordinateFromFenceMapKVO
 {
     self.fenceMapView.fenceMap = self.fenceMapModel;
+    if (_isCreateFence) {
+        self.circleRadiusL.text = [NSString stringWithFormat:@"半径:%.f米", self.fenceMapModel.radius];
+    }
 }
 
 - (void)rootViewControllerShouldRefresh {
@@ -298,9 +311,6 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
 {
     PHLog(@"coordinate:lat->%.6f, lng->%.6f, time->%@",coordinate.latitude, coordinate.longitude,PH_CurrentTime);
     self.fenceMapModel.coordinate = coordinate;
-    if (_isCreateFence) {
-        self.circleRadiusL.text = @"半径:200米";
-    }
     self.doneItem.enabled = YES;
     
     [self uploadCoordinate:coordinate];

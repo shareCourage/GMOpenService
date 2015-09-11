@@ -49,8 +49,8 @@
     [super viewDidLoad];
     
     self.title = self.fenceInfo.name.length != 0 ? self.fenceInfo.name : self.fenceInfo.fenceid;
-    _devIn = self.fenceInfo ? self.fenceInfo.devInOut.dev_in : @"1";
-    _devOut = self.fenceInfo ? self.fenceInfo.devInOut.dev_out : @"1";
+    _devIn = self.fenceInfo ? self.fenceInfo.devInOut.dev_in : [NSString stringWithFormat:@"%@",@(self.fenceM.getIn)];
+    _devOut = self.fenceInfo ? self.fenceInfo.devInOut.dev_out : [NSString stringWithFormat:@"%@",@(self.fenceM.getOut)];
     
     PH_WS(ws);
     PHSettingSwitchItem *enable = [PHSettingSwitchItem itemWithTitle:PH_FenceOtherArgument_enable completion:^(BOOL enable) {
@@ -61,10 +61,11 @@
             [GMFenceManager modifyFenceWithFenceId:ws.fenceInfo.fenceid enable:enable completion:^(BOOL success) {
                 success ? PHLog(@"modify enable Fence success") : PHLog(@"modify enable Fence failure");
             } failureBlock:nil];
+            ws.fenceInfo.enable = [NSString stringWithFormat:@"%d",enable];
             [ws rootViewControllerShouldRefresh];
         }
     }];
-    enable.enabled = self.fenceInfo ? [self.fenceInfo.enable boolValue] : YES;
+    enable.enabled = self.fenceInfo ? [self.fenceInfo.enable boolValue] : self.fenceM.enable;
     
     
     PHSettingSwitchItem *devIn = [PHSettingSwitchItem itemWithTitle:PH_FenceOtherArgument_devIn completion:^(BOOL enable) {
@@ -72,14 +73,14 @@
         strongSelf -> _devIn = [NSString stringWithFormat:@"%d",enable];
         [ws modifyDevinfo];
     }];
-    devIn.enabled = self.fenceInfo ? [self.fenceInfo.devInOut.dev_in boolValue] : YES;
+    devIn.enabled = self.fenceInfo ? [self.fenceInfo.devInOut.dev_in boolValue] : self.fenceM.getIn;
     
     PHSettingSwitchItem *devOut = [PHSettingSwitchItem itemWithTitle:PH_FenceOtherArgument_devOut completion:^(BOOL enable) {
         __strong typeof(ws) strongSelf = ws;
         strongSelf -> _devOut = [NSString stringWithFormat:@"%d",enable];
         [ws modifyDevinfo];
     }];
-    devOut.enabled = self.fenceInfo ? [self.fenceInfo.devInOut.dev_out boolValue] : YES;
+    devOut.enabled = self.fenceInfo ? [self.fenceInfo.devInOut.dev_out boolValue] : self.fenceM.getOut;
 
     PHSettingItem *name = [PHSettingArrowItem itemWithTitle:PH_FenceOtherArgument_name];
     name.subtitle = self.fenceInfo ? self.fenceInfo.name : self.fenceM.fenceName;
@@ -89,22 +90,35 @@
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入围栏名称" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
                 textField.placeholder = @"围栏名称";
+                textField.clearButtonMode = UITextFieldViewModeWhileEditing;
             }];
             [alertController addAction:[ws actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel handler:nil]];
             [alertController addAction:[ws actionWithTitle:@"确定" actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 UITextField *textF =  [alertController.textFields firstObject];
-                textF.text.length != 0 ? [ws modifyFenceName:textF.text] : nil;
+                if (textF.text.length >= 20) {
+                    [MBProgressHUD showError:@"格式不正确"];
+                    return ;
+                }
+                NSString *modify = textF.text;
+                modify = [modify stringByReplacingOccurrencesOfString:@" " withString:@""];
+                textF.text.length != 0 ? [ws modifyFenceName:modify] : nil;
             }]];
             [ws presentViewController:alertController animated:YES completion:nil];
         }
-        else {
+        else {//在iOS7以下版本使用这串代码
             PHSettingArgumentController *settingArgu = [[PHSettingArgumentController alloc] initWithCompletion:^(NSString *value) {
-                value.length != 0 ? [ws modifyFenceName:value] : nil;
+                if (value.length > 20) {
+                    [MBProgressHUD showError:@"格式不正确"];
+                    return ;
+                }
+                NSString *modify = value;
+                modify = [modify stringByReplacingOccurrencesOfString:@" " withString:@""];
+                value.length != 0 ? [ws modifyFenceName:modify] : nil;
             }];
             settingArgu.titleArgument = nameWeak.title;
             settingArgu.subtitleArgument = nameWeak.subtitle;
             PHNavigationController *navi = [[PHNavigationController alloc] initWithRootViewController:settingArgu];
-            [self.navigationController presentViewController:navi animated:YES completion:nil];
+            [ws.navigationController presentViewController:navi animated:YES completion:nil];
         }
     };
     
@@ -117,22 +131,35 @@
             [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
                 textField.placeholder = @"围栏报警阈值，限数字";
                 textField.keyboardType = UIKeyboardTypeNumberPad;
+                textField.clearButtonMode = UITextFieldViewModeWhileEditing;
             }];
             [alertController addAction:[ws actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel handler:nil]];
             [alertController addAction:[ws actionWithTitle:@"确定" actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 UITextField *textF =  [alertController.textFields firstObject];
-                textF.text.length != 0 ? [ws modifyFenceThreshold:textF.text] : nil;
+                if ([textF.text integerValue] > 100) {
+                    [MBProgressHUD showError:@"阈值最大100"];
+                    return;
+                }
+                NSString *modify = textF.text;
+                modify = [modify stringByReplacingOccurrencesOfString:@" " withString:@""];
+                textF.text.length != 0 ? [ws modifyFenceThreshold:modify] : nil;
             }]];
             [ws presentViewController:alertController animated:YES completion:nil];
         }
-        else {
+        else {//在iOS7以下版本使用这串代码
             PHSettingArgumentController *settingArgu = [[PHSettingArgumentController alloc] initWithCompletion:^(NSString *value) {
-                value.length != 0 ? [ws modifyFenceThreshold:value] : nil;
+                if ([value integerValue] > 100) {
+                    [MBProgressHUD showError:@"阈值最大100"];
+                    return;
+                }
+                NSString *modify = value;
+                modify = [modify stringByReplacingOccurrencesOfString:@" " withString:@""];
+                value.length != 0 ? [ws modifyFenceThreshold:modify] : nil;
             }];
             settingArgu.titleArgument = threholdWeak.title;
             settingArgu.subtitleArgument = threholdWeak.subtitle;
             PHNavigationController *navi = [[PHNavigationController alloc] initWithRootViewController:settingArgu];
-            [self.navigationController presentViewController:navi animated:YES completion:nil];
+            [ws.navigationController presentViewController:navi animated:YES completion:nil];
         }
     };
     
@@ -204,6 +231,8 @@
             success ? PHLog(@"modify devinfo Fence success") : PHLog(@"modify devinfo Fence failure");
         } failure:nil];
         [self rootViewControllerShouldRefresh];
+        self.fenceInfo.devInOut.dev_in = _devIn;
+        self.fenceInfo.devInOut.dev_out = _devOut;
     }
 }
 

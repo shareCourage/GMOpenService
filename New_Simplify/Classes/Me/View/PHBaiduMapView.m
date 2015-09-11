@@ -147,6 +147,7 @@
 - (void)insertAnnotationWithDevice:(id<GMDevice>)device
 {
     PHAnnotation *anno = [[PHAnnotation alloc] init];
+    anno.title = device.devid;
     CLLocationCoordinate2D coor;
     coor.latitude = [device.lat doubleValue];
     coor.longitude = [device.lng doubleValue];

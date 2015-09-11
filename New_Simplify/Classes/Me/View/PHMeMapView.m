@@ -8,6 +8,7 @@
 
 #import "PHMeMapView.h"
 #import "PHDeviceInfo.h"
+#import "PHAnnotation.h"
 @interface PHMeMapView ()<BMKLocationServiceDelegate, UIAlertViewDelegate>
 @property(nonatomic, strong)BMKLocationService *locationService;//定位服务
 @property(nonatomic, strong)BMKUserLocation *userLocation;//当前定位到的位置
@@ -199,12 +200,14 @@
     free(mapPoints);//使用C在堆里面分配的一段内存，记得要释放
     [self.bmkMapView addOverlay:polyline];
 }
+
 - (CLLocationCoordinate2D)coordinateFromDevice:(id<GMDevice>)device
 {
     double lat = [device.lat doubleValue];
     double lng = [device.lng doubleValue];
     return CLLocationCoordinate2DMake(lat, lng);
 }
+
 #pragma mark - BMKMapViewDelegate
 - (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id<BMKOverlay>)overlay
 {
@@ -216,6 +219,25 @@
     } else {
         return nil;
     }
+}
+- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id<BMKAnnotation>)annotation {
+    
+    if ([annotation isKindOfClass:[PHAnnotation class]]) {
+        PHLog(@"~~~ %@", NSStringFromClass([annotation class]));
+        static NSString *ID = @"start";
+        // 从缓存池中取出可以循环利用的大头针view
+        BMKAnnotationView *annoView = [mapView dequeueReusableAnnotationViewWithIdentifier:ID];
+        if (annoView == nil) {
+            annoView = [[BMKAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:ID];
+        }
+        annoView.image = [UIImage imageNamed:@"history_car"];
+        annoView.canShowCallout = YES;
+        return annoView;
+    }
+    return nil;
+}
+- (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view {
+    
 }
 @end
 

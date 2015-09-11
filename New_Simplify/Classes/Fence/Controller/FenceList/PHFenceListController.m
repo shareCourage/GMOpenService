@@ -19,7 +19,6 @@
 
 @interface PHFenceListController () <UIGestureRecognizerDelegate>
 
-@property(nonatomic, strong)NSMutableArray *dataSource;//tableView的数据源
 @property(nonatomic, strong)NSString *fenceFilePath;//文件路径
 @end
 

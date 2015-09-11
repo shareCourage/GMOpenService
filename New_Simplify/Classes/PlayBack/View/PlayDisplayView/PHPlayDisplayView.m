@@ -15,7 +15,8 @@
 #define PH_DirectionOfSouthWest @"西南"
 #define PH_DirectionOfNorthWest @"西北"
 
-#define PH_PlayDisplayView_FontSize 12.f
+#define PH_PlayDisplayView_FontMaxSize 12.f
+#define PH_PlayDisplayView_FontMinSize 10.f
 
 #import "PHPlayDisplayView.h"
 #import "PHHistoryLoc.h"
@@ -53,10 +54,12 @@
 + (instancetype)playDisplayViewFromXib
 {
     PHPlayDisplayView *display = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] firstObject];
-    display.timeL.font = [UIFont systemFontOfSize:PH_PlayDisplayView_FontSize];
-    display.speedL.font = [UIFont systemFontOfSize:PH_PlayDisplayView_FontSize];
-    display.distanceL.font = [UIFont systemFontOfSize:10];
-    display.directionL.font = [UIFont systemFontOfSize:PH_PlayDisplayView_FontSize];
+    CGFloat fontSize = 0.f;
+    PH_WidthOfScreen > 320 ? (fontSize = PH_PlayDisplayView_FontMaxSize) : (fontSize = PH_PlayDisplayView_FontMinSize);
+    display.timeL.font = [UIFont systemFontOfSize:fontSize];
+    display.speedL.font = [UIFont systemFontOfSize:fontSize];
+    display.distanceL.font = [UIFont systemFontOfSize:PH_PlayDisplayView_FontMinSize];
+    display.directionL.font = [UIFont systemFontOfSize:fontSize];
     display.timeL.text = @"时间";
     display.speedL.text = @"速度";
     display.distanceL.text = @"行程";

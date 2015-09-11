@@ -31,7 +31,7 @@
     NSString *bgName = nil;
     if (PH_iOS7) { // 至少是iOS 7.0
         bgName = @"NavBar64";
-        navBar.tintColor = [UIColor whiteColor];//改变返回键的颜色
+        navBar.tintColor = [UIColor blackColor];//改变返回键的颜色
     } else { // 非iOS7
         bgName = @"NavBar";
     }
