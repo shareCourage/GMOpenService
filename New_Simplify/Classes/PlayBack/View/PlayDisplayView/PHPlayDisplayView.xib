@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -20,22 +22,22 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="speed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLY-62-DkI">
-                    <rect key="frame" x="140" y="0.0" width="78" height="50"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="distance" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLY-62-DkI" userLabel="distance">
+                    <rect key="frame" x="140" y="0.0" width="98" height="50"/>
                     <color key="backgroundColor" red="0.22745099660000001" green="0.62352943419999995" blue="0.87450987099999999" alpha="1" colorSpace="deviceRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="distance" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="INk-Vf-6X0">
-                    <rect key="frame" x="218" y="0.0" width="79" height="50"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="speed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="INk-Vf-6X0" userLabel="speed">
+                    <rect key="frame" x="238" y="0.0" width="68" height="50"/>
                     <color key="backgroundColor" red="0.54509806630000002" green="0.72156864399999998" blue="0.1960784495" alpha="1" colorSpace="deviceRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="direction" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7SR-pf-tR1">
-                    <rect key="frame" x="297" y="0.0" width="78" height="50"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="direction" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7SR-pf-tR1">
+                    <rect key="frame" x="306" y="0.0" width="69" height="50"/>
                     <color key="backgroundColor" red="0.61568627450000002" green="0.64705882349999999" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -53,7 +55,7 @@
                 <constraint firstItem="PLY-62-DkI" firstAttribute="top" secondItem="jOi-o2-aa4" secondAttribute="top" id="XGl-uR-mrs"/>
                 <constraint firstAttribute="bottom" secondItem="7SR-pf-tR1" secondAttribute="bottom" id="cr2-k9-cfI"/>
                 <constraint firstAttribute="bottom" secondItem="PLY-62-DkI" secondAttribute="bottom" id="eZj-RM-w8G"/>
-                <constraint firstItem="INk-Vf-6X0" firstAttribute="width" secondItem="PLY-62-DkI" secondAttribute="width" id="h3s-b5-K7h"/>
+                <constraint firstItem="INk-Vf-6X0" firstAttribute="width" secondItem="PLY-62-DkI" secondAttribute="width" multiplier="0.7" id="h3s-b5-K7h"/>
                 <constraint firstItem="INk-Vf-6X0" firstAttribute="top" secondItem="jOi-o2-aa4" secondAttribute="top" id="hTw-Wy-gWs"/>
                 <constraint firstItem="Hgd-Ps-DHJ" firstAttribute="top" secondItem="jOi-o2-aa4" secondAttribute="top" id="j2r-xn-oG3"/>
                 <constraint firstItem="7SR-pf-tR1" firstAttribute="top" secondItem="jOi-o2-aa4" secondAttribute="top" id="jb0-UZ-Eal"/>
@@ -64,8 +66,8 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="directionL" destination="7SR-pf-tR1" id="Mxe-jT-VfW"/>
-                <outlet property="distanceL" destination="INk-Vf-6X0" id="OJL-dn-9SM"/>
-                <outlet property="speedL" destination="PLY-62-DkI" id="XCP-sw-jf0"/>
+                <outlet property="distanceL" destination="PLY-62-DkI" id="QqU-UT-tva"/>
+                <outlet property="speedL" destination="INk-Vf-6X0" id="Bqb-qr-ejn"/>
                 <outlet property="timeL" destination="Hgd-Ps-DHJ" id="Hzm-fM-uyw"/>
             </connections>
             <point key="canvasLocation" x="362.5" y="241"/>

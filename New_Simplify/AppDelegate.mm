@@ -11,15 +11,58 @@
 #import <BaiduMapAPI/BMapKit.h>
 #import "GMOpenKit.h"
 #import "PHNavigationController.h"
-
+#import "PHHistoryLoc.h"
 @interface AppDelegate ()<BMKGeneralDelegate>
 {
     BMKMapManager * _bmkManager;
 }
+@property(nonatomic, strong)NSTimer *myTimer;//周期获取设备历史位置信息定时器
 
 @end
 
 @implementation AppDelegate
+- (GMHistoryManager *)hisM
+{
+    if (!_hisM) {
+        _hisM = [GMHistoryManager manager];
+        _hisM.mapType = GMMapTypeOfBAIDU;
+    }
+    if (_hisM.deviceId.length == 0) {
+        _hisM.deviceId = [PHTool getDeviceIdFromUserDefault];
+    }
+    return _hisM;
+}
+- (void)loadHistoryDataToLocal//把服务器近两个月时间的数据全部加载到本地
+{
+    PHHistoryLoc *hisLoc = [self.hisM selectMaxGpstimeHistoryInfosWithDevice:[[PHHistoryLoc alloc] init]];
+    NSTimeInterval end = [NSDate date].timeIntervalSince1970;
+    NSTimeInterval start = end - 2 * 30 * 24 * 60 * 60;
+    self.hisM.startTime = hisLoc.gps_time.length == 0 ? [NSString stringWithFormat:@"%.f",start] : hisLoc.gps_time;//如果数据库当中没有时间，就从当前时间的前两个月算起，从服务器中读取
+    self.hisM.endTime = [NSString stringWithFormat:@"%.f",end];
+    PHLog(@"start ->%@, end -> %@", self.hisM.startTime, self.hisM.endTime);
+    PH_WS(ws);
+    [self.hisM getHistoryInformationAndSaveToLocalDatabaseWithCompletion:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [ws.myTimer fire];
+        });
+    }];
+    [self invalidateMytimer];//把定时器干掉的目的是为了，当内部在加载历史位置信息时，不至于这里又重复去请求数据。只有当数据请求完成之后，执行内部的block，再来启动定时器.
+}
+- (NSTimer *)myTimer
+{
+    if (_myTimer == nil) {
+        _myTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(loadHistoryDataToLocal) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_myTimer forMode:NSRunLoopCommonModes];
+    }
+    return _myTimer;
+}
+- (void)dealloc {
+    [self invalidateMytimer];
+}
+- (void)invalidateMytimer {
+    [self.myTimer invalidate];
+    self.myTimer = nil;
+}
 /**
  *  百度的密钥验证
  */
@@ -55,7 +98,7 @@
         [self.window makeKeyAndVisible];
         [PHTool loginViewControllerImplementation];
     }
-    
+    [self.myTimer fire];
     return YES;
 }
 

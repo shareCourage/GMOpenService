@@ -68,6 +68,7 @@
     UIStoryboard *storyA = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *vc = [storyA instantiateViewControllerWithIdentifier:@"PHTabBarControllerIdentity"];
     AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    [delegate loadHistoryDataToLocal];
     delegate.window.rootViewController = vc;
     
 }

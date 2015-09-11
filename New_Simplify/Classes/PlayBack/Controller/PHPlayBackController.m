@@ -16,6 +16,7 @@
 #import "PHHistoryLoc.h"
 #import "PHTitleButton.h"
 #import "PHFilterView.h"
+#import "AppDelegate.h"
 @interface PHPlayBackController ()<PHFilterViewDelegate, MBProgressHUDDelegate, UIAlertViewDelegate>
 {
     BOOL _isPlayBack;
@@ -24,7 +25,11 @@
 @property(nonatomic, strong)MBProgressHUD *myHud;
 @property(nonatomic, strong)PHFilterView *filterView;
 
-@property(nonatomic, strong)GMHistoryManager *hisM;
+@property(nonatomic, strong)GMHistoryManager *hisM;//用这个来控制从服务器实时获取历史数据信息
+
+@property (nonatomic, copy) NSString *startTime;
+@property (nonatomic, copy) NSString *endTime;
+
 @end
 
 @implementation PHPlayBackController
@@ -32,16 +37,11 @@
 {
     PHLog(@"%@ ---->dealloc",NSStringFromClass([self class]));
 }
-- (GMHistoryManager *)hisM
-{
-    if (!_hisM) {
-        _hisM = [GMHistoryManager manager];
-        _hisM.deviceId = [PHTool getDeviceIdFromUserDefault];
-    }
-    return _hisM;
-}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    self.hisM = delegate.hisM;
     _isPlayBack = NO;
     [self addNavigationBarTitleItem];
     [self addNavigationRightItem];
@@ -104,31 +104,16 @@
     [super viewWillAppear:animated];
     NSArray *historys = nil;
     if (_isPlayBack) {
-        historys = [self.hisM selectAllOfHistoryInfosWithDevice:[[PHHistoryLoc alloc] init] orderBy:GMOrderByASC];
+        historys = [self.hisM selectHistoryInfosWithDevice:[[PHHistoryLoc alloc] init] fromTime:self.startTime toTime:self.endTime orderBy:GMOrderByASC];
     }
-    [self.playBackMapView playBackViewWillAppearWithHistorys:historys];
-    
-    [self loadHistoryDataToLocal];
+    [self.playBackMapView playBackViewWillAppearWithHistorys:historys];    
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self.playBackMapView playBackViewWillDisappear];
 }
-- (void)loadHistoryDataToLocal//把服务器近两个月时间的数据全部加载到本地
-{
-    NSArray *historys = [self.hisM selectAllOfHistoryInfosWithDevice:[[PHHistoryLoc alloc] init] orderBy:GMOrderByASC];
-    PHHistoryLoc *hisLoc = [historys lastObject];
-    PHLog(@"数据库总个数-》%ld个",(unsigned long)historys.count);
 
-    NSTimeInterval start = [NSDate date].timeIntervalSince1970 - 2 * 30 * 24 * 60 * 60;
-    self.hisM.startTime = hisLoc.gps_time == nil ? [NSString stringWithFormat:@"%.f",start] : hisLoc.gps_time;
-    
-    NSTimeInterval end = [NSDate date].timeIntervalSince1970;
-    self.hisM.endTime = [NSString stringWithFormat:@"%.f",end];
-    PHLog(@"time:start-> %@   , end%@",self.hisM.startTime ,self.hisM.endTime);
-    [self.hisM getHistoryInformationAndSaveToLocalDatabaseWithCompletion:nil];
-}//1428055152
 #if 1
 - (void)loadWithBegin:(NSTimeInterval)begin end:(NSTimeInterval)end
 {
@@ -140,6 +125,8 @@
     [self hudShowOnTheFenceMapView:@"搜索中..."];
     self.hisM.startTime = [NSString stringWithFormat:@"%.f",begin];
     self.hisM.endTime = [NSString stringWithFormat:@"%.f",end];
+    self.startTime = self.hisM.startTime;
+    self.endTime = self.hisM.endTime;
     NSArray *historys = [self.hisM selectHistoryInfosWithDevice:[[PHHistoryLoc alloc] init] fromTime:self.hisM.startTime toTime:self.hisM.endTime orderBy:GMOrderByASC];
     [self beginPlayWithResults:historys];
 }
@@ -153,6 +140,7 @@
         self.myHud.labelText = @"轨迹...";
         [self.myHud hide:YES afterDelay:0.6f];
     }
+    [self.playBackMapView clearAllOfTheMapViewPloylineAndAnnotations];
     self.playBackMapView.historys = results;
 
     PHLog(@"___+++___%ld个",(unsigned long)results.count);

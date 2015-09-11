@@ -11,7 +11,6 @@
 #define PH_ImageName_history_car   @"history_car"
 #define PHBubbleTag 100
 
-
 #import "PHPlaybackView.h"
 #import "PHStartAnnotation.h"
 #import "PHStartAnnotationView.h"
@@ -23,15 +22,15 @@
 #import "PHPlayDisplayView.h"
 #import "PHHistoryLoc.h"
 #import "DWBubbleMenuButton.h"
-typedef enum {
+
+typedef NS_ENUM(NSUInteger, PHPlayBackSpeed) {
     PHPlayBackSpeedOfSlowPlus = PHBubbleTag,//定义回放的时间，慢+
     PHPlayBackSpeedOfSlowNormal,//慢
     PHPlayBackSpeedOfSlowMinus,//慢-
     PHPlayBackSpeedOfFastMinus,//快-
     PHPlayBackSpeedOfFastNormal,//快
     PHPlayBackSpeedOfFastPlus,//快+
-}PHPlayBackSpeed;
-
+};
 
 @interface PHPlaybackView ()<PHPlayProgressViewDelegate>
 {
@@ -62,85 +61,15 @@ typedef enum {
 - (void)clearAllOfTheMapViewPloylineAndAnnotations
 {
     _historys = nil;
-    _playProgressViewState = YES;
+    _playProgressViewState = NO;
     self.progressView.playBtn.selected = NO;
     _playIndex = 0;
     self.progressView.sliderView.value = 0;
+    [self.displayView clearDisplayRecord];
     [self.bmkMapView removeOverlays:self.bmkMapView.overlays];
     [self.bmkMapView removeAnnotations:self.bmkMapView.annotations];
 }
-- (void)dealloc
-{
-    PHLog(@"PHPlaybackView->dealloc");
-}
-- (void)bubbleViewImplementation
-{
-    CGFloat lableX = 0;
-    CGFloat lableY = 0;
-    CGFloat lableW = 40;
-    CGFloat lableH = lableW;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(lableX, lableY, lableW, lableH)];
-    label.text = @"Tap";
-    label.textColor = [UIColor whiteColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont systemFontOfSize:15.f];
-    label.layer.cornerRadius = label.frame.size.height / 2.f;
-    label.backgroundColor = [UIColor colorWithRed:0.f green:0.f blue:0.f alpha:0.5f];
-    label.clipsToBounds = YES;
-    CGFloat bubbleX = 10.f;
-    CGFloat bubbleY = PH_HeightOfScreen - 49 - 80 - lableH;
-    CGFloat bubbleW = label.frame.size.width;
-    CGFloat bubbleH = label.frame.size.height;
-    CGRect  bubbleF = CGRectMake(bubbleX, bubbleY, bubbleW, bubbleH);
-    DWBubbleMenuButton *downMenuButton = [[DWBubbleMenuButton alloc] initWithFrame:bubbleF expansionDirection:DirectionUp];
-    downMenuButton.buttonSpacing = 10.f;
-    downMenuButton.homeButtonView = label;
-    [downMenuButton addButtons:[self createDemoButtonArray]];
-    [self addSubview:downMenuButton];
-}
-- (NSArray *)createDemoButtonArray {
-    NSMutableArray *buttonsMutable = [[NSMutableArray alloc] init];
-    int i = 0;
-    for (NSString *title in @[@"慢+", @"慢", @"慢-", @"快-", @"快", @"快+"]) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-        button.titleLabel.font = [UIFont systemFontOfSize:14.f];
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [button setTitle:title forState:UIControlStateNormal];
-        button.frame = CGRectMake(0.f, 0.f, 30.f, 30.f);
-        button.layer.cornerRadius = button.frame.size.height / 2.f;
-        [button setBackgroundColor:PH_RGBAColor(arc4random_uniform(255), arc4random_uniform(255), arc4random_uniform(255), 0.7f)];
-        button.clipsToBounds = YES;
-        button.tag = PHBubbleTag + i;
-        i++;
-        [button addTarget:self action:@selector(speedResponse:) forControlEvents:UIControlEventTouchUpInside];
-        [buttonsMutable addObject:button];
-    }
-    return [buttonsMutable copy];
-}
-- (void)speedResponse:(UIButton *)sender {
-    switch (sender.tag) {
-        case PHPlayBackSpeedOfSlowPlus:
-            _playTime = 2.0f;
-            break;
-        case PHPlayBackSpeedOfSlowNormal:
-            _playTime = 1.5f;
-            break;
-        case PHPlayBackSpeedOfSlowMinus:
-            _playTime = 1.0f;
-            break;
-        case PHPlayBackSpeedOfFastMinus:
-            _playTime = 0.8f;
-            break;
-        case PHPlayBackSpeedOfFastNormal:
-            _playTime = 0.6f;
-            break;
-        case PHPlayBackSpeedOfFastPlus:
-            _playTime = 0.3f;
-            break;
-        default:
-            break;
-    }
-}
+
 
 /**
  *  使用懒加载方法，加载playAnno
@@ -154,25 +83,7 @@ typedef enum {
     return _playAnno;
 }
 
-//实例化PHPlayProgressView和PHPlayDisplayView
-- (void)addProgressViewAndDisplayViewFunc
-{
-    PHPlayProgressView *progress = [[PHPlayProgressView alloc] initWithFrame:CGRectMake(0, 0, PH_WidthOfScreen, 40)];
-    progress.delegate = self;
-    [self addSubview:progress];
-    self.progressView = progress;
-    
-    PHPlayDisplayView *display = [PHPlayDisplayView playDisplayViewFromXib];
-    display.frame = CGRectMake(0, CGRectGetMaxY(progress.frame), PH_WidthOfScreen, 30);
-    [self addSubview:display];
-    self.displayView = display;
-}
 
-- (void)awakeFromNib
-{
-    [self addProgressViewAndDisplayViewFunc];
-    [self bubbleViewImplementation];
-}
 
 /**
  *  重写historys的setter函数
@@ -184,7 +95,15 @@ typedef enum {
         self.progressView.playBtn.selected = YES;
         [self configurePolyline:historys];
         [self addAnnotationForStartAndEndPoint:historys];
-        [self lanuchPlaybackFunction];
+        /**
+         *  这两代码实际上一般情况下只需要执行[self lanuchPlaybackFunction]这个就可以，只是为了解决在播放历史记录的时候，又重新添加新的播放的bug
+         */
+        _playProgressViewState = YES;//这里设置这个的目的是为了，让runloop之前已经在运行的lanuchPlaybackFunction函数，能够执行到return语句。
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_playTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            _playProgressViewState = NO;
+            [self lanuchPlaybackFunction];
+        });//加上这个延时，是为了正在runloop上运行的lanuchPlaybackFunction能够充分执行完成，然后再来重新调用lanuchPlaybackFunction函数
+        self.displayView.historys = historys;//将这个数组给PHDisplayView，为了提前算好每个空隙的总里程
     }
 }
 
@@ -193,7 +112,7 @@ typedef enum {
  */
 - (void)lanuchPlaybackFunction
 {
-    PHLog(@"%ld",(unsigned long)self.bmkMapView.annotations.count);
+    PHLog(@"lanuchPlaybackFunction->%ld",(unsigned long)self.bmkMapView.annotations.count);
     if (_historys == nil) return;
     if (_playIndex >= _historys.count || _playProgressViewState) {
         if (_playIndex >= _historys.count) {
@@ -216,6 +135,7 @@ typedef enum {
 {
     PHHistoryLoc *his = _historys[_playIndex];
     self.displayView.history = his;
+    [self.displayView setTotalMilesWithIndex:_playIndex];//用这个特殊方式来显示总里程
     CLLocationDegrees lat = [his.lat doubleValue];
     CLLocationDegrees lng = [his.lng doubleValue];
     self.playAnno.coordinate = CLLocationCoordinate2DMake(lat, lng);
@@ -322,7 +242,98 @@ typedef enum {
 }
 
 
+- (void)dealloc
+{
+    PHLog(@"PHPlaybackView->dealloc");
+}
+- (void)bubbleViewImplementation
+{
+    CGFloat lableX = 0;
+    CGFloat lableY = 0;
+    CGFloat lableW = 40;
+    CGFloat lableH = lableW;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(lableX, lableY, lableW, lableH)];
+    label.text = @"Tap";
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:15.f];
+    label.layer.cornerRadius = label.frame.size.height / 2.f;
+    label.backgroundColor = [UIColor colorWithRed:0.f green:0.f blue:0.f alpha:0.5f];
+    label.clipsToBounds = YES;
+    CGFloat bubbleX = 10.f;
+    CGFloat bubbleY = PH_HeightOfScreen - 49 - 80 - lableH;
+    CGFloat bubbleW = label.frame.size.width;
+    CGFloat bubbleH = label.frame.size.height;
+    CGRect  bubbleF = CGRectMake(bubbleX, bubbleY, bubbleW, bubbleH);
+    DWBubbleMenuButton *downMenuButton = [[DWBubbleMenuButton alloc] initWithFrame:bubbleF expansionDirection:DirectionUp];
+    downMenuButton.buttonSpacing = 10.f;
+    downMenuButton.homeButtonView = label;
+    [downMenuButton addButtons:[self createDemoButtonArray]];
+    [self addSubview:downMenuButton];
+}
+- (NSArray *)createDemoButtonArray {
+    NSMutableArray *buttonsMutable = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (NSString *title in @[@"慢+", @"慢", @"慢-", @"快-", @"快", @"快+"]) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+        button.titleLabel.font = [UIFont systemFontOfSize:14.f];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [button setTitle:title forState:UIControlStateNormal];
+        button.frame = CGRectMake(0.f, 0.f, 30.f, 30.f);
+        button.layer.cornerRadius = button.frame.size.height / 2.f;
+        [button setBackgroundColor:PH_RGBAColor(arc4random_uniform(255), arc4random_uniform(255), arc4random_uniform(255), 0.7f)];
+        button.clipsToBounds = YES;
+        button.tag = PHBubbleTag + i;
+        i++;
+        [button addTarget:self action:@selector(speedResponse:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonsMutable addObject:button];
+    }
+    return [buttonsMutable copy];
+}
+- (void)speedResponse:(UIButton *)sender {
+    switch (sender.tag) {
+        case PHPlayBackSpeedOfSlowPlus:
+            _playTime = 2.0f;
+            break;
+        case PHPlayBackSpeedOfSlowNormal:
+            _playTime = 1.5f;
+            break;
+        case PHPlayBackSpeedOfSlowMinus:
+            _playTime = 1.0f;
+            break;
+        case PHPlayBackSpeedOfFastMinus:
+            _playTime = 0.8f;
+            break;
+        case PHPlayBackSpeedOfFastNormal:
+            _playTime = 0.6f;
+            break;
+        case PHPlayBackSpeedOfFastPlus:
+            _playTime = 0.3f;
+            break;
+        default:
+            break;
+    }
+}
 
+//实例化PHPlayProgressView和PHPlayDisplayView
+- (void)addProgressViewAndDisplayViewFunc
+{
+    PHPlayProgressView *progress = [[PHPlayProgressView alloc] initWithFrame:CGRectMake(0, 0, PH_WidthOfScreen, 30)];
+    progress.delegate = self;
+    [self addSubview:progress];
+    self.progressView = progress;
+    
+    PHPlayDisplayView *display = [PHPlayDisplayView playDisplayViewFromXib];
+    display.frame = CGRectMake(0, CGRectGetMaxY(progress.frame), PH_WidthOfScreen, 20);
+    [self addSubview:display];
+    self.displayView = display;
+}
+
+- (void)awakeFromNib
+{
+    [self addProgressViewAndDisplayViewFunc];
+    [self bubbleViewImplementation];
+}
 @end
 
 

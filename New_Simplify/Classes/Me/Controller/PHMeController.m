@@ -10,6 +10,7 @@
 #import "PHDeviceInfo.h"
 #import "PHBaiduMapView.h"
 #import "PHMeMapView.h"
+#import "AppDelegate.h"
 @interface PHMeController ()
 
 @property(nonatomic, strong)NSTimer *myTimer;//周期获取设备最新位置定时器
@@ -87,10 +88,8 @@
 - (void)getDeviceIdInfomation
 {
     PH_WS(ws);
-    GMHistoryManager *history = [GMHistoryManager manager];
-    history.mapType = GMMapTypeOfBAIDU;
-    history.deviceId = [PHTool getDeviceIdFromUserDefault];
-    [history getNewestInformationSuccessBlockDeviceInfo:^(GMDeviceInfo *deviceInfo) {
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    [delegate.hisM getNewestInformationSuccessBlockDeviceInfo:^(GMDeviceInfo *deviceInfo) {
         [ws configMeMapViewWithDeviceInfo:deviceInfo];
     } failureBlock:^(NSError *error) {
         if (error) PHLog(@"error %@",error);

@@ -258,7 +258,6 @@
     BMKMapPoint pointA = BMKMapPointForCoordinate(coordA);
     BMKMapPoint pointB = BMKMapPointForCoordinate(coordB);
     CLLocationDistance distance= BMKMetersBetweenMapPoints(pointA, pointB);
-//    PHLog(@"distance->%.3f",distance);
     return distance;
 }
 

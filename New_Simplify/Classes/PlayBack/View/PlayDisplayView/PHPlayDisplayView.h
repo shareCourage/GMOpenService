@@ -13,6 +13,11 @@
 
 + (instancetype)playDisplayViewFromXib;
 
-@property(nonatomic, strong)PHHistoryLoc *history;
+@property (nonatomic, weak) PHHistoryLoc *history;
+@property (nonatomic, weak) NSArray *historys;
+
+- (void)clearDisplayRecord;
+
+- (void)setTotalMilesWithIndex:(NSUInteger)index;
 
 @end

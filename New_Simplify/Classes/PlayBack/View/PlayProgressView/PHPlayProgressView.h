@@ -24,4 +24,8 @@
 
 @property (nonatomic,assign) id<PHPlayProgressViewDelegate> delegate;
 
+- (void)clearRecord;
+
 @end
+
+
