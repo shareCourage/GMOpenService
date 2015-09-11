@@ -60,6 +60,13 @@
 
 - (NSArray *)dbExecuteWithDevice:(id<GMDevice>)device sqlite:(NSString *)sqlite;
 
+
+/**
+ *  查询数据库中指定devid，gps时间最大的那行
+ *
+ */
+- (id)dbSelectMaxGpstimeHistoryInfo:(id<GMDevice>)device devid:(NSString *)devid;
+
 @end
 
 

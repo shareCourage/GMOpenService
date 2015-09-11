@@ -152,6 +152,12 @@ typedef void (^GMOptionDeviceInfo)(GMDeviceInfo *deviceInfo);
 - (NSArray *)selectHistoryInfosWithDevice:(id<GMDevice>)device sqlite:(NSString *)sqlite;
 
 
+//TODO:0910
+/**
+ *  查询数据库中指定devid，gps时间最大的那行
+ *
+ */
+- (id)selectMaxGpstimeHistoryInfosWithDevice:(id<GMDevice>)device;
 
 @end
 

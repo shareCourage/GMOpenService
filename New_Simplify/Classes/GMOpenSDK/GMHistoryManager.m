@@ -61,19 +61,6 @@
         if (array.count == 0) return;
         NSDictionary *objD = [array firstObject];
         GMDeviceInfo *deviceInfo = [[GMDeviceInfo alloc] initWithDict:objD];
-#if 0
-        {
-        deviceInfo.course       = [NSString stringWithFormat:@"%@",objD[GM_Argument_course]];
-        deviceInfo.speed        = [NSString stringWithFormat:@"%@",objD[GM_Argument_speed]];
-        deviceInfo.devid        = [NSString stringWithFormat:@"%@",objD[GM_Argument_devid]];
-        deviceInfo.gps_time     = [NSString stringWithFormat:@"%@",objD[GM_Argument_gps_time]];
-        deviceInfo.lat          = [NSString stringWithFormat:@"%@",objD[GM_Argument_lat]];
-        deviceInfo.lng          = [NSString stringWithFormat:@"%@",objD[GM_Argument_lng]];
-        deviceInfo.server_time  = [NSString stringWithFormat:@"%@",objD[@"server_time"]];
-        deviceInfo.sys_time     = [NSString stringWithFormat:@"%@",objD[@"sys_time"]];
-        deviceInfo.heart_time   = [NSString stringWithFormat:@"%@",objD[@"heart_time"]];
-        }
-#endif
         if (success) success(deviceInfo);
     } withFailureBlock:failure];
 }
@@ -232,7 +219,12 @@
                                               withBlock:^(NSDictionary *dict) {//这个block会被AF安置在主线程执行，所以，内部需要在子线程执行的，仍需要主动调用子线程方法
                 dispatch_async(_global, ^{
                     NSArray *array = [self dictionary:dict deviceId:deviceId];
-                    if (array.count == 0) return;
+                    if (array.count == 0) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (self.completionBlock) self.completionBlock();
+                        });
+                        return;
+                    }
                     if (array.count >= GM_MaxNumberOfHistory) {
                         GMDeviceInfo *lastDevice = [array lastObject];
                         [self downloadData:lastDevice.gps_time
@@ -243,7 +235,9 @@
                                      limit:self.numberLimit];
                     }
                     else {
-                        if (self.completionBlock) self.completionBlock();
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (self.completionBlock) self.completionBlock();
+                        });
                     }
                 });
     } withFailureBlock:nil];
@@ -254,6 +248,11 @@
 {
     if (self.deviceId.length == 0) return 0;
     return [[GMDatabase shareDatabase] dbTotalCountOfHistoryInfoWidthDevid:self.deviceId];
+}
+
+- (id)selectMaxGpstimeHistoryInfosWithDevice:(id<GMDevice>)device {
+    if (device == nil || self.deviceId.length == 0) return nil;
+    return [[GMDatabase shareDatabase] dbSelectMaxGpstimeHistoryInfo:device devid:self.deviceId];
 }
 
 - (NSArray *)selectAllOfHistoryInfosWithDevice:(id<GMDevice>)device orderBy:(GMOrderBy)orderBy

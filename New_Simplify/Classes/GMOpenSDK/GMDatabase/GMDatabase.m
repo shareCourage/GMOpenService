@@ -24,6 +24,7 @@
 #define sql_SelectHistoryInfo_between_gpstime_Default @"select * from historyInfo where devid = ? and gpstime between ? and ?"
 #define sql_SelectHistoryInfo_between_gpstime_Desc    @"select * from historyInfo where devid = ? and gpstime between ? and ? order by gpstime desc"
 #define sql_SelectHistoryInfo_between_gpstime_Asc     @"select * from historyInfo where devid = ? and gpstime between ? and ? order by gpstime asc"
+#define sql_SelectHistoryInfo_maxOfGpstime            @"select * from historyInfo where gpstime = (select max(gpstime) from historyInfo where devid = ?)"
 
 #define DB_gpstime @"gpstime"
 #define DB_lat @"lat"
@@ -110,6 +111,23 @@
         }
     }];
     return sum;
+}
+- (id)dbSelectMaxGpstimeHistoryInfo:(id<GMDevice>)device devid:(NSString *)devid {
+    Class deviceClass = [device class];
+    id<GMDevice> myDevice = [[deviceClass alloc] init];
+    NSString *sql = sql_SelectHistoryInfo_maxOfGpstime;
+    [_GFMQueue inDatabase:^(GFMDatabase *db) {
+        GFMResultSet *result = [db executeQuery:sql,devid];
+        while ([result next]) {
+            myDevice.gps_time = [result stringForColumn:DB_gpstime];
+            myDevice.lat = [result stringForColumn:DB_lat];
+            myDevice.lng = [result stringForColumn:DB_lng];
+            myDevice.speed = [result stringForColumn:DB_speed];
+            myDevice.course = [result stringForColumn:DB_course];
+            myDevice.devid = [result stringForColumn:DB_devid];
+        }
+    }];
+    return myDevice;
 }
 
 - (NSArray *)dbAllOfTheHistoryInfoWithDevice:(id<GMDevice>)device orderBy:(GMOrderBy)orderBy devid:(NSString *)devid
