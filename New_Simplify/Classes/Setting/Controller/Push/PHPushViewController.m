@@ -81,8 +81,8 @@
     else if ([push.alarmType isEqualToString:@"1,2"]) {
         alarmType.subtitle = PH_InOut;
     }
-    else {
-        alarmType.subtitle = push.alarmType;
+    else if ([push.alarmType hasPrefix:@"1,2"]){
+        alarmType.subtitle = PH_InOut;
     }
     alarmType.option = ^{
         [ws alertViewShow:nil actionOne:PH_In actionTwo:PH_Out actionThree:PH_InOut];
@@ -155,27 +155,32 @@
 
 - (void)alertViewShow:(NSString *)alertTitle actionOne:(NSString *)one actionTwo:(NSString *)two actionThree:(NSString *)three
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    [alertController addAction:[self actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel handler:nil]];
-    if (one) {
-        [alertController addAction:[self actionWithTitle:one actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            _actionRow = 0;
-            [self reloadMyTableViewWithSubtitle:one];
-        }]];
+    if (PH_iOS(8.0)) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        [alertController addAction:[self actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel handler:nil]];
+        if (one) {
+            [alertController addAction:[self actionWithTitle:one actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                _actionRow = 0;
+                [self reloadMyTableViewWithSubtitle:one];
+            }]];
+        }
+        if (two) {
+            [alertController addAction:[self actionWithTitle:two actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                _actionRow = 1;
+                [self reloadMyTableViewWithSubtitle:two];
+            }]];
+        }
+        if (three) {
+            [alertController addAction:[self actionWithTitle:three actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                _actionRow = 2;
+                [self reloadMyTableViewWithSubtitle:three];
+            }]];
+        }
+        [self presentViewController:alertController animated:YES completion:nil];
     }
-    if (two) {
-        [alertController addAction:[self actionWithTitle:two actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            _actionRow = 1;
-            [self reloadMyTableViewWithSubtitle:two];
-        }]];
+    else {
+        
     }
-    if (three) {
-        [alertController addAction:[self actionWithTitle:three actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            _actionRow = 2;
-            [self reloadMyTableViewWithSubtitle:three];
-        }]];
-    }
-    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (UIAlertAction *)actionWithTitle:(NSString *)title actionStyle:(UIAlertActionStyle)style handler:(void (^)(UIAlertAction *action))handler

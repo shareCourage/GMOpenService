@@ -359,15 +359,15 @@
         if (indexPath.section == 0) {
             NSString *pauseOrStart = nil;
             if (element.status != 1 ) {
-                pauseOrStart = @"StartDownload";
+                pauseOrStart = @"开始下载";
             }
             else {
-                pauseOrStart = @"Pause";
+                pauseOrStart = @"暂停";
             }
-            action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:pauseOrStart,@"Delete", nil];
+            action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:pauseOrStart,@"删除", nil];
         }
         else if (indexPath.section == 1) {
-            action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Delete", nil];
+            action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"删除", nil];
         }
         
         [action showInView:self.view];

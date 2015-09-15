@@ -47,7 +47,7 @@
     NSUInteger count = self.subviews.count;
     for (int i = 0; i<count; i++) {
         PHTabBarButton *button = self.subviews[i];
-        button.tag = i;
+        button.tag = i + 100;
         
         // 设置frame
         CGFloat buttonY = 0;
@@ -63,9 +63,10 @@
  */
 - (void)buttonClick:(PHTabBarButton *)button
 {
+    PHLog(@"%ld, %ld",(unsigned long)self.selectedButton.tag, (unsigned long)button.tag);
     // 0.通知代理
     if ([self.delegate respondsToSelector:@selector(tabBar:didSelectButtonFrom:to:)]) {
-        [self.delegate tabBar:self didSelectButtonFrom:self.selectedButton.tag to:button.tag];
+        [self.delegate tabBar:self didSelectButtonFrom:self.selectedButton.tag - 100 to:button.tag - 100];
     }
     
     // 1.让当前选中的按钮取消选中

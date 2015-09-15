@@ -71,6 +71,11 @@
 {
     _group = group;
     [self.nameView setTitle:group.header forState:UIControlStateNormal];
+    if (self.group.opened) {
+        self.nameView.imageView.transform = CGAffineTransformMakeRotation(M_PI_2);
+    } else {
+        self.nameView.imageView.transform = CGAffineTransformMakeRotation(0);
+    }
 }
 /**
  *  监听组名按钮的点击
@@ -81,6 +86,7 @@
     if ([self.delegate respondsToSelector:@selector(OfflineHeaderViewDidClickedNameView:)]) {
         [self.delegate OfflineHeaderViewDidClickedNameView:self];
     }
+    
 }
 /**
  *  当一个控件被添加到父控件中就会调用

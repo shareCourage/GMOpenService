@@ -10,4 +10,8 @@
 
 @interface UIImage (PHCategory)
 + (UIImage *)resizedImageWithName:(NSString *)name;
+
+
+- (UIImage *)nonInouterpolatedUIImageFromCIImage:(CIImage *)image withSize:(CGFloat)size;
+- (CIImage *)creatQRForString:(NSString *)qrString;
 @end

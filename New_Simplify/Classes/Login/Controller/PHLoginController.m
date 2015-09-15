@@ -159,6 +159,10 @@
         BOOL isMatch = [self matchWithRegex:@"^[0-9]*$" string:textField.text];
         if (textField.text.length == 0) isMatch = NO;
         isMatch ? [self validateAppid:textField] : [self setupViewStatus:NO textField:textField];
+        if (!isMatch && textField.text.length != 0) {
+            [MBProgressHUD showError:@"非法字符"];
+            textField.textColor = [UIColor grayColor];
+        }
     }
     else if (textField == self.devidTextF) {
         BOOL isMatch = [self matchWithRegex:@"^[a-zA-Z0-9_]+$" string:textField.text];

@@ -146,7 +146,7 @@
                                       reverseArray:array
                                            mapType:mapType
                                       successBlock:^(NSDictionary *dict) {
-                                          GMLog(@"~~~~~~~~~~~~~~%@",dict);
+//                                          GMLog(@"~~~~~~~~~~~~~~%@",dict);
                                           NSArray *data = dict[GM_Argument_data];
                                           NSMutableArray *mArray = [NSMutableArray array];
                                           for (NSDictionary *obj in data) {

@@ -20,7 +20,7 @@
 #import "UITextField+PHCategory.h"
 #import "NSString+PHCategory.h"
 #import "MBProgressHUD+MJ.h"
-
+#import "UIViewController+PHCategory.h"
 #import "PHKeyValueObserver.h"
 
 @interface PHTool : NSObject

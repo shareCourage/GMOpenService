@@ -13,30 +13,30 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hgd-Ps-DHJ">
-                    <rect key="frame" x="0.0" y="0.0" width="140" height="50"/>
+                    <rect key="frame" x="0.0" y="0.0" width="120" height="50"/>
                     <color key="backgroundColor" red="0.75294125079999996" green="0.75294125079999996" blue="0.75294125079999996" alpha="1" colorSpace="deviceRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="140" id="KKZ-My-i4R"/>
+                        <constraint firstAttribute="width" constant="120" id="KKZ-My-i4R"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="distance" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLY-62-DkI" userLabel="distance">
-                    <rect key="frame" x="140" y="0.0" width="98" height="50"/>
+                    <rect key="frame" x="120" y="0.0" width="116" height="50"/>
                     <color key="backgroundColor" red="0.22745099660000001" green="0.62352943419999995" blue="0.87450987099999999" alpha="1" colorSpace="deviceRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="speed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="INk-Vf-6X0" userLabel="speed">
-                    <rect key="frame" x="238" y="0.0" width="68" height="50"/>
+                    <rect key="frame" x="236" y="0.0" width="69" height="50"/>
                     <color key="backgroundColor" red="0.54509806630000002" green="0.72156864399999998" blue="0.1960784495" alpha="1" colorSpace="deviceRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="direction" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7SR-pf-tR1">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="direction" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7SR-pf-tR1">
                     <rect key="frame" x="306" y="0.0" width="69" height="50"/>
                     <color key="backgroundColor" red="0.61568627450000002" green="0.64705882349999999" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -55,7 +55,7 @@
                 <constraint firstItem="PLY-62-DkI" firstAttribute="top" secondItem="jOi-o2-aa4" secondAttribute="top" id="XGl-uR-mrs"/>
                 <constraint firstAttribute="bottom" secondItem="7SR-pf-tR1" secondAttribute="bottom" id="cr2-k9-cfI"/>
                 <constraint firstAttribute="bottom" secondItem="PLY-62-DkI" secondAttribute="bottom" id="eZj-RM-w8G"/>
-                <constraint firstItem="INk-Vf-6X0" firstAttribute="width" secondItem="PLY-62-DkI" secondAttribute="width" multiplier="0.7" id="h3s-b5-K7h"/>
+                <constraint firstItem="INk-Vf-6X0" firstAttribute="width" secondItem="PLY-62-DkI" secondAttribute="width" multiplier="0.6" id="h3s-b5-K7h"/>
                 <constraint firstItem="INk-Vf-6X0" firstAttribute="top" secondItem="jOi-o2-aa4" secondAttribute="top" id="hTw-Wy-gWs"/>
                 <constraint firstItem="Hgd-Ps-DHJ" firstAttribute="top" secondItem="jOi-o2-aa4" secondAttribute="top" id="j2r-xn-oG3"/>
                 <constraint firstItem="7SR-pf-tR1" firstAttribute="top" secondItem="jOi-o2-aa4" secondAttribute="top" id="jb0-UZ-Eal"/>

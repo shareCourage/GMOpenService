@@ -70,6 +70,9 @@
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFence)];
     addItem.tintColor = [UIColor blueColor];
     self.navigationItem.rightBarButtonItem = addItem;
+    
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"围栏列表" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
 }
 
 //UIBarButtonItem->addFence跳转至PHFenceMapController来添加围栏

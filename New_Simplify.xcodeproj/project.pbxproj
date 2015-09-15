@@ -159,6 +159,8 @@
 		A9AEA2BA1B970222003B2E49 /* PHFenceModifyMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9AEA2B81B970222003B2E49 /* PHFenceModifyMapController.m */; };
 		A9AEA2BB1B970222003B2E49 /* PHFenceModifyMapController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9AEA2B91B970222003B2E49 /* PHFenceModifyMapController.xib */; };
 		A9C05DB11B5CD4C600FB34B8 /* GMFenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C05DB01B5CD4C600FB34B8 /* GMFenceInfo.m */; };
+		A9CD0D6E1BA7EA2900A527CD /* UIViewController+PHCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CD0D6D1BA7EA2900A527CD /* UIViewController+PHCategory.m */; };
+		A9CD0D721BA7F5BE00A527CD /* PHRemoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CD0D711BA7F5BE00A527CD /* PHRemoteViewController.m */; };
 		A9D39CB71B8B2B5900F998D8 /* GMPushInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A9D39CB61B8B2B5900F998D8 /* GMPushInfo.m */; };
 		A9DFA4B41B84845200F695BD /* PHAlarmDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DFA4B31B84845200F695BD /* PHAlarmDetailController.m */; };
 		A9F362C51B7C2D1B004DED58 /* GMAlarmManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F362C41B7C2D1B004DED58 /* GMAlarmManager.m */; };
@@ -445,6 +447,10 @@
 		A9AEA2B91B970222003B2E49 /* PHFenceModifyMapController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PHFenceModifyMapController.xib; sourceTree = "<group>"; };
 		A9C05DAF1B5CD4C600FB34B8 /* GMFenceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMFenceInfo.h; sourceTree = "<group>"; };
 		A9C05DB01B5CD4C600FB34B8 /* GMFenceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMFenceInfo.m; sourceTree = "<group>"; };
+		A9CD0D6C1BA7EA2900A527CD /* UIViewController+PHCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PHCategory.h"; sourceTree = "<group>"; };
+		A9CD0D6D1BA7EA2900A527CD /* UIViewController+PHCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PHCategory.m"; sourceTree = "<group>"; };
+		A9CD0D701BA7F5BE00A527CD /* PHRemoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRemoteViewController.h; sourceTree = "<group>"; };
+		A9CD0D711BA7F5BE00A527CD /* PHRemoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRemoteViewController.m; sourceTree = "<group>"; };
 		A9D39CB51B8B2B5900F998D8 /* GMPushInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMPushInfo.h; sourceTree = "<group>"; };
 		A9D39CB61B8B2B5900F998D8 /* GMPushInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMPushInfo.m; sourceTree = "<group>"; };
 		A9DFA4B21B84845200F695BD /* PHAlarmDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAlarmDetailController.h; sourceTree = "<group>"; };
@@ -589,6 +595,7 @@
 				A91B54E71B4B85C00042024A /* PlayBack */,
 				A91B55201B4B85C10042024A /* Setting */,
 				A91B555B1B4B85C10042024A /* Tool */,
+				A9CD0D6F1BA7F5A700A527CD /* Other */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -638,6 +645,8 @@
 				A91B549D1B4B85C00042024A /* UISlider+PHCategory.m */,
 				A91B549E1B4B85C00042024A /* UITextField+PHCategory.h */,
 				A91B549F1B4B85C00042024A /* UITextField+PHCategory.m */,
+				A9CD0D6C1BA7EA2900A527CD /* UIViewController+PHCategory.h */,
+				A9CD0D6D1BA7EA2900A527CD /* UIViewController+PHCategory.m */,
 			);
 			path = Catagory;
 			sourceTree = "<group>";
@@ -1511,6 +1520,15 @@
 			path = HeatMap;
 			sourceTree = "<group>";
 		};
+		A9CD0D6F1BA7F5A700A527CD /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				A9CD0D701BA7F5BE00A527CD /* PHRemoteViewController.h */,
+				A9CD0D711BA7F5BE00A527CD /* PHRemoteViewController.m */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
 		A9F362E61B831570004DED58 /* AlarmInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1765,6 +1783,7 @@
 				A91B559A1B4B85C10042024A /* PHDevFenceInfo.m in Sources */,
 				A986AC161B538B78006403D3 /* GFMDatabaseAdditions.m in Sources */,
 				A91B55C51B4B85C10042024A /* PHMessageTipsViewController.m in Sources */,
+				A9CD0D721BA7F5BE00A527CD /* PHRemoteViewController.m in Sources */,
 				A91B55B41B4B85C10042024A /* DWBubbleMenuButton.m in Sources */,
 				A91B55B31B4B85C10042024A /* PHStartAnnotation.m in Sources */,
 				A91B558F1B4B85C10042024A /* NSNumber+PHCategory.m in Sources */,
@@ -1832,6 +1851,7 @@
 				A9F362C51B7C2D1B004DED58 /* GMAlarmManager.m in Sources */,
 				A986AC191B538B78006403D3 /* GFMResultSet.m in Sources */,
 				A91B55CA1B4B85C10042024A /* PHSettingGroup.m in Sources */,
+				A9CD0D6E1BA7EA2900A527CD /* UIViewController+PHCategory.m in Sources */,
 				A9DFA4B41B84845200F695BD /* PHAlarmDetailController.m in Sources */,
 				A986AC2B1B538B78006403D3 /* GMOpenManager.m in Sources */,
 				A91B55D41B4B85C10042024A /* PHKeyValueObserver.m in Sources */,

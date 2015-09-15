@@ -35,6 +35,18 @@
  */
 + (NSString *)digitUppercaseWithMoney:(NSString *)money;
 
+
+/**
+ *  对推送过来的字段解析获取围栏名称
+ *
+ */
++ (NSString *)getFenceNameFromUserInfo:(NSDictionary *)userInfo;
+
+/**
+ 1、如果有设置传入参数:(时间格式)，则使用传入的格式
+ 2、否则，将时间转化成这样的格式：MM/dd/yyyy HH:mm:ss
+ */
+- (NSString *)convertGpstimeToDateFormate:(NSString *)dateF;
 @end
 
 

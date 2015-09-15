@@ -6,21 +6,61 @@
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
 #define GM_Appid [PH_UserDefaults objectForKey:PH_UniqueAppid]
+#define PH_HeightOfRemoteNotificationLabel 30
+
 #import "AppDelegate.h"
 #import "PHLoginController.h"
 #import <BaiduMapAPI/BMapKit.h>
 #import "GMOpenKit.h"
 #import "PHNavigationController.h"
 #import "PHHistoryLoc.h"
+#import "PHFenceListController.h"
+#import "PHRemoteViewController.h"
 @interface AppDelegate ()<BMKGeneralDelegate>
 {
     BMKMapManager * _bmkManager;
 }
-@property(nonatomic, strong)NSTimer *myTimer;//周期获取设备历史位置信息定时器
+@property (nonatomic, strong) NSTimer *myTimer;//周期获取设备历史位置信息定时器
+
+@property (nonatomic, strong) UIView *remoteNotificationView;
+@property (nonatomic, strong) UILabel *tipLabel;
+@property (nonatomic, strong) NSString *remoteAlarmInfo;
 
 @end
 
 @implementation AppDelegate
+- (void)remoteNotificationViewInstance {
+    if (!_remoteNotificationView) {
+        _remoteNotificationView = [[UIView alloc] initWithFrame:CGRectMake(0, - PH_HeightOfRemoteNotificationLabel, PH_WidthOfScreen, PH_HeightOfRemoteNotificationLabel)];
+        _remoteNotificationView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8f];
+        _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, PH_WidthOfScreen, PH_HeightOfRemoteNotificationLabel)];
+        _tipLabel.textColor = [UIColor whiteColor];
+        _tipLabel.font = [UIFont systemFontOfSize:15.f];
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
+        [_remoteNotificationView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remoteNotificationLabelClick)]];
+        [self.window addSubview:_remoteNotificationView];
+        [_remoteNotificationView addSubview:_tipLabel];
+    }
+}
+- (UIView *)remoteNotificationView {
+    if (!_remoteNotificationView) {
+        [self remoteNotificationViewInstance];
+    }
+    _remoteNotificationView.userInteractionEnabled = YES;
+    return _remoteNotificationView;
+}
+- (void)remoteNotificationLabelClick {
+    UITabBarController *tabBar = (UITabBarController *)[UIViewController activityViewController];
+    PHNavigationController *navi = (PHNavigationController *)tabBar.selectedViewController;
+    PHRemoteViewController *remoteVC = [[PHRemoteViewController alloc] init];
+    remoteVC.remoteAlarmInfo = self.remoteAlarmInfo;
+    [navi pushViewController:remoteVC animated:YES];
+    self.remoteNotificationView.userInteractionEnabled = NO;
+    [UIView animateWithDuration:0.5f animations:^{
+        self.remoteNotificationView.frame = CGRectMake(0, - PH_HeightOfRemoteNotificationLabel, PH_WidthOfScreen, PH_HeightOfRemoteNotificationLabel);
+    } completion:nil];
+}
+
 - (GMHistoryManager *)hisM
 {
     if (!_hisM) {
@@ -32,14 +72,15 @@
     }
     return _hisM;
 }
+
 - (void)loadHistoryDataToLocal//把服务器近两个月时间的数据全部加载到本地
 {
     PHHistoryLoc *hisLoc = [self.hisM selectMaxGpstimeHistoryInfosWithDevice:[[PHHistoryLoc alloc] init]];
     NSTimeInterval end = [NSDate date].timeIntervalSince1970;
-    NSTimeInterval start = end - 2 * 30 * 24 * 60 * 60;
+    NSTimeInterval start = end - 2 * 30 * 24 * 60 * 60;//计算出两个月之前的那个时间点
     self.hisM.startTime = hisLoc.gps_time.length == 0 ? [NSString stringWithFormat:@"%.f",start] : hisLoc.gps_time;//如果数据库当中没有时间，就从当前时间的前两个月算起，从服务器中读取
     self.hisM.endTime = [NSString stringWithFormat:@"%.f",end];
-    PHLog(@"start ->%@, end -> %@", self.hisM.startTime, self.hisM.endTime);
+//    PHLog(@"start ->%@, end -> %@", self.hisM.startTime, self.hisM.endTime);
     PH_WS(ws);
     [self.hisM getHistoryInformationAndSaveToLocalDatabaseWithCompletion:^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -48,17 +89,20 @@
     }];
     [self invalidateMytimer];//把定时器干掉的目的是为了，当内部在加载历史位置信息时，不至于这里又重复去请求数据。只有当数据请求完成之后，执行内部的block，再来启动定时器.
 }
+
 - (NSTimer *)myTimer
 {
     if (_myTimer == nil) {
-        _myTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(loadHistoryDataToLocal) userInfo:nil repeats:YES];
+        _myTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(loadHistoryDataToLocal) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:_myTimer forMode:NSRunLoopCommonModes];
     }
     return _myTimer;
 }
+
 - (void)dealloc {
     [self invalidateMytimer];
 }
+
 - (void)invalidateMytimer {
     [self.myTimer invalidate];
     self.myTimer = nil;
@@ -99,8 +143,11 @@
         [PHTool loginViewControllerImplementation];
     }
     [self.myTimer fire];
+    
+    
     return YES;
 }
+
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
@@ -112,49 +159,40 @@
 {
     PHLog(@"failToRegister -> %@",error);
 }
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     [GMPushManager handleRemoteNotification:userInfo];
-
+    [self remoteNotificationViewInstance];
     PHLog(@"~~~~~~~~~~~~~~~~~~~~~~~~~~didReceiveRemoteNotification~~~~~~~~~~~~~~~~~~~~~~~~~->\n%@",userInfo);
     if (userInfo) {
         NSString *alarm = userInfo[@"alarm"];
+        self.remoteAlarmInfo = alarm;
         NSArray *arraySep = [NSArray seprateString:alarm characterSet:@","];
         NSString *deviceId = [arraySep firstObject];
         NSString *status = arraySep[1];
-        NSString *fenceId = [[arraySep lastObject] stringByAppendingString:@" 围栏"];
-        NSString *fenceName = [self getFenceNameFromUserInfo:userInfo];
-        NSString *information = [NSString stringWithFormat:@"设备%@%@ %@",deviceId, [status isEqualToString:@"1"] ? @"进入" : @"离开", fenceName == nil ? fenceId : [fenceName stringByAppendingString:@" 围栏"]];
-        [MBProgressHUD showSuccess:information];
+        NSString *fenceid = [arraySep lastObject];
+        NSString *fenceIdADD = [fenceid stringByAppendingString:@" 围栏"];
+        NSString *fenceName = [NSString getFenceNameFromUserInfo:userInfo];
+        NSString *information = [NSString stringWithFormat:@"设备%@ %@ %@",deviceId, [status isEqualToString:@"1"] ? @"进入" : @"离开", fenceName.length == 0 ? fenceIdADD : [fenceName stringByAppendingString:@" 围栏"]];
+        [self remoteNotificationLabelDisplayWithInfo:information application:application];
+    }
+}
+- (void)remoteNotificationLabelDisplayWithInfo:(NSString *)info application:(UIApplication *)application {
+    self.tipLabel.text = info;
+    [UIView animateWithDuration:0.5f animations:^{
+        self.remoteNotificationView.frame = CGRectMake(0, 0, PH_WidthOfScreen, PH_HeightOfRemoteNotificationLabel);
+    } completion:^(BOOL finished) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.5f animations:^{
+                self.remoteNotificationView.frame = CGRectMake(0, - PH_HeightOfRemoteNotificationLabel, PH_WidthOfScreen, PH_HeightOfRemoteNotificationLabel);
+            } completion:^(BOOL finished) {
+                self.remoteNotificationView.frame = CGRectMake(0, - PH_HeightOfRemoteNotificationLabel, PH_WidthOfScreen, PH_HeightOfRemoteNotificationLabel);
+            }];
+        });
+    }];
+}
 
-    }
-}
-- (NSString *)getFenceNameFromUserInfo:(NSDictionary *)userInfo
-{
-    NSDictionary *aps = userInfo[@"aps"];
-    NSString *alert = aps[@"alert"];
-    NSString *fenceName = nil;
-    if (PH_iOS(8.0)) {
-        if ([alert containsString:@"开"] || [alert containsString:@"入"]) {
-            NSRange range = [alert rangeOfString:@"开"];
-            if (range.length == 0) {
-                range = [alert rangeOfString:@"入"];
-            }
-            NSRange subRange = NSMakeRange(range.location + 1, alert.length - range.location - 1);
-            fenceName = [alert substringWithRange:subRange];
-        }
-        else if ([alert containsString:@"Out"] || [alert containsString:@"In"]){
-            alert = [alert stringByReplacingOccurrencesOfString:@" " withString:@","];
-            NSArray *alerts = [alert componentsSeparatedByString:@","];
-            fenceName = alerts[2];
-            if ([fenceName isEqualToString:@"Fence"]) {
-                return nil;
-            }
-        }
-    }
-    
-    return fenceName;
-}
 #pragma mark - BMKGeneralDelegate
 /**
  *返回网络错误

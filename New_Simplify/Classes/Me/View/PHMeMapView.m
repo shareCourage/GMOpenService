@@ -223,8 +223,7 @@
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id<BMKAnnotation>)annotation {
     
     if ([annotation isKindOfClass:[PHAnnotation class]]) {
-        PHLog(@"~~~ %@", NSStringFromClass([annotation class]));
-        static NSString *ID = @"start";
+        static NSString *ID = @"meLocation";
         // 从缓存池中取出可以循环利用的大头针view
         BMKAnnotationView *annoView = [mapView dequeueReusableAnnotationViewWithIdentifier:ID];
         if (annoView == nil) {
@@ -237,7 +236,7 @@
     return nil;
 }
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view {
-    
+    PHLog(@"%@",view.annotation);
 }
 @end
 

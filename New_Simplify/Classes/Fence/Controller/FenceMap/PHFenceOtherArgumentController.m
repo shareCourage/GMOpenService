@@ -237,12 +237,18 @@
 }
 
 - (void)modifyFenceName:(NSString *)name {
+    PH_WS(ws);
     if (self.fenceM) {
         self.fenceM.fenceName = name;
     }
     else {
         [GMFenceManager modifyFenceWithFenceId:self.fenceInfo.fenceid name:name completion:^(BOOL success) {
-            success ? PHLog(@"modify name Fence success") : PHLog(@"modify name Fence failure");
+            if (success) {
+                PHLog(@"modify name Fence success");
+                ws.fenceInfo.name = name;
+            } else {
+                PHLog(@"modify name Fence failure");
+            }
         } failure:nil];
     }
     [self updateTableView:name];
@@ -250,12 +256,18 @@
 }
 
 - (void)modifyFenceThreshold:(NSString *)threshold {
+    PH_WS(ws);
     if (self.fenceM) {
         self.fenceM.threshold = (NSUInteger)[threshold integerValue];
     }
     else {
         [GMFenceManager modifyFenceWithFenceId:self.fenceInfo.fenceid threshold:threshold completion:^(BOOL success) {
-            success ? PHLog(@"modify threshold Fence success") : PHLog(@"modify threshold Fence failure");
+            if (success) {
+                PHLog(@"modify threshold Fence success");
+                ws.fenceInfo.threshold = threshold;
+            } else {
+                PHLog(@"modify threshold Fence failure");
+            }
         } failure:nil];
     }
     [self updateTableView:threshold];
