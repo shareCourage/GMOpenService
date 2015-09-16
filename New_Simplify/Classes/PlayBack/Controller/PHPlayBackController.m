@@ -162,7 +162,11 @@
 }
 - (void)filterView:(PHFilterView *)filterView didSelectStatu:(PHFilterViewStatus)status withStartTime:(NSTimeInterval)start endTime:(NSTimeInterval)end
 {
-    if (start > end) return;
+    if (start > end && status == PHFilterViewStatuOfSure) {
+        [MBProgressHUD showError:@"开始时间必须大于结束时间"];
+        filterView.hidden = YES;
+        return;
+    }
     switch (status) {
         case PHFilterViewStatuOfCancel:
             filterView.hidden = YES;
@@ -170,7 +174,6 @@
         case PHFilterViewStatuOfSure:
             filterView.hidden = YES;
             [self loadWithBegin:start end:end];
-//            PHLog(@"start %.f, end %.f",start, end);
             break;
         default:
             break;

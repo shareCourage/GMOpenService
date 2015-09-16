@@ -27,11 +27,11 @@
             </objects>
             <point key="canvasLocation" x="4" y="957"/>
         </scene>
-        <!--我的设备-->
+        <!--Navigation Controller-->
         <scene sceneID="ZKl-6t-dIj">
             <objects>
                 <navigationController id="Ln5-4O-6nE" customClass="PHNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="我的设备" id="fT0-Tc-1hL"/>
+                    <tabBarItem key="tabBarItem" enabled="NO" title="" id="fT0-Tc-1hL"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bCc-3Z-k4c">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -104,11 +104,11 @@
             </objects>
             <point key="canvasLocation" x="1035.5" y="651.5"/>
         </scene>
-        <!--设备围栏-->
+        <!--Navigation Controller-->
         <scene sceneID="48a-d8-2W2">
             <objects>
                 <navigationController id="AHt-Nw-yQJ" customClass="PHNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="设备围栏" id="sX6-aP-zRO"/>
+                    <tabBarItem key="tabBarItem" enabled="NO" title="" id="sX6-aP-zRO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="92S-Jb-qV4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -121,11 +121,11 @@
             </objects>
             <point key="canvasLocation" x="518" y="652"/>
         </scene>
-        <!--设备回放-->
+        <!--Navigation Controller-->
         <scene sceneID="oib-UP-KqM">
             <objects>
                 <navigationController id="WzF-Jd-mMB" customClass="PHNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="设备回放" id="ye5-u5-rOo"/>
+                    <tabBarItem key="tabBarItem" enabled="NO" title="" id="ye5-u5-rOo"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="DT5-f7-vT8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -199,11 +199,11 @@
             </objects>
             <point key="canvasLocation" x="1015.5" y="2227.5"/>
         </scene>
-        <!--设置-->
+        <!--Navigation Controller-->
         <scene sceneID="3WH-Uy-9fB">
             <objects>
                 <navigationController id="yEs-SV-sq6" customClass="PHNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="设置" id="wgY-3g-TRL"/>
+                    <tabBarItem key="tabBarItem" enabled="NO" title="" id="wgY-3g-TRL"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="IsQ-Dt-68N">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

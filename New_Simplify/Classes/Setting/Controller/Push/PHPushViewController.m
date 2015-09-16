@@ -22,13 +22,15 @@
 #define PH_Push_startTime   @"报警起始时间"
 #define PH_Push_endTime     @"报警结束时间"
 
+#define PH_HeightOfPickView 220
+
 #import "PHPushViewController.h"
 #import "PHSettingGroup.h"
 #import "PHSettingItem.h"
 #import "PHSettingSwitchItem.h"
 #import "PHSettingArrowItem.h"
 
-@interface PHPushViewController ()
+@interface PHPushViewController ()<UIActionSheetDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 {
     GMPushManager *_pushM;
     __block NSUInteger _actionRow;
@@ -36,9 +38,20 @@
 @property (nonatomic, strong)NSIndexPath *selectedIndexPath;
 @property (nonatomic, strong)PHSettingItem *selectedItem;
 
+@property (nonatomic, weak) UIPickerView *pickerView;
+@property (nonatomic, strong)NSMutableArray *pickDataSource;
 @end
 
 @implementation PHPushViewController
+- (NSMutableArray *)pickDataSource {
+    if (!_pickDataSource) {
+        _pickDataSource = [NSMutableArray array];
+        for (NSUInteger i = 0; i < 25; i ++) {
+            [_pickDataSource addObject:[NSString stringWithFormat:@"%ld",(unsigned long)i]];
+        }
+    }
+    return _pickDataSource;
+}
 - (void)dealloc
 {
     PHLog(@"%@ ---> dealloc",NSStringFromClass([self class]));
@@ -46,18 +59,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-//    self.automaticallyAdjustsScrollViewInsets = NO;
+    [self pickViewInstance];
     [self loadTableViewData:nil];
     _pushM = [GMPushManager manager];
     [_pushM getPushInfoWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(GMPushInfo *pushInfo) {
         [self loadTableViewData:pushInfo];
     } failureBlock:nil];
-    
 }
 
 - (void)loadTableViewData:(GMPushInfo *)push
 {
+    _pushM.startTime = @([push.startTime floatValue]);
+    _pushM.endTime = @([push.endTime floatValue]);
     [self.dataSource removeAllObjects];
     
     PHSettingItem *alarm  = [PHSettingSwitchItem itemWithTitle:@"是否开启消息推送"];
@@ -118,21 +131,27 @@
     };
     
     PHSettingItem *timeZone = [PHSettingArrowItem itemWithTitle:PH_Push_timeZone];
-    timeZone.subtitle = push.timeZone;
+    timeZone.subtitle = [push.timeZone isEqualToString:@"28800"] ? @"北京" : push.timeZone;
     timeZone.option = ^{
         [ws alertViewShow:nil actionOne:@"28800" actionTwo:@"29600" actionThree:@"30400"];
     };
     
     PHSettingItem *start = [PHSettingArrowItem itemWithTitle:PH_Push_startTime];
-    start.subtitle = push.startTime;
+    start.subtitle = push.startTime.length == 0 ? nil : [NSString stringWithFormat:@"%@",@([push.startTime floatValue] / 60)];
     start.option = ^{
-        [ws alertViewShow:nil actionOne:@"0" actionTwo:@"720" actionThree:@"1200"];
+//        [ws alertViewShow:nil actionOne:@"0" actionTwo:@"720" actionThree:@"1200"];
+        [UIView animateWithDuration:0.5f animations:^{
+            self.pickerView.frame = CGRectMake(0, PH_HeightOfScreen - PH_HeightOfPickView, PH_WidthOfScreen, PH_HeightOfPickView);
+        }];
     };
     
     PHSettingItem *end = [PHSettingArrowItem itemWithTitle:PH_Push_endTime];
-    end.subtitle = push.endTime;
+    end.subtitle = push.startTime.length == 0 ? nil :[NSString stringWithFormat:@"%@",@([push.endTime floatValue] / 60)];
     end.option = ^{
-        [ws alertViewShow:nil actionOne:@"0" actionTwo:@"720" actionThree:@"1200"];
+//        [ws alertViewShow:nil actionOne:@"0" actionTwo:@"720" actionThree:@"1200"];
+        [UIView animateWithDuration:0.5f animations:^{
+            self.pickerView.frame = CGRectMake(0, PH_HeightOfScreen - PH_HeightOfPickView, PH_WidthOfScreen, PH_HeightOfPickView);
+        }];
     };
     
     PHSettingGroup *groupOne = [[PHSettingGroup alloc] init];
@@ -146,13 +165,123 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [UIView animateWithDuration:0.5f animations:^{
+        self.pickerView.frame = CGRectMake(0, PH_HeightOfScreen, PH_WidthOfScreen, PH_HeightOfPickView);
+    }];
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     self.selectedIndexPath = indexPath;
     PHSettingGroup *group = self.dataSource[indexPath.section];
     PHSettingItem *item = group.items[indexPath.row];
     self.selectedItem = item;
 }
+- (void)alertViewShow:(NSString *)alertTitle actionOne:(NSString *)one actionTwo:(NSString *)two actionThree:(NSString *)three
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:alertTitle delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:one, two, three, nil];
+    [actionSheet showInView:self.view];
+}
 
+- (void)reloadMyTableViewWithSubtitle:(NSString *)subtitle
+{
+    switch (self.selectedIndexPath.row) {
+        case 0:
+            0 == _actionRow ? (_pushM.lang = @"zh_CN") : (_pushM.lang = @"en");
+            break;
+        case 1:
+            if (0 == _actionRow) {
+                _pushM.alarmType = @"1";
+            }
+            else if (1 == _actionRow) {
+                _pushM.alarmType = @"2";
+            }
+            else if (2 == _actionRow) {
+                _pushM.alarmType = @"1,2";
+            }
+            break;
+        case 2:
+            0 == _actionRow ? ( _pushM.sound = @0 ) : ( _pushM.sound = @1 );
+            break;
+        case 3:
+            0 == _actionRow ? ( _pushM.shake = @0 ) : ( _pushM.shake = @1 );
+            break;
+        case 4:
+            _pushM.timeZone = @([subtitle floatValue]);
+            break;
+        case 5:
+        {
+            PHLog(@"starttime->%@",subtitle);
+            _pushM.startTime = @([subtitle floatValue] * 60);
+        }
+            break;
+        case 6:
+        {
+            PHLog(@"endtime->%@",subtitle);
+            _pushM.endTime = @([subtitle floatValue] * 60);
+            if ([_pushM.startTime floatValue] >= [_pushM.endTime floatValue]) {
+                [MBProgressHUD showError:@"需要比起始时间更大"];
+                return;
+            }
+        }
+            break;
+        default:
+            break;
+    }
+    self.selectedItem.subtitle = subtitle;
+    [self.tableView reloadRowsAtIndexPaths:@[self.selectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [_pushM updatePushTypeWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(BOOL success) {
+        success ? PHLog(@"update success") : PHLog(@"update failure");
+    } failureBlock:nil];
+
+
+}
+#pragma mark - UIPickerView Instance
+- (void)pickViewInstance {
+    UIPickerView *pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0, PH_HeightOfScreen, PH_HeightOfScreen, PH_HeightOfPickView)];
+    pick.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.6f];
+    pick.dataSource = self;
+    pick.delegate = self;
+    [self.view addSubview:pick];
+    self.pickerView = pick;
+}
+
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if ([title isEqualToString:@"取消"]) return;
+    _actionRow = buttonIndex;
+    [self reloadMyTableViewWithSubtitle:title];
+    PHLog(@"title %@",title);
+}
+#pragma mark - UIPickerViewDataSource UIPickerViewDelegate
+// returns the number of 'columns' to display.
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return 24;
+}
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    NSString *title = self.pickDataSource[row];
+    return title;
+}
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSString *title = self.pickDataSource[row];
+    PHLog(@"select %@",title);
+    [self reloadMyTableViewWithSubtitle:title];
+}
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == self.tableView) {
+        if (self.pickerView.frame.origin.y < PH_HeightOfScreen) {
+            [UIView animateWithDuration:0.5f animations:^{
+                self.pickerView.frame = CGRectMake(0, PH_HeightOfScreen, PH_WidthOfScreen, PH_HeightOfPickView);
+            }];
+        }
+    }
+}
+#if 0
 - (void)alertViewShow:(NSString *)alertTitle actionOne:(NSString *)one actionTwo:(NSString *)two actionThree:(NSString *)three
 {
     if (PH_iOS(8.0)) {
@@ -179,10 +308,10 @@
         [self presentViewController:alertController animated:YES completion:nil];
     }
     else {
-        
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:one, two, three, nil];
+        [actionSheet showInView:self.view];
     }
 }
-
 - (UIAlertAction *)actionWithTitle:(NSString *)title actionStyle:(UIAlertActionStyle)style handler:(void (^)(UIAlertAction *action))handler
 {
     if (style == UIAlertActionStyleCancel) {
@@ -191,68 +320,8 @@
     return [UIAlertAction actionWithTitle:title style:style handler:handler];
     
 }
-- (void)reloadMyTableViewWithSubtitle:(NSString *)subtitle
-{
-    self.selectedItem.subtitle = subtitle;
-    [self.tableView reloadRowsAtIndexPaths:@[self.selectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
-    switch (self.selectedIndexPath.row) {
-        case 0:
-            0 == _actionRow ? (_pushM.lang = @"zh_CN") : (_pushM.lang = @"en");
-            break;
-        case 1:
-            if (0 == _actionRow) {
-                _pushM.alarmType = @"1";
-            }
-            else if (1 == _actionRow) {
-                _pushM.alarmType = @"2";
-            }
-            else if (2 == _actionRow) {
-                _pushM.alarmType = @"1,2";
-            }
-            break;
-        case 2:
-            0 == _actionRow ? ( _pushM.sound = @0 ) : ( _pushM.sound = @1 );
-            break;
-        case 3:
-            0 == _actionRow ? ( _pushM.shake = @0 ) : ( _pushM.shake = @1 );
-            break;
-        case 4:
-            _pushM.timeZone = @([subtitle floatValue]);
-            break;
-        case 5:
-            PHLog(@"starttime->%@",subtitle);
-            _pushM.startTime = @([subtitle floatValue]);
-            break;
-        case 6:
-            PHLog(@"endtime->%@",subtitle);
-            _pushM.endTime = @([subtitle floatValue]);
-            break;
-        default:
-            break;
-    }
-    [_pushM updatePushTypeWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(BOOL success) {
-        success ? PHLog(@"update success") : PHLog(@"update failure");
-    } failureBlock:nil];
-
-
-}
-
-
-
-
-@end
-
-
-
-#if 0
-PHSettingItem *two = [PHSettingItem itemWithTitle:PH_CountOfRemotePush_Active];
-two.subtitle = [NSString stringWithFormat:@"%ld",(long)[PH_UserDefaults integerForKey:PH_CountOfRemotePush_Active]];
-
-
-PHSettingItem *three = [PHSettingItem itemWithTitle:PH_CountOfRemotePush_InActive];
-three.subtitle = [NSString stringWithFormat:@"%ld",(long)[PH_UserDefaults integerForKey:PH_CountOfRemotePush_InActive]];
 #endif
 
+@end
 
 

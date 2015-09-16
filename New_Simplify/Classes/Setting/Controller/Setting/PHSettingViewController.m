@@ -173,7 +173,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // 1.标题
-    self.title = @"设置";
+    self.navigationItem.title = @"设置";
     // 2.添加数据
 //    [self telephoneLinkAccount];
 //    [self messageTips];

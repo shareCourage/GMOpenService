@@ -136,7 +136,12 @@
         [GMPushManager iOS7RegisterForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     }
     [GMPushManager setupWithOption:launchOptions];
-    
+#warning 这里需要重新理解逻辑，有问题
+    if (launchOptions) {
+        NSString *alarm = launchOptions[@"alarm"];
+        self.remoteAlarmInfo = alarm;
+        [self remoteNotificationLabelClick];
+    }
     if (!PH_BoolForKey(PH_LoginSuccess)) {
         self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         [self.window makeKeyAndVisible];
@@ -159,12 +164,18 @@
 {
     PHLog(@"failToRegister -> %@",error);
 }
-
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    PHLog(@"applicationDidEnterBackground");
+    [PH_UserDefaults setBool:YES forKey:PH_DidEnterBackground];
+}
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    PHLog(@"applicationDidBecomeActive");
+    [PH_UserDefaults setBool:NO forKey:PH_DidEnterBackground];
+}
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    [GMPushManager handleRemoteNotification:userInfo];
-    [self remoteNotificationViewInstance];
     PHLog(@"~~~~~~~~~~~~~~~~~~~~~~~~~~didReceiveRemoteNotification~~~~~~~~~~~~~~~~~~~~~~~~~->\n%@",userInfo);
+    [GMPushManager handleRemoteNotification:userInfo];
     if (userInfo) {
         NSString *alarm = userInfo[@"alarm"];
         self.remoteAlarmInfo = alarm;
@@ -175,8 +186,16 @@
         NSString *fenceIdADD = [fenceid stringByAppendingString:@" 围栏"];
         NSString *fenceName = [NSString getFenceNameFromUserInfo:userInfo];
         NSString *information = [NSString stringWithFormat:@"设备%@ %@ %@",deviceId, [status isEqualToString:@"1"] ? @"进入" : @"离开", fenceName.length == 0 ? fenceIdADD : [fenceName stringByAppendingString:@" 围栏"]];
-        [self remoteNotificationLabelDisplayWithInfo:information application:application];
+        if (PH_BoolForKey(PH_DidEnterBackground)) {//如果是点击系统的推送消息进来，那么执行下面代码
+            [self remoteNotificationLabelClick];
+        } else {//如果是点击app展示的view，那么执行下面的代码
+            [self remoteNotificationViewInstance];
+            [self.window bringSubviewToFront:self.remoteNotificationView];//加这句话的目的是为了解决重新注销登录切换窗口后显示通知的bug
+            [self remoteNotificationLabelDisplayWithInfo:information application:application];
+        }
+
     }
+    
 }
 - (void)remoteNotificationLabelDisplayWithInfo:(NSString *)info application:(UIApplication *)application {
     self.tipLabel.text = info;
