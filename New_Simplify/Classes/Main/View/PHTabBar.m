@@ -18,16 +18,20 @@
 @end
 
 @implementation PHTabBar
-- (void)addTabButtonWithName:(NSString *)name selName:(NSString *)selName
+- (void)addTabButtonWithName:(NSString *)name selName:(NSString *)selName title:(NSString *)title
 {
     // 创建按钮
     PHTabBarButton *button = [PHTabBarButton buttonWithType:UIButtonTypeCustom];
-
     button.imageView.contentMode = UIViewContentModeCenter;
     // 设置图片
     [button setImage:[UIImage imageNamed:name] forState:UIControlStateNormal];
     [button setImage:[UIImage imageNamed:selName] forState:UIControlStateSelected];
-
+    
+    [button setTitle:title forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [button setTitleColor:PH_RGBColor(90, 155, 255) forState:UIControlStateSelected];
+    button.titleLabel.font = [UIFont systemFontOfSize:12];
+    button.titleLabel.textAlignment = NSTextAlignmentCenter;
     // 添加
     [self addSubview:button];
     // 监听
@@ -41,7 +45,6 @@
 
 - (void)layoutSubviews
 {
-//    NSLog(@"layoutSubviews");
     [super layoutSubviews];
     
     NSUInteger count = self.subviews.count;

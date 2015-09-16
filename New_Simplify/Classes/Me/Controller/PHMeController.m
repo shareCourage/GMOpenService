@@ -54,7 +54,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"我的设备";
+//    self.title = @"我的设备";
+    self.navigationItem.title = @"我的设备";
     [self barButtonItemImplementation];
 }
 - (void)viewWillAppear:(BOOL)animated

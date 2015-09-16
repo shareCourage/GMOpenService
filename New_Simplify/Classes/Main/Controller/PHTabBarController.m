@@ -19,18 +19,23 @@
     [super viewDidLoad];
     
     PHTabBar *myTabBar = [[PHTabBar alloc] init];
+    myTabBar.backgroundColor = [UIColor clearColor];
     myTabBar.delegate = self;
     myTabBar.frame = self.tabBar.bounds;
     [self.tabBar addSubview:myTabBar];
     NSArray *tabBar = @[@"tabbar_contacts",@"tabbar_discover",@"tabbar_mainframe",@"tabbar_me"];
     NSArray *tabBarSel = @[@"tabbar_contactsHL",@"tabbar_discoverHL",@"tabbar_mainframeHL",@"tabbar_meHL"];
+    NSArray *tabBarName = @[@"我的设备",@"围栏列表",@"设备回放",@"设置"];
     // 2.添加对应个数的按钮
     for (int i = 0; i < self.viewControllers.count; i++) {
         NSString *name = tabBar[i];
-        NSString *selName = tabBarSel[i];        
-        [myTabBar addTabButtonWithName:name selName:selName];
+        NSString *selName = tabBarSel[i];
+        NSString *title = tabBarName[i];
+        [myTabBar addTabButtonWithName:name selName:selName title:title];
     }
-    
+}
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    PHLog(@"item ->  %@",item);
 }
 
 /**

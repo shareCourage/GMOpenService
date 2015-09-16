@@ -31,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = PH_FenceListTitle;
+    self.navigationItem.title = PH_FenceListTitle;
     [self barButtonItemImplementation];
     NSString *documents = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
     self.fenceFilePath = [documents stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.arc",[PHTool getDeviceIdFromUserDefault]]];

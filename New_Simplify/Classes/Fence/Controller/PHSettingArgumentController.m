@@ -74,8 +74,7 @@
     if ([self.titleArgument isEqualToString:@"围栏名称"]) {
         textField.keyboardType = UIKeyboardTypeDefault;
         textField.placeholder = @"请输入围栏名称";
-    }
-    else {
+    } else {
         textField.keyboardType = UIKeyboardTypeNumberPad;
         textField.placeholder = @"请输入围栏报警阈值";
     }

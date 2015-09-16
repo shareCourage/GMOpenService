@@ -26,6 +26,6 @@
  *  @param name    按钮图片
  *  @param selName 按钮选中时的图片
  */
-- (void)addTabButtonWithName:(NSString *)name selName:(NSString *)selName;
+- (void)addTabButtonWithName:(NSString *)name selName:(NSString *)selName title:(NSString *)title;
 
 @end
