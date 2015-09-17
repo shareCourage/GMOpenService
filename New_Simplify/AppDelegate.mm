@@ -42,6 +42,7 @@
         [_remoteNotificationView addSubview:_tipLabel];
     }
 }
+
 - (UIView *)remoteNotificationView {
     if (!_remoteNotificationView) {
         [self remoteNotificationViewInstance];

@@ -39,6 +39,7 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
 @property (nonatomic, strong) UIBarButtonItem *editItem;
 
 @property (nonatomic, strong) GMFenceManager *fenceManager;
+
 @end
 
 @implementation PHFenceModifyMapController
@@ -88,6 +89,7 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
     
     return _fenceMapModel;
 }
+#if 0
 - (void)addTitleButtonView {
     UIButton *titleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     titleBtn.layer.cornerRadius = 5;
@@ -103,6 +105,7 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
     self.fenceMapModel.enable = YES;
     self.fenceMapModel.radius = 200;
 }
+
 - (void)titleBtnClick:(UIButton *)sender
 {
     if (sender.selected) {
@@ -122,14 +125,40 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
     }
     sender.selected = !sender.isSelected;
 }
-
+#endif
+- (void)addSegmentController {
+    UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:@[@"圆形",@"多边形"]];
+    segment.tintColor = [[UIColor grayColor] colorWithAlphaComponent:0.8f];
+    segment.selectedSegmentIndex = 0;
+    segment.layer.cornerRadius = 5;
+    segment.layer.masksToBounds = YES;
+    segment.layer.borderColor = [UIColor whiteColor].CGColor;
+    segment.layer.borderWidth = 2.f;
+    [segment addTarget:self action:@selector(segmentClick:) forControlEvents:UIControlEventValueChanged];
+    self.navigationItem.titleView = segment;
+}
+- (void)segmentClick:(UISegmentedControl *)sender {
+    if (sender.selectedSegmentIndex == 0) {
+        self.CircleDisplayView.hidden = NO;
+        self.fenceMapModel.coords = nil;
+        [self.fenceMapView removeMapViewOverlays];
+        self.navigationItem.rightBarButtonItems = @[self.otherItem, self.doneItem];
+        _isCircleFence = YES;
+    } else {
+        self.CircleDisplayView.hidden = YES;
+        [self.fenceMapView removeMapViewOverlays];
+        self.navigationItem.rightBarButtonItems = @[self.otherItem, self.editItem, self.doneItem];
+        _isCircleFence = NO;
+    }
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (self.fenceInfo) {//如果是修改围栏
         self.title = self.fenceInfo.name.length != 0 ? self.fenceInfo.name : self.fenceInfo.fenceid;
     }
     else {//创建围栏
-        [self addTitleButtonView];
+//        [self addTitleButtonView];
+        [self addSegmentController];
         _isCreateFence = YES;
         _isCircleFence = YES;
         UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(editClick)];
@@ -361,7 +390,6 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
         CGFloat threshold = kDistanceBetweenAandBMaxValue;
         while (YES) {
             PHLog(@"threshold->%.2f middle points count ->%ld",threshold, (unsigned long)self.points.count);
-            
             threshold = threshold + 0.5f;
             for (NSUInteger i = 0; i < self.points.count - 3; i ++) {
                 NSValue *valueA = self.points[i];
