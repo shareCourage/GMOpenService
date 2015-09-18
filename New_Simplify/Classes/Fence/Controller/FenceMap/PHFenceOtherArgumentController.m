@@ -27,6 +27,7 @@
 #import "PHFenceListController.h"
 #import "PHNavigationController.h"
 #import "PHSettingArgumentController.h"
+#import "AppDelegate.h"
 @interface PHFenceOtherArgumentController ()
 {
     __block NSString *_devIn;
@@ -193,11 +194,24 @@
     groupThree.items = @[devid];
     self.groupThree = groupThree;
     
+    
     [self.dataSource addObject:groupOne];
     [self.dataSource addObject:groupTwo];
     [self.dataSource addObject:groupThree];
 
+//    [self testAndcouldDelete];
     [self searchDevidFromFenceid:self.fenceInfo.fenceid];
+}
+
+//可删除
+- (void)testAndcouldDelete {
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    PHSettingGroup *group = [[PHSettingGroup alloc] init];
+    group.header = delegate.remoteAlarmInfo;
+    PHSettingItem *devid = [PHSettingItem itemWithTitle:@"测试"];
+    devid.subtitle = self.fenceInfo.devInOut.devid;
+    group.items = @[devid];
+    [self.dataSource addObject:group];
 }
 
 - (void)searchDevidFromFenceid:(NSString *)fenceid

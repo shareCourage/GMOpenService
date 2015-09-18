@@ -11,7 +11,7 @@
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>291bf588-2092-7f4e-90d5-400631f7862f++260</key>
-		<string>https://192.168.1.10:8443/svn/goome/platform/Open/app/Follow/iOS_App/New_Simplify</string>
+		<string>https://192.168.1.10:8443/svn/goome</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>New_Simplify.xcworkspace</string>
@@ -20,13 +20,6 @@
 		<key>291bf588-2092-7f4e-90d5-400631f7862f++260</key>
 		<string>..</string>
 	</dict>
-	<key>IDESourceControlProjectRepositoryRootDictionary</key>
-	<dict>
-		<key>291bf588-2092-7f4e-90d5-400631f7862f++260</key>
-		<string>https://192.168.1.10:8443/svn/goome</string>
-	</dict>
-	<key>IDESourceControlProjectURL</key>
-	<string>https://192.168.1.10:8443/svn/goome/platform/Open/app/Follow/iOS_App/New_Simplify/New_Simplify.xcworkspace</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>

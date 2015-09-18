@@ -24,7 +24,6 @@
 
 @property (nonatomic, strong) UIView *remoteNotificationView;
 @property (nonatomic, strong) UILabel *tipLabel;
-@property (nonatomic, strong) NSString *remoteAlarmInfo;
 
 @end
 
@@ -137,11 +136,10 @@
         [GMPushManager iOS7RegisterForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     }
     [GMPushManager setupWithOption:launchOptions];
-#warning 这里需要重新理解逻辑，有问题
-    if (launchOptions) {
-        NSString *alarm = launchOptions[@"alarm"];
+    if (launchOptions) {//判断推送来的时候(app被干掉的情况下),点击推送图标执行的语句
+        NSDictionary *alarmInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+        NSString *alarm = alarmInfo[@"alarm"];
         self.remoteAlarmInfo = alarm;
-        [self remoteNotificationLabelClick];
     }
     if (!PH_BoolForKey(PH_LoginSuccess)) {
         self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -173,6 +171,8 @@
     PHLog(@"applicationDidBecomeActive");
     [PH_UserDefaults setBool:NO forKey:PH_DidEnterBackground];
 }
+
+//这个方法会比applicationDidBecomeActive早一步执行完成
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     PHLog(@"~~~~~~~~~~~~~~~~~~~~~~~~~~didReceiveRemoteNotification~~~~~~~~~~~~~~~~~~~~~~~~~->\n%@",userInfo);
@@ -189,7 +189,7 @@
         NSString *information = [NSString stringWithFormat:@"设备%@ %@ %@",deviceId, [status isEqualToString:@"1"] ? @"进入" : @"离开", fenceName.length == 0 ? fenceIdADD : [fenceName stringByAppendingString:@" 围栏"]];
         if (PH_BoolForKey(PH_DidEnterBackground)) {//如果是点击系统的推送消息进来，那么执行下面代码
             [self remoteNotificationLabelClick];
-        } else {//如果是点击app展示的view，那么执行下面的代码
+        } else {//如果是app在前台，那么执行下面的代码
             [self remoteNotificationViewInstance];
             [self.window bringSubviewToFront:self.remoteNotificationView];//加这句话的目的是为了解决重新注销登录切换窗口后显示通知的bug
             [self remoteNotificationLabelDisplayWithInfo:information application:application];

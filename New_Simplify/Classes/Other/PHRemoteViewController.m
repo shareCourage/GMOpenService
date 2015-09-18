@@ -13,6 +13,7 @@
 - (void)dealloc
 {
     PHLog(@"%@->dealloc",NSStringFromClass([self class]));
+    self.remoteAlarmInfo = nil;
 }
 
 - (void)viewDidLoad {

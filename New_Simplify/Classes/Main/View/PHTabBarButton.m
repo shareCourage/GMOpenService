@@ -29,7 +29,6 @@
     CGFloat titleY = contentRect.size.height *0.6 + 5;
     CGFloat titleW = contentRect.size.width;
     CGFloat titleH = contentRect.size.height - titleY;
-    CGFloat titleX = titleW / 2 - 20;
     return CGRectMake(0, titleY, titleW, titleH);
 }
 @end

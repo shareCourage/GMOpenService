@@ -11,8 +11,11 @@
 #import "PHBaiduMapView.h"
 #import "PHMeMapView.h"
 #import "AppDelegate.h"
-@interface PHMeController ()
-
+#import "PHRemoteViewController.h"
+@interface PHMeController () <CLLocationManagerDelegate>
+{
+    CLLocationManager *_locationManager;
+}
 @property(nonatomic, strong)NSTimer *myTimer;//周期获取设备最新位置定时器
 @property (weak, nonatomic) IBOutlet PHMeMapView *meMapView;
 
@@ -51,12 +54,44 @@
     }
     return _myTimer;
 }
-
+- (void)locationManager {
+    // 1. 实例化定位管理器
+    _locationManager = [[CLLocationManager alloc] init];
+    // 2. 设置代理
+    _locationManager.delegate = self;
+    // 3. 定位精度
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+    // 4.请求用户权限：分为：⓵只在前台开启定位⓶在后台也可定位，
+    //注意：建议只请求⓵和⓶中的一个，如果两个权限都需要，只请求⓶即可，
+    //⓵⓶这样的顺序，将导致bug：第一次启动程序后，系统将只请求⓵的权限，⓶的权限系统不会请求，只会在下一次启动应用时请求⓶
+    if (PH_iOS(8.0)) {
+        [_locationManager requestWhenInUseAuthorization];//⓵只在前台开启定位
+//        [_locationManager requestAlwaysAuthorization];//⓶在后台也可定位
+    }
+    // 5.iOS9新特性：将允许出现这种场景：同一app中多个location manager：一些只能在前台定位，另一些可在后台定位（并可随时禁止其后台定位）。
+    if (PH_iOS(9.0)) {
+#ifdef __IPHONE_9_0
+        _locationManager.allowsBackgroundLocationUpdates = YES;
+#endif
+    }
+    // 6. 更新用户位置
+    [_locationManager startUpdatingLocation];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.title = @"我的设备";
     self.navigationItem.title = @"我的设备";
     [self barButtonItemImplementation];
+#ifdef DEBUG
+    [self locationManager];
+#endif
+    
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    if (delegate.remoteAlarmInfo.length != 0) {
+        PHRemoteViewController *remoteVC = [[PHRemoteViewController alloc] init];
+        remoteVC.remoteAlarmInfo = delegate.remoteAlarmInfo;
+        [self.navigationController pushViewController:remoteVC animated:YES];
+    }
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -106,7 +141,13 @@
         [self.meMapView configurePolylineWithStartDevice:[self.deviceInfos objectAtIndex:count - 2] end:[self.deviceInfos lastObject]];
     }
 }
+#pragma mark - CLLocationManagerDelegate
 
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
+{
+    CLLocation *location = [locations firstObject];
+    PHLog(@"%.6f, %.6f", location.coordinate.latitude, location.coordinate.longitude);
+}
 @end
 
 

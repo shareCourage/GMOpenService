@@ -10,6 +10,6 @@
 
 @interface PHRemoteViewController : PHBaseSettingViewController
 
-@property (nonatomic, strong) NSString *remoteAlarmInfo;
+@property (nonatomic, weak) NSString *remoteAlarmInfo;
 
 @end

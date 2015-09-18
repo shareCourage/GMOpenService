@@ -128,6 +128,7 @@
 		A91B55F81B4B85C10042024A /* tabbar_me@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A91B55871B4B85C10042024A /* tabbar_me@2x.png */; };
 		A91B55F91B4B85C10042024A /* tabbar_meHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A91B55881B4B85C10042024A /* tabbar_meHL@2x.png */; };
 		A91B55FC1B4BD3B30042024A /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A91B55FB1B4BD3B30042024A /* mapapi.bundle */; };
+		A9723DFF1BAA95CE00377269 /* UIColor+PHCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A9723DFE1BAA95CE00377269 /* UIColor+PHCategory.m */; };
 		A986AC151B538B78006403D3 /* GFMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = A986ABDE1B538B78006403D3 /* GFMDatabase.m */; };
 		A986AC161B538B78006403D3 /* GFMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A986ABE01B538B78006403D3 /* GFMDatabaseAdditions.m */; };
 		A986AC171B538B78006403D3 /* GFMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A986ABE21B538B78006403D3 /* GFMDatabasePool.m */; };
@@ -381,6 +382,8 @@
 		A91B55881B4B85C10042024A /* tabbar_meHL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_meHL@2x.png"; sourceTree = "<group>"; };
 		A91B55FA1B4B9D0A0042024A /* Simplify.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Simplify.pch; sourceTree = "<group>"; };
 		A91B55FB1B4BD3B30042024A /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
+		A9723DFD1BAA95CE00377269 /* UIColor+PHCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+PHCategory.h"; sourceTree = "<group>"; };
+		A9723DFE1BAA95CE00377269 /* UIColor+PHCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+PHCategory.m"; sourceTree = "<group>"; };
 		A986ABDA1B538B78006403D3 /* GMConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMConstant.h; sourceTree = "<group>"; };
 		A986ABDD1B538B78006403D3 /* GFMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GFMDatabase.h; sourceTree = "<group>"; };
 		A986ABDE1B538B78006403D3 /* GFMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GFMDatabase.m; sourceTree = "<group>"; };
@@ -647,6 +650,8 @@
 				A91B549F1B4B85C00042024A /* UITextField+PHCategory.m */,
 				A9CD0D6C1BA7EA2900A527CD /* UIViewController+PHCategory.h */,
 				A9CD0D6D1BA7EA2900A527CD /* UIViewController+PHCategory.m */,
+				A9723DFD1BAA95CE00377269 /* UIColor+PHCategory.h */,
+				A9723DFE1BAA95CE00377269 /* UIColor+PHCategory.m */,
 			);
 			path = Catagory;
 			sourceTree = "<group>";
@@ -1765,6 +1770,7 @@
 				A91B55A61B4B85C10042024A /* PHMeController.m in Sources */,
 				A986AC2D1B538B78006403D3 /* GMTool.m in Sources */,
 				A986AC271B538B78006403D3 /* GMURLRequestSerialization.m in Sources */,
+				A9723DFF1BAA95CE00377269 /* UIColor+PHCategory.m in Sources */,
 				A986AC2C1B538B78006403D3 /* GMPushManager.m in Sources */,
 				A9F362E91B83159B004DED58 /* PHAlarmInfoController.m in Sources */,
 				A91B55B11B4B85C10042024A /* PHHistoryLoc.m in Sources */,
@@ -1988,6 +1994,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: lee liming (L7B539E6VC)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/New_Simplify",
@@ -2008,6 +2015,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: lee liming (L7B539E6VC)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/New_Simplify",

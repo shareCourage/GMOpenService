@@ -19,5 +19,7 @@
  */
 - (void)loadHistoryDataToLocal;
 
+@property (nonatomic, strong) NSString *remoteAlarmInfo;
+
 @end
 

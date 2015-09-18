@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "833D4CFB6B361186C0C1C0A1E4DF3FAF3BE72855",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "833D4CFB6B361186C0C1C0A1E4DF3FAF3BE72855" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "833D4CFB6B361186C0C1C0A1E4DF3FAF3BE72855" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F109F5B6-AAFE-4241-B97F-DE02863069B3",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "833D4CFB6B361186C0C1C0A1E4DF3FAF3BE72855" : "New_Simplify"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "New_Simplify",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "New_Simplify.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/192.168.1.10:8443\/svn\/goome",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "833D4CFB6B361186C0C1C0A1E4DF3FAF3BE72855"
+    }
+  ]
+}
