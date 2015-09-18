@@ -99,8 +99,9 @@
 
 #define GM_Argument_address     @"address"
 
-#define GM_KeyOfAppid           @"keyOfGoomeAppid"
-#define GM_KeyOfChannelid       @"keyOfChannelid"
+#define GM_KeyOfDeviceToken     @"GMkeyOfDeviceToken"
+#define GM_KeyOfAppid           @"GMkeyOfGoomeAppid"
+#define GM_KeyOfChannelid       @"GMkeyOfChannelid"
 #define GM_UserDefaults         [NSUserDefaults standardUserDefaults]
 #define GM_CurrentTime          [NSString stringWithFormat:@"%.f",[NSDate date].timeIntervalSince1970]
 

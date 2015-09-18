@@ -45,6 +45,12 @@
 
 + (void)registerDeviceToken:(NSData *)deviceToken 
 {
+    NSData *oldToken = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfDeviceToken];
+    if ([deviceToken isEqualToData:oldToken]) {
+        return;
+    } else {
+        [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:GM_KeyOfDeviceToken];
+    }
     GMNetworkManager *manager = [GMNetworkManager manager];
     NSString *appid = [[NSUserDefaults standardUserDefaults] objectForKey:GM_KeyOfAppid];
     NSString *openUDIDStr = [GMTool getUniqueIdentifier];
