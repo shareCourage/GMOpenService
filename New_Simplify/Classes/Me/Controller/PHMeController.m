@@ -143,7 +143,7 @@
 }
 #pragma mark - CLLocationManagerDelegate
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     CLLocation *location = [locations firstObject];
     PHLog(@"%.6f, %.6f", location.coordinate.latitude, location.coordinate.longitude);
