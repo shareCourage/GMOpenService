@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PHLoginController">
+            <connections>
+                <outlet property="appidTextF" destination="Vld-7A-we2" id="xid-lY-MXW"/>
+                <outlet property="devidTextF" destination="07u-gj-bbG" id="QbE-YN-Syk"/>
+                <outlet property="loginButton" destination="PK2-rQ-gto" id="s5F-rr-cbK"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Appid" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Vld-7A-we2">
+                    <rect key="frame" x="35" y="150" width="250" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="250" id="6ZJ-W2-QB2"/>
+                        <constraint firstAttribute="height" constant="40" id="gNF-bY-S3P"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="DeviceID" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="07u-gj-bbG">
+                    <rect key="frame" x="35" y="220" width="250" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="250" id="dfO-Nb-ugG"/>
+                        <constraint firstAttribute="height" constant="40" id="lVu-De-BKn"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PK2-rQ-gto">
+                    <rect key="frame" x="35" y="300" width="250" height="30"/>
+                    <color key="backgroundColor" red="0.23529413339999999" green="0.60392159219999997" blue="0.68627452850000004" alpha="1" colorSpace="deviceRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="0lI-Ve-hVa"/>
+                        <constraint firstAttribute="width" constant="250" id="p2E-ag-Mfz"/>
+                    </constraints>
+                    <state key="normal" title="Log in">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="loginClick:" destination="-1" eventType="touchUpInside" id="oyU-iB-htQ"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="07u-gj-bbG" firstAttribute="top" secondItem="Vld-7A-we2" secondAttribute="bottom" constant="30" id="3pj-Vu-smU"/>
+                <constraint firstItem="PK2-rQ-gto" firstAttribute="top" secondItem="07u-gj-bbG" secondAttribute="bottom" constant="40" id="RNG-wP-agG"/>
+                <constraint firstItem="Vld-7A-we2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="150" id="lpZ-Pu-sMs"/>
+                <constraint firstAttribute="centerX" secondItem="PK2-rQ-gto" secondAttribute="centerX" id="nHz-xi-fXx"/>
+                <constraint firstAttribute="centerX" secondItem="07u-gj-bbG" secondAttribute="centerX" id="qiR-UO-YpJ"/>
+                <constraint firstAttribute="centerX" secondItem="Vld-7A-we2" secondAttribute="centerX" id="wCv-dy-tvy"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <point key="canvasLocation" x="232" y="321"/>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

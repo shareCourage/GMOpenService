@@ -83,7 +83,7 @@
     self.navigationItem.title = @"我的设备";
     [self barButtonItemImplementation];
 #ifdef DEBUG
-//    [self locationManager];
+    [self locationManager];
 #endif
     
     AppDelegate *delegate = [UIApplication sharedApplication].delegate;

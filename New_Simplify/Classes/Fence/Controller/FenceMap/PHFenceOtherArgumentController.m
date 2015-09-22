@@ -60,7 +60,7 @@
         }
         else {
             [GMFenceManager modifyFenceWithFenceId:ws.fenceInfo.fenceid enable:enable completion:^(BOOL success) {
-                success ? PHLog(@"modify enable Fence success") : PHLog(@"modify enable Fence failure");
+//                success ? PHLog(@"modify enable Fence success") : PHLog(@"modify enable Fence failure");
             } failureBlock:nil];
             ws.fenceInfo.enable = [NSString stringWithFormat:@"%d",enable];
             [ws rootViewControllerShouldRefresh];
@@ -242,7 +242,7 @@
     else {
         NSString *devinfo = [NSString stringWithFormat:@"%@,%@,%@",self.fenceInfo.devInOut.devid,_devIn,_devOut];
         [GMFenceManager modifyFenceWithFenceId:self.fenceInfo.fenceid devinfo:devinfo completion:^(BOOL success) {
-            success ? PHLog(@"modify devinfo Fence success") : PHLog(@"modify devinfo Fence failure");
+//            success ? PHLog(@"modify devinfo Fence success") : PHLog(@"modify devinfo Fence failure");
         } failure:nil];
         [self rootViewControllerShouldRefresh];
         self.fenceInfo.devInOut.dev_in = _devIn;

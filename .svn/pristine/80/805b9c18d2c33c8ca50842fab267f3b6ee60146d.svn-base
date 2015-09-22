@@ -19,7 +19,6 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
 }
 /**
  *  系统在第一次使用这个类的时候调用(1个类只会调用一次)
@@ -32,7 +31,7 @@
     NSString *bgName = nil;
     if (PH_iOS7) { // 至少是iOS 7.0
         bgName = @"NavBar64";
-        navBar.tintColor = [UIColor grayColor];//改变返回键的颜色
+        navBar.tintColor = [UIColor blackColor];//改变返回键的颜色
     } else { // 非iOS7
         bgName = @"NavBar";
     }
@@ -51,6 +50,7 @@
 #endif
     }
     [navBar setTitleTextAttributes:attrs];
+    
     
     // 2.设置BarButtonItem的主题
     UIBarButtonItem *item = [UIBarButtonItem appearance];

@@ -55,7 +55,6 @@
     [self.path addLineToPoint:point];
     //update the layer with a copy of the path
     ((CAShapeLayer *)self.layer).path = self.path.CGPath;
-    
     if ([self.delegate respondsToSelector:@selector(drawFenceView:touchesMoved:)]) {
         [self.delegate drawFenceView:self touchesMoved:point];
     }

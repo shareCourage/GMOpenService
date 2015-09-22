@@ -228,7 +228,7 @@
     self.selectedItem.subtitle = subtitle;
     [self.tableView reloadRowsAtIndexPaths:@[self.selectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [_pushM updatePushTypeWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(BOOL success) {
-//        success ? PHLog(@"update success") : PHLog(@"update failure");
+        success ? PHLog(@"update success") : PHLog(@"update failure");
     } failureBlock:nil];
 
 

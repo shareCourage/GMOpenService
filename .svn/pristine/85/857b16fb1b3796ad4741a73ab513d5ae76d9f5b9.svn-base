@@ -1,0 +1,156 @@
+//
+//  PHTableViewCell.m
+//  FamilyCare
+//
+//  Created by Kowloon on 15/2/27.
+//  Copyright (c) 2015年 Goome. All rights reserved.
+//
+
+#import "PHTableViewCell.h"
+#import "PHSettingItem.h"
+#import "PHSettingArrowItem.h"
+#import "PHSettingSwitchItem.h"
+#import "PHSettingSelectedItem.h"
+@interface PHTableViewCell ()
+/**
+ *  箭头
+ */
+@property (nonatomic, strong) UIImageView *arrowView;
+/**
+ *  开关
+ */
+@property (nonatomic, strong) UISwitch *switchView;
+/**
+ *  选中
+ */
+@property (nonatomic, strong) UIImageView *selectedView;
+@end
+
+@implementation PHTableViewCell
+
+//@synthesize switchView = _switchView;
+
+- (UIImageView *)arrowView
+{
+    if (_arrowView == nil) {
+        _arrowView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CellArrow"]];
+    }
+    return _arrowView;
+}
+- (UISwitch *)switchView
+{
+    if (_switchView == nil) {
+        _switchView = [[UISwitch alloc] init];
+        [_switchView addTarget:self action:@selector(switchStateChange) forControlEvents:UIControlEventValueChanged];
+    }
+    return _switchView;
+}
+- (UIImageView *)selectedView
+{
+    if (_selectedView == nil) {
+        _selectedView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CellArrow"]];
+    }
+    return _selectedView;
+}
+/**
+ *  监听开关状态改变
+ */
+- (void)switchStateChange
+{
+   
+    if ([self.phItem.title isEqualToString:@"是否开启消息推送"]) {
+        if (self.switchView.isOn) {
+            [self login];
+        }
+        else {
+            [self logout];
+        }
+    }
+    [PH_UserDefaults setBool:self.switchView.isOn forKey:self.phItem.title];
+    [PH_UserDefaults synchronize];
+}
+- (void)login{
+    GMLoginManager *login = [GMLoginManager manager];
+    [login loginWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(BOOL success) {
+        success ? PHLog(@"登录成功") : nil;
+    } failureBlock:nil];
+}
+- (void)logout{
+    GMLoginManager *login = [GMLoginManager manager];
+    [login logoutWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(BOOL success) {
+        success ? PHLog(@"注销成功") : nil;
+    } failureBlock:nil];
+}
++ (instancetype)cellWithTableView:(UITableView *)tableView
+{
+    static NSString *ID = @"setting";
+    PHTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    if (cell == nil) {
+        cell = [[PHTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
+    }
+    return cell;
+}
+
+- (void)setPhItem:(PHSettingItem *)phItem
+{
+    _phItem = phItem;
+    // 1.设置数据
+    [self setupData];
+    
+    // 2.设置右边的内容
+    [self setupRightContent];
+}
+/**
+ *  设置数据
+ */
+- (void)setupData
+{
+    if (self.phItem.icon) {
+        self.imageView.image = [UIImage imageNamed:self.phItem.icon];
+    }
+    self.textLabel.text = self.phItem.title;
+    self.detailTextLabel.text = self.phItem.subtitle;
+}
+/**
+ *  设置右边的内容
+ */
+- (void)setupRightContent
+{
+    if ([self.phItem isKindOfClass:[PHSettingArrowItem class]]) { // 箭头
+        self.accessoryView = self.arrowView;
+        self.selectionStyle = UITableViewCellSelectionStyleDefault;
+    }
+    else if ([self.phItem isKindOfClass:[PHSettingSwitchItem class]]) { // 开关
+        self.accessoryView = self.switchView;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        // 设置开关的状态
+        self.switchView.on = PH_BoolForKey(self.phItem.title);
+    }
+    else if ([self.phItem isKindOfClass:[PHSettingSelectedItem class]])//选中
+    {
+        PHSettingSelectedItem *item = (PHSettingSelectedItem *)self.phItem;
+        if (item.isSelectedItem) {
+            self.accessoryView = self.selectedView;
+        }
+        else{
+            self.accessoryView = nil;
+        }
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    else if ([self.phItem isKindOfClass:[PHSettingItem class]])//最初状态
+    {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    else {//防止复用问题
+        self.accessoryView = nil;
+        self.selectionStyle = UITableViewCellSelectionStyleDefault;
+    }
+}
+
+@end
+
+
+
+
+

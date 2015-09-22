@@ -128,9 +128,9 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
 #endif
 - (void)addSegmentController {
     UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:@[@"圆形",@"多边形"]];
-    segment.tintColor = [[UIColor grayColor] colorWithAlphaComponent:0.8f];
+    segment.tintColor = [[UIColor grayColor] colorWithAlphaComponent:0.6f];
     segment.selectedSegmentIndex = 0;
-    segment.layer.cornerRadius = 5;
+    segment.layer.cornerRadius = 15.f;
     segment.layer.masksToBounds = YES;
     segment.layer.borderColor = [UIColor whiteColor].CGColor;
     segment.layer.borderWidth = 2.f;

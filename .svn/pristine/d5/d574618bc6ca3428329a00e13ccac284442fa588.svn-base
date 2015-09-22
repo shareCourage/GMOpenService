@@ -114,15 +114,14 @@
 {
     _bmkManager = [[BMKMapManager alloc] init];
     BOOL flag = [_bmkManager start:PH_BaiduMap_AppKey generalDelegate:self];
-//    flag ? PHLog(@"bmk->success") : PHLog(@"bmk->fail");
+    flag ? PHLog(@"bmk->success") : PHLog(@"bmk->fail");
 }
-
 - (void)validateTheGMAppid
 {
     GMOpenManager *open = [GMOpenManager manager];
     NSString *appid = GM_Appid;
     [open validateWithKey:appid completionBlock:^(GMOpenPermissionStatus status) {
-//        status == GMOpenPermissionStatusOfSuccess ? PHLog(@"appid validate success") : PHLog(@"appid validate failure");
+        status == GMOpenPermissionStatusOfSuccess ? PHLog(@"appid validate success") : PHLog(@"appid validate failure");
     }];
     
 }

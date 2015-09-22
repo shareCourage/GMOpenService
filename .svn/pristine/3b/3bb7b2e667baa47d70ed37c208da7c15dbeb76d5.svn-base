@@ -96,8 +96,7 @@
             self.dataSource = nil;
             self.dataSource = [[NSMutableArray alloc] initWithArray:array];
             if (self.dataSource.count != 0) {
-                [PHTool encoderObjectArray:self.dataSource path:self.fenceFilePath];
-//                [PHTool encoderObjectArray:self.dataSource path:self.fenceFilePath] ? PHLog(@"归档成功") : PHLog(@"归档失败");
+                [PHTool encoderObjectArray:self.dataSource path:self.fenceFilePath] ? PHLog(@"归档成功") : PHLog(@"归档失败");
             }
             [self.tableView.header endRefreshing];
             [self.tableView reloadData];
