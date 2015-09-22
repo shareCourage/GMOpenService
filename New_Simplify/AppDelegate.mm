@@ -16,6 +16,7 @@
 #import "PHHistoryLoc.h"
 #import "PHFenceListController.h"
 #import "PHRemoteViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
 @interface AppDelegate ()<BMKGeneralDelegate>
 {
     BMKMapManager * _bmkManager;
@@ -157,6 +158,12 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     PHLog(@"deviceToken ->%@",deviceToken);
+    NSData *oldToken = [[NSUserDefaults standardUserDefaults] objectForKey:PH_KeyOfDeviceToken];
+    if ([deviceToken isEqualToData:oldToken]) {
+        return;
+    } else {
+        [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:PH_KeyOfDeviceToken];
+    }
     [GMPushManager registerDeviceToken:deviceToken];
     [PH_UserDefaults setObject:deviceToken forKey:PH_UniqueDevicetoken];
 }
@@ -191,6 +198,7 @@
         if (PH_BoolForKey(PH_DidEnterBackground)) {//如果是点击系统的推送消息进来，那么执行下面代码
             [self remoteNotificationLabelClick];
         } else {//如果是app在前台，那么执行下面的代码
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             [self remoteNotificationViewInstance];
             [self.window bringSubviewToFront:self.remoteNotificationView];//加这句话的目的是为了解决重新注销登录切换窗口后显示通知的bug
             [self remoteNotificationLabelDisplayWithInfo:information application:application];
