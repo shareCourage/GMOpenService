@@ -342,7 +342,9 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
     self.fenceMapModel.coordinate = coordinate;
     self.doneItem.enabled = YES;
     
+#ifdef DEBUG
     [self uploadCoordinate:coordinate];
+#endif
 }
 - (void)uploadCoordinate:(CLLocationCoordinate2D)coord
 {
