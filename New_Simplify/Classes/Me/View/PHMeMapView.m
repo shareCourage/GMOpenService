@@ -229,7 +229,7 @@
         if (annoView == nil) {
             annoView = [[BMKAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:ID];
         }
-        annoView.image = [UIImage imageNamed:@"history_car"];
+        annoView.image = [UIImage imageNamed:@"icon_line_begin"];
         annoView.canShowCallout = YES;
         return annoView;
     }
