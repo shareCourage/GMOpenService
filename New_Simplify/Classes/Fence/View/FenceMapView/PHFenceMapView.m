@@ -40,13 +40,14 @@
         }
         else {
             if (fenceMap.coordinate.latitude == 0 || fenceMap.coordinate.longitude == 0) return;
-            [self addCircleWithCoordinate:fenceMap.coordinate radius:fenceMap.radius];
-            [self addAnnotationWithCoordinate:fenceMap.coordinate];
             [self settingMapViewZoomLevelWithDistance:(CGFloat)fenceMap.radius * 2];
+            [self addAnnotationWithCoordinate:fenceMap.coordinate];
+            [self addCircleWithCoordinate:fenceMap.coordinate radius:fenceMap.radius];
         }
     }
 }
 - (void)settingMapViewZoomLevelWithDistance:(CGFloat)distance {
+    if (distance <= 0) return;
     if (distance < 200) {
         self.bmkMapView.zoomLevel = 19;
     }
@@ -243,6 +244,12 @@
         [self.delegate fenceMapViewRegionDidChanged:self];
     }
     PHLog(@"zoomlevel->%.f",mapView.zoomLevel);
+}
+
+- (void)mapView:(BMKMapView *)mapView onClickedMapBlank:(CLLocationCoordinate2D)coordinate {
+    if ([self.delegate respondsToSelector:@selector(fenceMapView:onClickBlank:)]) {
+        [self.delegate fenceMapView:self onClickBlank:coordinate];
+    }
 }
 
 - (void)mapview:(BMKMapView *)mapView onLongClick:(CLLocationCoordinate2D)coordinate

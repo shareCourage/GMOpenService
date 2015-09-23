@@ -335,16 +335,18 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
 {
     PHLog(@"fenceMapViewRegionDidChanged");
 }
-
-- (void)fenceMapView:(PHFenceMapView *)fenceMapView onLongClick:(CLLocationCoordinate2D)coordinate
+- (void)fenceMapView:(PHFenceMapView *)fenceMapView onClickBlank:(CLLocationCoordinate2D)coordinate
 {
     PHLog(@"coordinate:lat->%.6f, lng->%.6f, time->%@",coordinate.latitude, coordinate.longitude,PH_CurrentTime);
     self.fenceMapModel.coordinate = coordinate;
     self.doneItem.enabled = YES;
-    
 #ifdef DEBUG
     [self uploadCoordinate:coordinate];
 #endif
+}
+- (void)fenceMapView:(PHFenceMapView *)fenceMapView onLongClick:(CLLocationCoordinate2D)coordinate
+{    
+
 }
 - (void)uploadCoordinate:(CLLocationCoordinate2D)coord
 {

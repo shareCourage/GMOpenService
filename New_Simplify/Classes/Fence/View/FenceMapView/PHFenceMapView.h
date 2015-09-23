@@ -14,6 +14,7 @@
 @optional
 - (void)fenceMapViewRegionDidChanged:(PHFenceMapView *)fenceMapView;
 - (void)fenceMapView:(PHFenceMapView *)fenceMapView onLongClick:(CLLocationCoordinate2D)coordinate;
+- (void)fenceMapView:(PHFenceMapView *)fenceMapView onClickBlank:(CLLocationCoordinate2D)coordinate;
 
 @end
 
