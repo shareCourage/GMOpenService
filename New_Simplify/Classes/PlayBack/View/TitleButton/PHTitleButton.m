@@ -12,7 +12,7 @@
 @implementation PHTitleButton
 - (void)dealloc
 {
-    PHLog(@"PHTitleButton->dealloc");
+    PHLog(@"%@ -> dealloc", NSStringFromClass([self class]));
 }
 
 + (instancetype)titleButton

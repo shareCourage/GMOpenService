@@ -115,7 +115,7 @@
 {
     _bmkManager = [[BMKMapManager alloc] init];
     BOOL flag = [_bmkManager start:PH_BaiduMap_AppKey generalDelegate:self];
-//    flag ? PHLog(@"bmk->success") : PHLog(@"bmk->fail");
+    flag ? PHLog(@"bmk->success") : PHLog(@"bmk->fail");
 }
 
 - (void)validateTheGMAppid
@@ -123,7 +123,7 @@
     GMOpenManager *open = [GMOpenManager manager];
     NSString *appid = GM_Appid;
     [open validateWithKey:appid completionBlock:^(GMOpenPermissionStatus status) {
-//        status == GMOpenPermissionStatusOfSuccess ? PHLog(@"appid validate success") : PHLog(@"appid validate failure");
+        status == GMOpenPermissionStatusOfSuccess ? PHLog(@"appid validate success") : PHLog(@"appid validate failure");
     }];
     
 }
@@ -150,7 +150,6 @@
     }
     [self.myTimer fire];
     
-    
     return YES;
 }
 
@@ -158,14 +157,13 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     PHLog(@"deviceToken ->%@",deviceToken);
-    NSData *oldToken = [[NSUserDefaults standardUserDefaults] objectForKey:PH_KeyOfDeviceToken];
+    NSData *oldToken = [[NSUserDefaults standardUserDefaults] objectForKey:PH_UniqueDevicetoken];
     if ([deviceToken isEqualToData:oldToken]) {
         return;
     } else {
-        [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:PH_KeyOfDeviceToken];
+        [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:PH_UniqueDevicetoken];
     }
     [GMPushManager registerDeviceToken:deviceToken];
-    [PH_UserDefaults setObject:deviceToken forKey:PH_UniqueDevicetoken];
 }
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {

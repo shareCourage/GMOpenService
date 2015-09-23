@@ -139,7 +139,23 @@
 
 @implementation GMDevInOut
 
-GMCodingImplementation
+//GMCodingImplementation
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        self.devid      = [aDecoder decodeObjectForKey:GM_Argument_devid];
+        self.dev_in     = [aDecoder decodeObjectForKey:@"dev_in"];
+        self.dev_out    = [aDecoder decodeObjectForKey:@"dev_out"];
+    }
+    return self;
+}
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:self.devid forKey:GM_Argument_devid];
+    [aCoder encodeObject:self.dev_in forKey:@"dev_in"];
+    [aCoder encodeObject:self.dev_out forKey:@"dev_out"];
+}
 
 - (void)dealloc
 {

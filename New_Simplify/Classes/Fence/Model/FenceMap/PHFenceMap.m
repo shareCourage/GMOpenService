@@ -10,7 +10,13 @@
 
 @implementation PHFenceMap
 
-
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.radius = 200.f;
+    }
+    return self;
+}
 
 + (instancetype)fenceMap
 {

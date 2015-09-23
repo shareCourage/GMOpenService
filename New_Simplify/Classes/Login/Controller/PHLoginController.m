@@ -47,7 +47,7 @@
         [login loginWithDevid:devidString completionBlock:^(BOOL success) {
             [MBProgressHUD hideHUDForView:ws.view];
             if (success) {
-                PHLog(@"登录成功");
+                PHLog(@"登录成功,马上会重新注册cid号");
                 [ws loginSuccessWithAppid:appidString devid:devidString];
                 [GMPushManager registerDeviceToken:[PH_UserDefaults objectForKey:PH_UniqueDevicetoken]];
             }
@@ -70,8 +70,8 @@
     AppDelegate *delegate = [UIApplication sharedApplication].delegate;
     [delegate loadHistoryDataToLocal];
     delegate.window.rootViewController = vc;
-    
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

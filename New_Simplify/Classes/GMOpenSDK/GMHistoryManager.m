@@ -96,19 +96,6 @@
         NSMutableArray *mArray = [NSMutableArray array];
         for (NSDictionary *objD in datas) {
             GMDeviceInfo *deviceInfo = [[GMDeviceInfo alloc] initWithDict:objD];
-#if 0
-            {
-            deviceInfo.course       = [NSString stringWithFormat:@"%@",objD[GM_Argument_course]];
-            deviceInfo.speed        = [NSString stringWithFormat:@"%@",objD[GM_Argument_speed]];
-            deviceInfo.devid        = [NSString stringWithFormat:@"%@",objD[GM_Argument_devid]];
-            deviceInfo.gps_time     = [NSString stringWithFormat:@"%@",objD[GM_Argument_gps_time]];
-            deviceInfo.lat          = [NSString stringWithFormat:@"%@",objD[GM_Argument_lat]];
-            deviceInfo.lng          = [NSString stringWithFormat:@"%@",objD[GM_Argument_lng]];
-            deviceInfo.server_time  = [NSString stringWithFormat:@"%@",objD[@"server_time"]];
-            deviceInfo.sys_time     = [NSString stringWithFormat:@"%@",objD[@"sys_time"]];
-            deviceInfo.heart_time   = [NSString stringWithFormat:@"%@",objD[@"heart_time"]];
-}
-#endif
             [mArray addObject:deviceInfo];
         }
         if (success) {
