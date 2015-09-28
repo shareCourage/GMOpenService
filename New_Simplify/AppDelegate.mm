@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
 #define GM_Appid [PH_UserDefaults objectForKey:PH_UniqueAppid]
-#define PH_HeightOfRemoteNotificationLabel 30
+#define PH_HeightOfRemoteNotificationLabel 35
 
 #import "AppDelegate.h"
 #import "PHLoginController.h"

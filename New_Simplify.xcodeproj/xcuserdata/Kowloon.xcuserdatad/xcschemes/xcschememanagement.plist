@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>GMOpenSDK.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
 		<key>New_Simplify.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +17,16 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>A9077B901BB8D19200DB3971</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A9077B991BB8D19200DB3971</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>A91B54501B4B81EE0042024A</key>
 		<dict>
 			<key>primary</key>

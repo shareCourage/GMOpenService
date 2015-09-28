@@ -60,7 +60,7 @@
         }
         else {
             [GMFenceManager modifyFenceWithFenceId:ws.fenceInfo.fenceid enable:enable completion:^(BOOL success) {
-//                success ? PHLog(@"modify enable Fence success") : PHLog(@"modify enable Fence failure");
+                success ? PHLog(@"modify enable Fence success") : PHLog(@"modify enable Fence failure");
             } failureBlock:nil];
             ws.fenceInfo.enable = [NSString stringWithFormat:@"%d",enable];
             [ws rootViewControllerShouldRefresh];
@@ -141,6 +141,10 @@
                     [MBProgressHUD showError:@"阈值最大100"];
                     return;
                 }
+                if ([textF.text integerValue] == 0) {
+                    [MBProgressHUD showError:@"阈值不能为0"];
+                    return;
+                }
                 NSString *modify = textF.text;
                 modify = [modify stringByReplacingOccurrencesOfString:@" " withString:@""];
                 textF.text.length != 0 ? [ws modifyFenceThreshold:modify] : nil;
@@ -151,6 +155,10 @@
             PHSettingArgumentController *settingArgu = [[PHSettingArgumentController alloc] initWithCompletion:^(NSString *value) {
                 if ([value integerValue] > 100) {
                     [MBProgressHUD showError:@"阈值最大100"];
+                    return;
+                }
+                if ([value integerValue] == 0) {
+                    [MBProgressHUD showError:@"阈值不能为0"];
                     return;
                 }
                 NSString *modify = value;

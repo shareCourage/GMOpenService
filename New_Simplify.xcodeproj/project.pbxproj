@@ -177,6 +177,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A9077B9E1BB8D19200DB3971 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A91B54491B4B81EE0042024A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A91B54501B4B81EE0042024A;
+			remoteInfo = New_Simplify;
+		};
 		A91B546B1B4B81EE0042024A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A91B54491B4B81EE0042024A /* Project object */;
@@ -186,9 +193,23 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		A9077BAB1BB8D19300DB3971 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0C90E702680256A7F24C2F38 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8F9F33294FC3C4BBEF0C28EE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9077B9A1BB8D19200DB3971 /* GMOpenSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GMOpenSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A90FA48A1B9BF0F100A8F708 /* PHFenceOtherArgumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceOtherArgumentController.h; sourceTree = "<group>"; };
 		A90FA48B1B9BF0F100A8F708 /* PHFenceOtherArgumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFenceOtherArgumentController.m; sourceTree = "<group>"; };
 		A90FA48D1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceOtherArguemntCell.h; sourceTree = "<group>"; };
@@ -481,6 +502,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A9077B971BB8D19200DB3971 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A91B544E1B4B81EE0042024A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -547,6 +575,7 @@
 			children = (
 				A91B54511B4B81EE0042024A /* New_Simplify.app */,
 				A91B546A1B4B81EE0042024A /* New_SimplifyTests.xctest */,
+				A9077B9A1BB8D19200DB3971 /* GMOpenSDKTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1586,6 +1615,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A9077B991BB8D19200DB3971 /* GMOpenSDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9077BAC1BB8D19300DB3971 /* Build configuration list for PBXNativeTarget "GMOpenSDKTests" */;
+			buildPhases = (
+				A9077B961BB8D19200DB3971 /* Sources */,
+				A9077B971BB8D19200DB3971 /* Frameworks */,
+				A9077B981BB8D19200DB3971 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A9077B9F1BB8D19200DB3971 /* PBXTargetDependency */,
+			);
+			name = GMOpenSDKTests;
+			productName = GMOpenSDKTests;
+			productReference = A9077B9A1BB8D19200DB3971 /* GMOpenSDKTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		A91B54501B4B81EE0042024A /* New_Simplify */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A91B54741B4B81EE0042024A /* Build configuration list for PBXNativeTarget "New_Simplify" */;
@@ -1595,6 +1642,7 @@
 				A91B544E1B4B81EE0042024A /* Frameworks */,
 				A91B544F1B4B81EE0042024A /* Resources */,
 				DF09BB0A0BF8A00F3E3ADCA3 /* Copy Pods Resources */,
+				A9077BAB1BB8D19300DB3971 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1632,6 +1680,10 @@
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = Goome;
 				TargetAttributes = {
+					A9077B991BB8D19200DB3971 = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = A91B54501B4B81EE0042024A;
+					};
 					A91B54501B4B81EE0042024A = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = D2JB8K885C;
@@ -1663,11 +1715,19 @@
 			targets = (
 				A91B54501B4B81EE0042024A /* New_Simplify */,
 				A91B54691B4B81EE0042024A /* New_SimplifyTests */,
+				A9077B991BB8D19200DB3971 /* GMOpenSDKTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A9077B981BB8D19200DB3971 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A91B544F1B4B81EE0042024A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1767,6 +1827,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A9077B961BB8D19200DB3971 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A91B544D1B4B81EE0042024A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1898,6 +1965,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A9077B9F1BB8D19200DB3971 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A91B54501B4B81EE0042024A /* New_Simplify */;
+			targetProxy = A9077B9E1BB8D19200DB3971 /* PBXContainerItemProxy */;
+		};
 		A91B546C1B4B81EE0042024A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A91B54501B4B81EE0042024A /* New_Simplify */;
@@ -1925,6 +1997,32 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A9077BAD1BB8D19300DB3971 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = GMOpenSDKTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.goome.GMOpenSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/New_Simplify.app/New_Simplify";
+			};
+			name = Debug;
+		};
+		A9077BAE1BB8D19300DB3971 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = GMOpenSDKTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.goome.GMOpenSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/New_Simplify.app/New_Simplify";
+			};
+			name = Release;
+		};
 		A91B54721B4B81EE0042024A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2096,6 +2194,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A9077BAC1BB8D19300DB3971 /* Build configuration list for PBXNativeTarget "GMOpenSDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9077BAD1BB8D19300DB3971 /* Debug */,
+				A9077BAE1BB8D19300DB3971 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		A91B544C1B4B81EE0042024A /* Build configuration list for PBXProject "New_Simplify" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -89,43 +89,7 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
     
     return _fenceMapModel;
 }
-#if 0
-- (void)addTitleButtonView {
-    UIButton *titleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    titleBtn.layer.cornerRadius = 5;
-    titleBtn.layer.masksToBounds = YES;
-    titleBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    titleBtn.frame = CGRectMake(0, 0, 100, 30);
-    titleBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [titleBtn setTitle:@"圆形围栏" forState:UIControlStateNormal];
-    [titleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [titleBtn setBackgroundColor:[[UIColor greenColor] colorWithAlphaComponent:0.3f]];
-    [titleBtn addTarget:self action:@selector(titleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.titleView = titleBtn;
-    self.fenceMapModel.enable = YES;
-    self.fenceMapModel.radius = 200;
-}
 
-- (void)titleBtnClick:(UIButton *)sender
-{
-    if (sender.selected) {
-        [sender setTitle:@"圆形围栏" forState:UIControlStateNormal];
-        self.CircleDisplayView.hidden = NO;
-        self.fenceMapModel.coords = nil;
-        [self.fenceMapView removeMapViewOverlays];
-        self.navigationItem.rightBarButtonItems = @[self.otherItem, self.doneItem];
-        _isCircleFence = YES;
-    }
-    else {
-        [sender setTitle:@"多边形围栏" forState:UIControlStateNormal];
-        self.CircleDisplayView.hidden = YES;
-        [self.fenceMapView removeMapViewOverlays];
-        self.navigationItem.rightBarButtonItems = @[self.otherItem, self.editItem, self.doneItem];
-        _isCircleFence = NO;
-    }
-    sender.selected = !sender.isSelected;
-}
-#endif
 - (void)addSegmentController {
     UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:@[@"圆形",@"多边形"]];
     segment.tintColor = [[UIColor grayColor] colorWithAlphaComponent:0.6f];
@@ -218,6 +182,9 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
         self.navigationItem.rightBarButtonItems = @[otherItem, editItem, doneItem];
     }
     
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
+
     
 }
 - (void)editClick {
@@ -371,6 +338,7 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
     [self.points addObject:[NSValue valueWithCGPoint:point]];
     self.previousPoint = point;//记录上一条的坐标
 }
+
 - (void)drawFenceView:(PHDrawFenceView *)drawFenceView touchesMoved:(CGPoint)point {
     CGFloat distance = [self distanceBetweenPointA:point pointB:self.previousPoint];
 //    PHLog(@"~~~~~~~~%.6f",distance);
@@ -378,7 +346,6 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
         [self.points addObject:[NSValue valueWithCGPoint:point]];
     }
     self.previousPoint = point;
-
 }
 
 - (void)drawFenceView:(PHDrawFenceView *)drawFenceView touchesEnded:(CGPoint)point {
