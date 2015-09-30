@@ -36,6 +36,7 @@
 - (void)dealloc
 {
     PHLog(@"%@ ---->dealloc",NSStringFromClass([self class]));
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
@@ -46,7 +47,18 @@
     [self addNavigationBarTitleItem];
     [self addNavigationRightItem];
     [self fileViewImplementation];
+    
 }
+
+- (void)viewControllerDidEnterBackground {
+    [super viewControllerDidEnterBackground];
+    [self viewWillDisappear:YES];
+}
+- (void)viewControllerDidBecomeActive {
+    [super viewControllerDidBecomeActive];
+    [self viewWillAppear:YES];
+}
+
 - (void)addNavigationRightItem
 {
     UIBarButtonItem *clearItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(clearItemClick)];
@@ -120,7 +132,9 @@
     PHLog(@"%@",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]);
 
     _isPlayBack = YES;
-    if (end > [NSDate date].timeIntervalSince1970) return;
+    if (end > [NSDate date].timeIntervalSince1970) {
+        end = [NSDate date].timeIntervalSince1970;
+    }
     self.playBackMapView.playTime = 1.0f;
     [self hudShowOnTheFenceMapView:@"搜索中..."];
     self.hisM.startTime = [NSString stringWithFormat:@"%.f",begin];
@@ -163,7 +177,7 @@
 - (void)filterView:(PHFilterView *)filterView didSelectStatu:(PHFilterViewStatus)status withStartTime:(NSTimeInterval)start endTime:(NSTimeInterval)end
 {
     if (start > end && status == PHFilterViewStatuOfSure) {
-        [MBProgressHUD showError:@"开始时间必须大于结束时间"];
+        [MBProgressHUD showError:@"开始时间必须小于结束时间"];
         filterView.hidden = YES;
         return;
     }

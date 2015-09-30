@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "PHViewController.h"
 
 
-@interface PHMeController : UIViewController
+@interface PHMeController : PHViewController
 
 
 @end

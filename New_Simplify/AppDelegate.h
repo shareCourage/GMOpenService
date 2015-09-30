@@ -21,5 +21,7 @@
 
 @property (nonatomic, strong) NSString *remoteAlarmInfo;
 
+@property (nonatomic, assign) CLLocationCoordinate2D locationCoord;
+
 @end
 

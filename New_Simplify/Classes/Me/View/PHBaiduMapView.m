@@ -11,6 +11,7 @@
 #import "PHDeviceInfo.h"
 #import "PHAnnotation.h"
 #import "GMOpenKit.h"
+#import "AppDelegate.h"
 @interface PHBaiduMapView ()
 @property(nonatomic, weak)UIButton *minusBtn;//缩小地图
 @property(nonatomic, weak)UIButton *plusBtn;//放大地图
@@ -73,6 +74,10 @@
     mapView.userTrackingMode = BMKUserTrackingModeFollow;
     [self addSubview:mapView];
     self.bmkMapView = mapView;
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    if (delegate.locationCoord.latitude != 0 && delegate.locationCoord.longitude != 0 ) {
+        [self.bmkMapView setCenterCoordinate:delegate.locationCoord];
+    }
 }
 
 //在自身添加子控件Minus 和 Plus

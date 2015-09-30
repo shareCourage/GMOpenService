@@ -133,8 +133,7 @@
     [self validateTheGMAppid];
     if (PH_iOS(8.0)) {
         [GMPushManager iOS8RegisterForRemoteNotificationTypes:(UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound) categories:nil];
-    }
-    else {
+    } else {
         [GMPushManager iOS7RegisterForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     }
     [GMPushManager setupWithOption:launchOptions];

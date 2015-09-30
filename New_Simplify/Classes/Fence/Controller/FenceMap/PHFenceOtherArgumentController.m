@@ -96,25 +96,25 @@
             [alertController addAction:[ws actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel handler:nil]];
             [alertController addAction:[ws actionWithTitle:@"确定" actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 UITextField *textF =  [alertController.textFields firstObject];
-                if (textF.text.length >= 20) {
-                    [MBProgressHUD showError:@"格式不正确"];
+                if (textF.text.length > 20) {
+                    [MBProgressHUD showError:@"字符长度不能超过20"];
                     return ;
                 }
                 NSString *modify = textF.text;
                 modify = [modify stringByReplacingOccurrencesOfString:@" " withString:@""];
-                textF.text.length != 0 ? [ws modifyFenceName:modify] : nil;
+                textF.text.length != 0 && modify.length != 0 ? [ws modifyFenceName:modify] : nil;
             }]];
             [ws presentViewController:alertController animated:YES completion:nil];
         }
         else {//在iOS7以下版本使用这串代码
             PHSettingArgumentController *settingArgu = [[PHSettingArgumentController alloc] initWithCompletion:^(NSString *value) {
                 if (value.length > 20) {
-                    [MBProgressHUD showError:@"格式不正确"];
+                    [MBProgressHUD showError:@"字符长度不能超过20"];
                     return ;
                 }
                 NSString *modify = value;
                 modify = [modify stringByReplacingOccurrencesOfString:@" " withString:@""];
-                value.length != 0 ? [ws modifyFenceName:modify] : nil;
+                value.length != 0&& modify.length != 0 ? [ws modifyFenceName:modify] : nil;
             }];
             settingArgu.titleArgument = nameWeak.title;
             settingArgu.subtitleArgument = nameWeak.subtitle;
@@ -147,7 +147,7 @@
                 }
                 NSString *modify = textF.text;
                 modify = [modify stringByReplacingOccurrencesOfString:@" " withString:@""];
-                textF.text.length != 0 ? [ws modifyFenceThreshold:modify] : nil;
+                textF.text.length != 0 && modify.length != 0 ? [ws modifyFenceThreshold:modify] : nil;
             }]];
             [ws presentViewController:alertController animated:YES completion:nil];
         }
@@ -163,7 +163,7 @@
                 }
                 NSString *modify = value;
                 modify = [modify stringByReplacingOccurrencesOfString:@" " withString:@""];
-                value.length != 0 ? [ws modifyFenceThreshold:modify] : nil;
+                value.length != 0 && modify.length != 0 ? [ws modifyFenceThreshold:modify] : nil;
             }];
             settingArgu.titleArgument = threholdWeak.title;
             settingArgu.subtitleArgument = threholdWeak.subtitle;

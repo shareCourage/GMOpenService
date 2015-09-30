@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "PHViewController.h"
 @class GMDeviceFence;
 
-@interface PHFenceModifyMapController : UIViewController
+@interface PHFenceModifyMapController : PHViewController
 
 @property(nonatomic, strong)__block GMDeviceFence *fenceInfo;
 

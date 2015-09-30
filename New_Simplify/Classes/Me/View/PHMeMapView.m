@@ -9,6 +9,7 @@
 #import "PHMeMapView.h"
 #import "PHDeviceInfo.h"
 #import "PHAnnotation.h"
+#import "AppDelegate.h"
 @interface PHMeMapView ()<BMKLocationServiceDelegate, UIAlertViewDelegate>
 @property(nonatomic, strong)BMKLocationService *locationService;//定位服务
 @property(nonatomic, strong)BMKUserLocation *userLocation;//当前定位到的位置
@@ -179,7 +180,8 @@
 {
     self.userLocation = userLocation;
     [self.bmkMapView updateLocationData:userLocation];
-
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    delegate.locationCoord = userLocation.location.coordinate;
 }
 - (void)removeAllOfPolyline
 {

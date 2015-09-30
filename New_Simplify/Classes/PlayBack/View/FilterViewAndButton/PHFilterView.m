@@ -299,8 +299,7 @@
     PHFilterViewStatus status;
     if (sender.tag == PHFilterViewStatuOfCancel) {
         status = PHFilterViewStatuOfCancel;
-    }
-    else{
+    } else{
         status = PHFilterViewStatuOfSure;
     }
 

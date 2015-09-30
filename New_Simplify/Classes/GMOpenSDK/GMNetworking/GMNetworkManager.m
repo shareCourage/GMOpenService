@@ -620,7 +620,7 @@
     }
     NSNumber *shape = nil;
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
-        area.length > 20 ? (shape = @2) : (shape = @1);
+        area.length > 27 ? (shape = @2) : (shape = @1);
     }
     else {
         shape = [area containsString:@";"] ? @2 : @1;

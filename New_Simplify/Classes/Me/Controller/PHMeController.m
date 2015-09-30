@@ -38,7 +38,6 @@
 {
     PHLog(@"PHMeController.h->dealloc");
     [self invalidateTimer];
-    
 }
 //干掉定时器
 - (void)invalidateTimer
@@ -83,7 +82,7 @@
     self.navigationItem.title = @"我的设备";
     [self barButtonItemImplementation];
 #ifdef DEBUG
-//    [self locationManager];
+    [self locationManager];
 #endif
     
     AppDelegate *delegate = [UIApplication sharedApplication].delegate;
@@ -93,6 +92,11 @@
         [self.navigationController pushViewController:remoteVC animated:YES];
     }
 }
+- (void)viewControllerDidEnterBackground {
+    [super viewControllerDidEnterBackground];
+    [self viewWillDisappear:YES];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -141,8 +145,8 @@
         [self.meMapView configurePolylineWithStartDevice:[self.deviceInfos objectAtIndex:count - 2] end:[self.deviceInfos lastObject]];
     }
 }
-#pragma mark - CLLocationManagerDelegate
 
+#pragma mark - CLLocationManagerDelegate
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     CLLocation *location = [locations firstObject];

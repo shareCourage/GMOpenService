@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "PHViewController.h"
 
-@interface PHPlayBackController : UIViewController
+@interface PHPlayBackController : PHViewController
 
 @end

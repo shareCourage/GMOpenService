@@ -210,6 +210,10 @@
         {
             PHLog(@"starttime->%@",subtitle);
             _pushM.startTime = @([subtitle floatValue] * 60);
+            if ([_pushM.startTime floatValue] >= [_pushM.endTime floatValue]) {
+                [MBProgressHUD showError:@"必须小于结束时间"];
+                return;
+            }
         }
             break;
         case 6:
@@ -217,7 +221,7 @@
             PHLog(@"endtime->%@",subtitle);
             _pushM.endTime = @([subtitle floatValue] * 60);
             if ([_pushM.startTime floatValue] >= [_pushM.endTime floatValue]) {
-                [MBProgressHUD showError:@"需要比起始时间更大"];
+                [MBProgressHUD showError:@"必须大于起始时间"];
                 return;
             }
         }

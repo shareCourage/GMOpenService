@@ -10,7 +10,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>请打开位置服务,方便你享受更好的服务</string>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>zh_CN</string>
 	<key>CFBundleDisplayName</key>
 	<string>NewSimplify</string>
 	<key>CFBundleExecutable</key>

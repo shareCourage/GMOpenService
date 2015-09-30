@@ -156,7 +156,7 @@
                 [ws.dataSource removeObjectAtIndex:indexPath.row];//1 删除数据源
                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];//2 tableView的删除
                 [PHTool encoderObjectArray:ws.dataSource path:ws.fenceFilePath];//4、对数据的重新归档，就相当于删除
-                [MBProgressHUD showSuccess:PH_MBProgress_SuccessOfDelete toView:ws.view];
+                [MBProgressHUD showSuccess:PH_MBProgress_SuccessOfDelete toView:nil];
                 PHLog(@"delete success");
             }
             else {

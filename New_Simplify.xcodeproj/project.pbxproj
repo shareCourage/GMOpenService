@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		70F9A3A1F39BDBE545F6FBC3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9F33294FC3C4BBEF0C28EE /* libPods.a */; };
+		A9077BB11BBA5E9F00DB3971 /* PHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9077BB01BBA5E9F00DB3971 /* PHViewController.m */; settings = {ASSET_TAGS = (); }; };
+		A9077BB41BBA5F1600DB3971 /* PHTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9077BB31BBA5F1600DB3971 /* PHTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A90FA48C1B9BF0F100A8F708 /* PHFenceOtherArgumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA48B1B9BF0F100A8F708 /* PHFenceOtherArgumentController.m */; };
 		A90FA48F1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA48E1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.m */; };
 		A90FA4931B9C4C2F00A8F708 /* PHPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA4921B9C4C2F00A8F708 /* PHPickerView.m */; };
@@ -210,6 +212,10 @@
 		0C90E702680256A7F24C2F38 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8F9F33294FC3C4BBEF0C28EE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9077B9A1BB8D19200DB3971 /* GMOpenSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GMOpenSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9077BAF1BBA5E9F00DB3971 /* PHViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHViewController.h; sourceTree = "<group>"; };
+		A9077BB01BBA5E9F00DB3971 /* PHViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHViewController.m; sourceTree = "<group>"; };
+		A9077BB21BBA5F1600DB3971 /* PHTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTableViewController.h; sourceTree = "<group>"; };
+		A9077BB31BBA5F1600DB3971 /* PHTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTableViewController.m; sourceTree = "<group>"; };
 		A90FA48A1B9BF0F100A8F708 /* PHFenceOtherArgumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceOtherArgumentController.h; sourceTree = "<group>"; };
 		A90FA48B1B9BF0F100A8F708 /* PHFenceOtherArgumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFenceOtherArgumentController.m; sourceTree = "<group>"; };
 		A90FA48D1B9C0D3E00A8F708 /* PHFenceOtherArguemntCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFenceOtherArguemntCell.h; sourceTree = "<group>"; };
@@ -842,6 +848,10 @@
 				A91B54C51B4B85C00042024A /* PHNavigationController.m */,
 				A91B54C61B4B85C00042024A /* PHTabBarController.h */,
 				A91B54C71B4B85C00042024A /* PHTabBarController.m */,
+				A9077BAF1BBA5E9F00DB3971 /* PHViewController.h */,
+				A9077BB01BBA5E9F00DB3971 /* PHViewController.m */,
+				A9077BB21BBA5F1600DB3971 /* PHTableViewController.h */,
+				A9077BB31BBA5F1600DB3971 /* PHTableViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1896,6 +1906,7 @@
 				A91B55A31B4B85C10042024A /* PHTabBarController.m in Sources */,
 				A91B55D11B4B85C10042024A /* PHDownloadMapCell.m in Sources */,
 				A9A028631B905AEE00FC090D /* PHHeatMapController.m in Sources */,
+				A9077BB11BBA5E9F00DB3971 /* PHViewController.m in Sources */,
 				A91B55B51B4B85C10042024A /* PHEndAnnotationView.m in Sources */,
 				A986AC1B1B538B78006403D3 /* GMDeviceInfo.m in Sources */,
 				A986AC211B538B78006403D3 /* GMHTTPRequestOperation.m in Sources */,
@@ -1906,6 +1917,7 @@
 				A9F362F71B842B3F004DED58 /* SFHFKeychainUtils.m in Sources */,
 				A90FA4931B9C4C2F00A8F708 /* PHPickerView.m in Sources */,
 				A91B559C1B4B85C10042024A /* PHFenceMap.m in Sources */,
+				A9077BB41BBA5F1600DB3971 /* PHTableViewController.m in Sources */,
 				A91B55931B4B85C10042024A /* UILabel+PHCategory.m in Sources */,
 				A91B545A1B4B81EE0042024A /* AppDelegate.mm in Sources */,
 				A91B55C81B4B85C10042024A /* PHSettingViewController.m in Sources */,

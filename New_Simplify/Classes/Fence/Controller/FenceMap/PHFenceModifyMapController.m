@@ -224,6 +224,9 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
             if (success) {
                 [MBProgressHUD showSuccess:@"创建成功" toView:ws.view];
                 PHLog(@"add Fence success");
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [ws.navigationController popToRootViewControllerAnimated:YES];
+                });
             }
             else {
                 [MBProgressHUD showError:@"创建失败" toView:ws.view];
