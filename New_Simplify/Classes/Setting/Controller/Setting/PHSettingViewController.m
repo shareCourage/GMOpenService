@@ -30,6 +30,7 @@
 #import "PHSettingArrowItem.h"
 #import "PHSettingSwitchItem.h"
 #import "PHNavigationController.h"
+#import "AppDelegate.h"
 @interface PHSettingViewController ()<UIAlertViewDelegate>
 {
     int _pushNumber;
@@ -200,13 +201,14 @@
                 [MBProgressHUD showMessage:@"logout..." toView:self.view];
                 [login logoutWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(BOOL success) {
                     if (success) {
-                        
                         [MBProgressHUD hideHUDForView:self.view];
                         [PH_UserDefaults setBool:NO forKey:PH_LoginSuccess];
                         [PH_UserDefaults setBool:NO forKey:@"是否开启消息推送"];
                         [PH_UserDefaults setObject:nil forKey:PH_UniqueAccess_token];
                         [PH_UserDefaults setObject:nil forKey:PH_UniqueAppid];
                         [PH_UserDefaults setObject:nil forKey:PH_UniqueDeviceId];
+                        AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+                        delegate.remoteAlarmInfo = nil;
                         [PH_UserDefaults synchronize];
                         [PHTool loginViewControllerImplementation];
                     }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		70F9A3A1F39BDBE545F6FBC3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9F33294FC3C4BBEF0C28EE /* libPods.a */; };
+		A904B1BD1BC64D7A00B41B0D /* UIView+PHLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A904B1BC1BC64D7A00B41B0D /* UIView+PHLayout.m */; settings = {ASSET_TAGS = (); }; };
 		A9077BB11BBA5E9F00DB3971 /* PHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9077BB01BBA5E9F00DB3971 /* PHViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A9077BB41BBA5F1600DB3971 /* PHTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9077BB31BBA5F1600DB3971 /* PHTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A90FA48C1B9BF0F100A8F708 /* PHFenceOtherArgumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = A90FA48B1B9BF0F100A8F708 /* PHFenceOtherArgumentController.m */; };
@@ -211,6 +212,8 @@
 /* Begin PBXFileReference section */
 		0C90E702680256A7F24C2F38 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8F9F33294FC3C4BBEF0C28EE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A904B1BB1BC64D7A00B41B0D /* UIView+PHLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PHLayout.h"; sourceTree = "<group>"; };
+		A904B1BC1BC64D7A00B41B0D /* UIView+PHLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PHLayout.m"; sourceTree = "<group>"; };
 		A9077B9A1BB8D19200DB3971 /* GMOpenSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GMOpenSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9077BAF1BBA5E9F00DB3971 /* PHViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHViewController.h; sourceTree = "<group>"; };
 		A9077BB01BBA5E9F00DB3971 /* PHViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHViewController.m; sourceTree = "<group>"; };
@@ -694,6 +697,8 @@
 				A9CD0D6D1BA7EA2900A527CD /* UIViewController+PHCategory.m */,
 				A9723DFD1BAA95CE00377269 /* UIColor+PHCategory.h */,
 				A9723DFE1BAA95CE00377269 /* UIColor+PHCategory.m */,
+				A904B1BB1BC64D7A00B41B0D /* UIView+PHLayout.h */,
+				A904B1BC1BC64D7A00B41B0D /* UIView+PHLayout.m */,
 			);
 			path = Catagory;
 			sourceTree = "<group>";
@@ -1870,6 +1875,7 @@
 				A986AC271B538B78006403D3 /* GMURLRequestSerialization.m in Sources */,
 				A9723DFF1BAA95CE00377269 /* UIColor+PHCategory.m in Sources */,
 				A986AC2C1B538B78006403D3 /* GMPushManager.m in Sources */,
+				A904B1BD1BC64D7A00B41B0D /* UIView+PHLayout.m in Sources */,
 				A9F362E91B83159B004DED58 /* PHAlarmInfoController.m in Sources */,
 				A91B55B11B4B85C10042024A /* PHHistoryLoc.m in Sources */,
 				A91B55B01B4B85C10042024A /* PHEndAnnotation.m in Sources */,
@@ -2213,6 +2219,7 @@
 				A9077BAE1BB8D19300DB3971 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A91B544C1B4B81EE0042024A /* Build configuration list for PBXProject "New_Simplify" */ = {
 			isa = XCConfigurationList;

@@ -64,8 +64,8 @@
     //注意：建议只请求⓵和⓶中的一个，如果两个权限都需要，只请求⓶即可，
     //⓵⓶这样的顺序，将导致bug：第一次启动程序后，系统将只请求⓵的权限，⓶的权限系统不会请求，只会在下一次启动应用时请求⓶
     if (PH_iOS(8.0)) {
-        [_locationManager requestWhenInUseAuthorization];//⓵只在前台开启定位
-//        [_locationManager requestAlwaysAuthorization];//⓶在后台也可定位
+//        [_locationManager requestWhenInUseAuthorization];//⓵只在前台开启定位 旅游
+        [_locationManager requestAlwaysAuthorization];//⓶在后台也可定位
     }
     // 5.iOS9新特性：将允许出现这种场景：同一app中多个location manager：一些只能在前台定位，另一些可在后台定位（并可随时禁止其后台定位）。
     if (PH_iOS(9.0)) {
@@ -150,7 +150,7 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     CLLocation *location = [locations firstObject];
-    PHLog(@"%.6f, %.6f", location.coordinate.latitude, location.coordinate.longitude);
+    PHLog(@"location ->  %.6f, %.6f", location.coordinate.latitude, location.coordinate.longitude);
 }
 @end
 

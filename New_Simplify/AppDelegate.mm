@@ -156,12 +156,12 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     PHLog(@"deviceToken ->%@",deviceToken);
-    NSData *oldToken = [[NSUserDefaults standardUserDefaults] objectForKey:PH_UniqueDevicetoken];
-    if ([deviceToken isEqualToData:oldToken]) {
-        return;
-    } else {
-        [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:PH_UniqueDevicetoken];
-    }
+//    NSData *oldToken = [[NSUserDefaults standardUserDefaults] objectForKey:PH_UniqueDevicetoken];
+//    if ([deviceToken isEqualToData:oldToken]) {
+//        return;
+//    } else {
+//        [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:PH_UniqueDevicetoken];
+//    }
     [GMPushManager registerDeviceToken:deviceToken];
 }
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
@@ -184,23 +184,24 @@
     [GMPushManager handleRemoteNotification:userInfo];
     if (userInfo) {
         NSString *alarm = userInfo[@"alarm"];
-        self.remoteAlarmInfo = alarm;
-        NSArray *arraySep = [NSArray seprateString:alarm characterSet:@","];
-        NSString *deviceId = [arraySep firstObject];
-        NSString *status = arraySep[1];
-        NSString *fenceid = [arraySep lastObject];
-        NSString *fenceIdADD = [fenceid stringByAppendingString:@" 围栏"];
-        NSString *fenceName = [NSString getFenceNameFromUserInfo:userInfo];
-        NSString *information = [NSString stringWithFormat:@"设备%@ %@ %@",deviceId, [status isEqualToString:@"1"] ? @"进入" : @"离开", fenceName.length == 0 ? fenceIdADD : [fenceName stringByAppendingString:@" 围栏"]];
-        if (PH_BoolForKey(PH_DidEnterBackground)) {//如果是点击系统的推送消息进来，那么执行下面代码
-            [self remoteNotificationLabelClick];
-        } else {//如果是app在前台，那么执行下面的代码
-            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-            [self remoteNotificationViewInstance];
-            [self.window bringSubviewToFront:self.remoteNotificationView];//加这句话的目的是为了解决重新注销登录切换窗口后显示通知的bug
-            [self remoteNotificationLabelDisplayWithInfo:information application:application];
+        if (alarm.length != 0) {
+            self.remoteAlarmInfo = alarm;
+            NSArray *arraySep = [NSArray seprateString:alarm characterSet:@","];
+            NSString *deviceId = [arraySep firstObject];
+            NSString *status = arraySep[1];
+            NSString *fenceid = [arraySep lastObject];
+            NSString *fenceIdADD = [fenceid stringByAppendingString:@" 围栏"];
+            NSString *fenceName = [NSString getFenceNameFromUserInfo:userInfo];
+            NSString *information = [NSString stringWithFormat:@"设备%@ %@ %@",deviceId, [status isEqualToString:@"1"] ? @"进入" : @"离开", fenceName.length == 0 ? fenceIdADD : [fenceName stringByAppendingString:@" 围栏"]];
+            if (PH_BoolForKey(PH_DidEnterBackground)) {//如果是点击系统的推送消息进来，那么执行下面代码
+                [self remoteNotificationLabelClick];
+            } else {//如果是app在前台，那么执行下面的代码
+                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+                [self remoteNotificationViewInstance];
+                [self.window bringSubviewToFront:self.remoteNotificationView];//加这句话的目的是为了解决重新注销登录切换窗口后显示通知的bug
+                [self remoteNotificationLabelDisplayWithInfo:information application:application];
+            }
         }
-
     }
     
 }

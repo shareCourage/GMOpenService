@@ -46,6 +46,7 @@
     _isPlayBack = NO;
     [self addNavigationBarTitleItem];
     [self addNavigationRightItem];
+    [self addNavigationBackItem];
     [self fileViewImplementation];
     
 }
@@ -57,6 +58,15 @@
 - (void)viewControllerDidBecomeActive {
     [super viewControllerDidBecomeActive];
     [self viewWillAppear:YES];
+}
+- (void)viewControllerWillResignActive {
+    [super viewControllerWillResignActive];
+    [self viewWillDisappear:YES];
+}
+
+- (void)addNavigationBackItem {
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"设备回放" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
 }
 
 - (void)addNavigationRightItem

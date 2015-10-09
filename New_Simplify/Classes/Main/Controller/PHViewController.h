@@ -20,4 +20,7 @@
  */
 - (void)viewControllerDidBecomeActive;
 
+
+- (void)viewControllerWillResignActive;
+
 @end

@@ -22,6 +22,7 @@
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewControllerDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewControllerDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewControllerWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
 }
 
 - (void)viewControllerDidEnterBackground{
@@ -31,7 +32,9 @@
 - (void)viewControllerDidBecomeActive{
     PHLog(@"%@ -> %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
 }
-
+- (void)viewControllerWillResignActive{
+    PHLog(@"%@ -> %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+}
 @end
 
 
