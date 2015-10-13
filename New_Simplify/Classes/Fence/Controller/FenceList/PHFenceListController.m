@@ -79,7 +79,6 @@
 - (void)addFence
 {
     PHFenceModifyMapController *addMap = [[PHFenceModifyMapController alloc] init];
-//    [self.navigationController pushViewController:map animated:YES];
 
     [self.navigationController pushViewController:addMap animated:YES];
 }

@@ -6,7 +6,8 @@
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
 static CGFloat      const  kDistanceBetweenAandBMaxValue       = 1.5;//两点之间的阈值
-static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形围栏经纬度点最大的个数
+static NSUInteger   const  kNumberOfCoordinateMaxValue         = 30;//多边形围栏经纬度点最大的个数
+#define PH_MaxOfFenceNumber 10
 
 #import "PHFenceModifyMapController.h"
 #import "PHFenceMapView.h"
@@ -207,7 +208,7 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
 - (void)createFence {
     PH_WS(ws);
     PHFenceListController *fenceList = [self.navigationController.viewControllers firstObject];
-    if (fenceList.dataSource.count <= 20) {
+    if (fenceList.dataSource.count <= PH_MaxOfFenceNumber) {
         if (_isCircleFence) {
             self.fenceManager.coord = self.fenceMapModel.coordinate;
             self.fenceManager.radius = self.fenceMapModel.radius;
@@ -240,7 +241,7 @@ static NSUInteger   const  kNumberOfCoordinateMaxValue         = 35;//多边形�
         }];
     }
     else {
-        [MBProgressHUD showError:@"围栏超过上限,添加失败" toView:self.view];
+        [MBProgressHUD showError:@"围栏数量超过上限,添加失败" toView:self.view];
     }
     
 

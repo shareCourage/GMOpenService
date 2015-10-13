@@ -5,6 +5,7 @@
 //  Created by Kowloon on 15/9/6.
 //  Copyright (c) 2015年 Goome. All rights reserved.
 //
+#define PH_MaxOfThreshold 99
 #define PH_FenceOtherArgument_fenceid   @"围栏号"
 #define PH_FenceOtherArgument_shape     @"围栏形状"
 #define PH_FenceOtherArgument_radius    @"围栏半径"
@@ -137,8 +138,8 @@
             [alertController addAction:[ws actionWithTitle:@"取消" actionStyle:UIAlertActionStyleCancel handler:nil]];
             [alertController addAction:[ws actionWithTitle:@"确定" actionStyle:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 UITextField *textF =  [alertController.textFields firstObject];
-                if ([textF.text integerValue] > 100) {
-                    [MBProgressHUD showError:@"阈值最大100"];
+                if ([textF.text integerValue] > PH_MaxOfThreshold) {
+                    [MBProgressHUD showError:[NSString stringWithFormat:@"阈值最大%d",PH_MaxOfThreshold]];
                     return;
                 }
                 if ([textF.text integerValue] == 0) {
@@ -153,8 +154,8 @@
         }
         else {//在iOS7以下版本使用这串代码
             PHSettingArgumentController *settingArgu = [[PHSettingArgumentController alloc] initWithCompletion:^(NSString *value) {
-                if ([value integerValue] > 100) {
-                    [MBProgressHUD showError:@"阈值最大100"];
+                if ([value integerValue] > PH_MaxOfThreshold) {
+                    [MBProgressHUD showError:[NSString stringWithFormat:@"阈值最大%d",PH_MaxOfThreshold]];
                     return;
                 }
                 if ([value integerValue] == 0) {
