@@ -311,7 +311,6 @@
         return [UIAlertAction actionWithTitle:title style:style handler:handler];
     }
     return [UIAlertAction actionWithTitle:title style:style handler:handler];
-    
 }
 
 - (void)rootViewControllerShouldRefresh {

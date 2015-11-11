@@ -102,6 +102,7 @@
     else if (distance < 20500000) {
         self.bmkMapView.zoomLevel = 3;
     }
+    
 }
 /**
  *  计算经纬度的平均值

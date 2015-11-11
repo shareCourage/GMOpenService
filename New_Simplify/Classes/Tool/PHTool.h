@@ -59,6 +59,8 @@
  *  计算2个经纬度之间的直线距离
  */
 + (CLLocationDistance)calculateLineDistanceWithSourceCoordinate:(CLLocationCoordinate2D)source andDestinationCoordinate:(CLLocationCoordinate2D)destination;
+
+
 + (BOOL)encoderObjectArray:(NSMutableArray *)memberArray path:(NSString *)filePath;
 + (NSMutableArray *)decoderObjectPath:(NSString *)filePath;
 

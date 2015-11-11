@@ -7,8 +7,8 @@
 //
 #define PH_ImageName_MinusBtn    @"map_minus"
 #define PH_ImageName_PlusBtn     @"map_plus"
-#define PH_ImageName_CarBtn      @"home_car_highlighted"
 #define PH_ImageName_LocationBtn @"home_current_highlighted"
+#define PH_ImageName_CarBtn      @"home_car_highlighted"
 #define PH_ImageName_MapTypeBtn  @"home_map_highlighted"
 #define PH_ImageName_TrafficBtn  @"signal_lamp_open"
 

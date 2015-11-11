@@ -198,7 +198,7 @@
         if (buttonIndex == 1) {
             if (PH_BoolForKey(PH_LoginSuccess)) {
                 GMLoginManager *login = [GMLoginManager manager];
-                [MBProgressHUD showMessage:@"logout..." toView:self.view];
+                [MBProgressHUD showMessage:@"注销中..." toView:self.view];
                 [login logoutWithDevid:[PHTool getDeviceIdFromUserDefault] completionBlock:^(BOOL success) {
                     if (success) {
                         [MBProgressHUD hideHUDForView:self.view];
